@@ -43,3 +43,16 @@ Adaptations include scoped academic colors, automatic heights, offscreen pause,
 reduced motion, accessible persistent links, and responsive card spans.
 No third-party demonstration media is included. The MIT permission and warranty
 terms reproduced above apply to these MIT-licensed patterns as well.
+
+## Sticky Scroll Reveal and Container Scroll Animation
+
+The corresponding components in `components/ui` adapt the public patterns by
+Manu Arora / Aceternity UI, listed under MIT on 21st.dev:
+
+- https://21st.dev/@manuarora700/components/sticky-scroll-reveal
+- https://21st.dev/@manuarora700/components/container-scroll-animation
+
+Adaptations: document scrolling, measured step positions, stable IDs, responsive
+inline illustrations, accessible contrast, reduced-motion styles, restrained
+perspective and content-driven sizing. The MIT permission and warranty terms
+above apply. All report and journey visuals are project-owned HTML compositions.

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { UserRound, Compass, Map, Check, FileText, ListChecks, Compass as CompassIcon } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { Resources } from '../student/Resources';
 import type { Navigate } from '../../types';
 import { PublicHeader } from '../../components/layout/Shells';
@@ -8,17 +8,12 @@ import { useSession } from '../../lib/session';
 import { useHomeMotion } from './HomeInteractions';
 
 import {StudyExplorer} from './StudyExplorer';
-import {ShineBorder} from './ShineBorder';
+import { HowItWorksSection, ReportPresentationSection } from './JourneySections';
 import './home-upgrade.css';
 import './aurora-home.css';
 import { HeroSection } from './HeroSection';
 import { VocationalToolsSection } from './VocationalToolsSection';
 
-const steps = [
-  { icon: UserRound, title: 'Conoce tus intereses', text: 'Reconoce las actividades que disfrutas y lo que es importante para ti.' },
-  { icon: Compass, title: 'Explora tus opciones', text: 'Acércate a las carreras y descubre qué se aprende y cómo se trabaja.' },
-  { icon: Map, title: 'Construye tu plan', text: 'Convierte tus preguntas en próximos pasos que puedas llevar a la práctica.' },
-];
 export function PublicHome({ navigate }: { navigate: Navigate }) {
   const session = useSession();
   const motionRoot = useHomeMotion();
@@ -27,10 +22,10 @@ export function PublicHome({ navigate }: { navigate: Navigate }) {
     <PublicHeader navigate={navigate} />
     <main id="contenido">
       <HeroSection />
-      <section id="como-funciona" className="site-steps site-container" aria-label="Cómo funciona tu ruta" data-reveal>{steps.map((step, i) => <article key={step.title}><span className="site-step-number">0{i + 1}</span><div><h2>{step.title}</h2><p>{step.text}</p></div></article>)}</section>
+      <HowItWorksSection />
       <VocationalToolsSection student={student} />
       <StudyExplorer/>
-      <section className="home-report" id="tu-informe"><div className="site-container home-report-grid"><div className="home-report-copy" data-reveal><p className="site-eyebrow">DA SENTIDO A LO QUE DESCUBRES</p><h2>Más que un resultado.<br/>Un punto de partida.</h2><p>Conecta lo que te interesa con preguntas concretas sobre tu futuro. El informe reúne tus respuestas para ayudarte a explorar opciones con más contexto.</p><ul className="home-report-list"><li><ListChecks size={21}/><div><strong>Comprende tus respuestas</strong><p>Intereses y preferencias explicados con claridad.</p></div></li><li><CompassIcon size={21}/><div><strong>Compara posibilidades</strong><p>Razones para explorar carreras y aspectos que investigar.</p></div></li><li><FileText size={21}/><div><strong>Lleva la conversación más lejos</strong><p>Un documento para revisar y conversar con personas de confianza.</p></div></li></ul></div><div className="home-report-preview" data-reveal><ShineBorder/><div className="home-report-sheet"><header><img src="/media/brain-book-icon.png" alt="" width={32} height={32}/><div><strong>Ruta Vocacional 360°</strong><small>ORIENTACIÓN UNIVERSITARIA</small></div></header><h3>Una mirada a tu ruta</h3><p>Así se organiza la información de tu informe.</p>{[['01','Lo que te interesa','Tus respuestas, puestas en contexto'],['02','Opciones para explorar','Carreras y preguntas para comparar'],['03','Tus próximos pasos','Ideas para investigar y decidir']].map(([n,title,text])=><div className="home-report-row" key={n}><span>{n}</span><div><strong>{title}</strong><small>{text}</small></div></div>)}</div><p><FileText size={14}/>Estructura ilustrativa · No es un resultado personal</p></div></div></section>
+      <ReportPresentationSection />
       <section id="instituciones" className="site-institutions"><div className="site-container site-institution-grid" data-reveal><div><p className="site-eyebrow">PARA INSTITUCIONES</p><h2>Una mirada más cercana a cada estudiante.</h2><p>La orientación necesita información y acompañamiento. Un espacio organizado ayuda a comprender el proceso y conversar sobre los siguientes pasos.</p></div><div className="site-institution-features">{[
         ['Evaluaciones organizadas', 'Herramientas y cuestionarios en un mismo espacio.'],
         ['Seguimiento de cada ruta', 'Respuestas y resultados para acompañar la exploración.'],
