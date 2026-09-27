@@ -1,5 +1,6 @@
 /* A single video scene, with translucent surfaces scoped to the public home. */
 .site-page.site-cinematic {
+  --site-ink: #f2f6ff;
   --site-line: #b9c9ff29;
   --site-muted: #c0cce2;
   --scene-text: #f2f6ff;
@@ -103,6 +104,10 @@
 .site-cinematic .rv-report-action .button { background: #b39af333; border: 1px solid #cbb8ff73; color: #fff; }
 .site-cinematic .site-institution-features { border-color: var(--site-line); }
 .site-cinematic .site-institution-features svg { color: var(--scene-cyan); }
+.site-cinematic .site-institution-features h3 { color: var(--scene-text); text-shadow: 0 0 18px #97e8f633; }
+.site-cinematic .site-institution-features>div { padding: 18px; border: 1px solid var(--site-line); border-radius: 16px; background: linear-gradient(115deg,#1f2445ed,#0d2035ed); box-shadow: inset 3px 0 #a89af766,0 8px 28px #03091733; }
+.site-cinematic :is(.site-faq h2,.site-faq summary,.site-footer h2) { color: var(--scene-text); }
+.site-cinematic .site-faq>div>p { color: var(--site-muted); }
 .site-cinematic .site-faq details[open] { background: #1d2446cc; border-color: #b19cfd55; }
 .site-cinematic .site-faq summary>span { color: #cbbbff; }
 .site-cinematic .site-footer { background: #060e2491; border-top: 1px solid #b1bff43d; }
@@ -151,3 +156,4 @@
   .site-cinematic { --scene-glass: #0b1632f2; --site-muted: #e0e9ff; }
   .rv-video-shade { background: #070e22d9; }
 }
+.site-cinematic .site-institution-features{gap:12px}

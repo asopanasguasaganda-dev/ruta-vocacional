@@ -28,3 +28,7 @@ Vercel sigue configurado como exportación de diseño. Los tests, las entregas y
 El documento suministrado no especifica claves de puntuación ni relaciones validadas con carreras. Se conserva como instrumento descriptivo y se advierte sobre su población de bachillerato. Las frecuencias de respuesta no se presentan como aptitudes. Esta revisión no certifica llamadas al proveedor de IA ni la extracción de PDF escaneados.
 
 Las cuentas y entregas sintéticas se crearon únicamente en una base aislada de pruebas. Las capturas y estados privados de prueba no se incluyen en Git.
+
+## Ajuste adicional de contraste y escala
+
+Acceso y registro comparten la imagen de la escena de portada, superficies oscuras y acentos violetas/cian. Se compactaron anchos, márgenes y tipografía sin desactivar el zoom. Los títulos de instituciones y los campos de búsqueda del colegio usan colores claros. Se revisaron acceso, registro (tres pasos), recuperación, acceso administrativo y portada en cinco anchos entre 360 y 1366 píxeles.

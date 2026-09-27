@@ -36,7 +36,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
             <p>Descubre tus intereses y encuentra nuevas posibilidades.</p>
             <ul className="auth-story-benefits"><li>Conócete</li><li>Explora</li><li>Elige tu camino</li></ul>
           </div>
-          <div className="auth-photo"><img src="/media/campus-students.png" alt="Estudiantes compartiendo ideas en la biblioteca" />
+          <div className="auth-photo"><img src="/media/vocational-background-poster.webp" alt="Cerebro iluminado en violeta y azul sobre un libro abierto" />
             <span><Compass size={20} />Un paso a la vez, a tu ritmo.</span>
           </div>
         </aside>}
