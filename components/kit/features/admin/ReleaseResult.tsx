@@ -1,0 +1,4 @@
+import { useState } from 'react';
+import { previewAction,useSession } from '../../lib/session';
+import { Button,Notice } from '../../components/ui/primitives';
+export function ReleaseResult({id,released,onReleased}:{id:string;released?:boolean;onReleased:()=>void}){const session=useSession(),[busy,setBusy]=useState(false),[error,setError]=useState('');if(released!==false)return null;return <div className="stack-sm"><Notice tone="warning">El estudiante puede consultar su entrega. La puntuación y las explicaciones quedarán disponibles cuando administración publique este resultado.</Notice>{session.user?.role==='admin'&&<Button loading={busy} onClick={async()=>{setBusy(true);setError('');try{await previewAction('admin/results/release',{method:'POST',body:JSON.stringify({id})});onReleased();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}}>Publicar resultado para el estudiante</Button>}{error&&<Notice tone="danger">{error}</Notice>}</div>;}

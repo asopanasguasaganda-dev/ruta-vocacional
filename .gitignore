@@ -1,0 +1,38 @@
+# v0 sandbox internal files
+__v0_runtime_loader.js
+__v0_devtools.tsx
+__v0_jsx-dev-runtime.ts
+.snowflake/
+.v0-trash/
+.vercel/
+
+# Environment variables
+.env*.local
+
+# Common ignores
+node_modules
+.next/
+.DS_Store
+.qa-tools/
+*.tsbuildinfo
+storage/
+.local/
+.env
+.env.local
+
+*.traineddata
+*.traineddata.gz
+
+# Private reports, screenshots, source packs and runtime data
+evidencia/
+references/
+.env*
+!.env.example
+*.sqlite*
+*.db
+*.log
+*.pem
+*.key
+/pnpm-lock.yaml
+/pnpm-workspace.yaml
+.design-preview/

@@ -1,0 +1,55 @@
+import {
+  LayoutGrid,
+  Home,
+  LogIn,
+  UserPlus,
+  KeyRound,
+  Shield,
+  Map,
+  ClipboardCheck,
+  Brain,
+  ChartNoAxesCombined,
+  Compass,
+  BookOpen,
+  UserRound,
+  Users,
+  School,
+  SlidersHorizontal,
+  FilePenLine,
+  FolderOpen,
+  FileBarChart,
+  Lightbulb,
+  Heart,
+  Target,
+} from "lucide-react";
+import type { NavItem } from "../types";
+export const studentNav: NavItem[] = [
+ {id:'mi-ruta',label:'Inicio',icon:Home},
+ {id:'evaluaciones',label:'Mis tests',icon:ClipboardCheck},
+ {id:'resultados',label:'Mis resultados',icon:ChartNoAxesCombined},
+];
+export const adminNav: NavItem[] = [
+ {id:'admin',label:'Resumen',icon:LayoutGrid},
+
+ {id:'ajustes',label:'Configuración',icon:SlidersHorizontal},
+ {id:'editor',label:'Tests',icon:FilePenLine},
+ {id:'usuarios',label:'Estudiantes',icon:Users},
+ {id:'admin-resultados',label:'Resultados',icon:ChartNoAxesCombined},
+];
+export const views: NavItem[] = [
+  { id: "catalogo", label: "Catálogo de componentes", icon: LayoutGrid },
+  { id: "inicio", label: "Web principal", icon: Home },
+  { id: "biblioteca", label: "Recursos públicos", icon: BookOpen },
+  { id: "ingresar", label: "Inicio de sesión", icon: LogIn },
+  { id: "registro", label: "Registro del estudiante", icon: UserPlus },
+  { id: "recuperar", label: "Recuperar contraseña", icon: KeyRound },
+  { id: "admin-ingresar", label: "Acceso administrativo", icon: Shield },
+  ...studentNav,
+ {id:'mi-perfil',label:'Mi perfil',icon:UserRound},
+ {id:'admin-cuenta',label:'Mi cuenta',icon:UserRound},
+  { id: "intereses", label: "Test de intereses RIASEC", icon: Target },
+  { id: "valores", label: "Valores y preferencias", icon: Heart },
+  { id: "autoconocimiento", label: "Autoconocimiento", icon: UserRound },
+  { id: "laboratorio", label: "Laboratorio cognitivo", icon: Brain },
+  ...adminNav,
+];

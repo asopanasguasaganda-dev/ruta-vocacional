@@ -1,0 +1,434 @@
+{
+  "riaQuestions": [
+    [
+      "R",
+      "Construir o reparar objetos utilizando herramientas."
+    ],
+    [
+      "R",
+      "Realizar actividades prácticas que requieran movimiento."
+    ],
+    [
+      "R",
+      "Trabajar con máquinas, instrumentos o tecnología física."
+    ],
+    [
+      "R",
+      "Realizar experimentos prácticos."
+    ],
+    [
+      "R",
+      "Preferir aprender haciendo antes que solamente leyendo."
+    ],
+    [
+      "I",
+      "Investigar por qué ocurre un fenómeno."
+    ],
+    [
+      "I",
+      "Resolver problemas complejos."
+    ],
+    [
+      "I",
+      "Analizar información antes de tomar una decisión."
+    ],
+    [
+      "I",
+      "Realizar investigaciones científicas."
+    ],
+    [
+      "I",
+      "Buscar explicaciones basadas en evidencias."
+    ],
+    [
+      "A",
+      "Crear dibujos, diseños o composiciones."
+    ],
+    [
+      "A",
+      "Escribir historias o producir contenidos."
+    ],
+    [
+      "A",
+      "Encontrar soluciones creativas."
+    ],
+    [
+      "A",
+      "Trabajar en proyectos artísticos."
+    ],
+    [
+      "A",
+      "Expresar ideas de manera original."
+    ],
+    [
+      "S",
+      "Ayudar a una persona que tiene dificultades."
+    ],
+    [
+      "S",
+      "Enseñar algo que conozco."
+    ],
+    [
+      "S",
+      "Escuchar y orientar a otras personas."
+    ],
+    [
+      "S",
+      "Participar en actividades comunitarias."
+    ],
+    [
+      "S",
+      "Trabajar colaborativamente."
+    ],
+    [
+      "E",
+      "Liderar un proyecto."
+    ],
+    [
+      "E",
+      "Convencer a otras personas de una idea."
+    ],
+    [
+      "E",
+      "Organizar un equipo."
+    ],
+    [
+      "E",
+      "Tomar decisiones importantes."
+    ],
+    [
+      "E",
+      "Crear un emprendimiento."
+    ],
+    [
+      "C",
+      "Organizar información."
+    ],
+    [
+      "C",
+      "Trabajar con registros y datos."
+    ],
+    [
+      "C",
+      "Seguir procedimientos establecidos."
+    ],
+    [
+      "C",
+      "Planificar cuidadosamente una actividad."
+    ],
+    [
+      "C",
+      "Mantener documentos organizados."
+    ]
+  ],
+  "cuestionarioAdolescente": [
+    {
+      "id": "autoconocimiento",
+      "dim": "Autoconocimiento",
+      "q": "Puedo explicar qué actividades me hacen sentir que estoy aprendiendo o aportando."
+    },
+    {
+      "id": "fortalezas",
+      "dim": "Autoconocimiento",
+      "q": "Reconozco al menos tres fortalezas que puedo desarrollar."
+    },
+    {
+      "id": "intereses",
+      "dim": "Autoconocimiento",
+      "q": "Sé diferenciar lo que realmente me interesa de lo que simplemente está de moda."
+    },
+    {
+      "id": "valores",
+      "dim": "Autonomía",
+      "q": "Cuando pienso en una carrera, considero mis propios valores además de las expectativas de otras personas."
+    },
+    {
+      "id": "decisiones",
+      "dim": "Autonomía",
+      "q": "Puedo explicar por qué una opción académica me interesa."
+    },
+    {
+      "id": "informacion",
+      "dim": "Autonomía",
+      "q": "Antes de decidir, busco información de varias fuentes."
+    },
+    {
+      "id": "futuro",
+      "dim": "Orientación al futuro",
+      "q": "Puedo imaginar distintos futuros profesionales sin sentir que debo elegir uno definitivo ahora."
+    },
+    {
+      "id": "metas",
+      "dim": "Orientación al futuro",
+      "q": "Puedo convertir una meta grande en pequeños pasos."
+    },
+    {
+      "id": "aprendizaje",
+      "dim": "Orientación al futuro",
+      "q": "Estoy dispuesto/a a seguir aprendiendo si una profesión cambia con la tecnología."
+    },
+    {
+      "id": "problemas",
+      "dim": "Emprendimiento",
+      "q": "Me gusta identificar problemas que podrían convertirse en oportunidades de solución."
+    },
+    {
+      "id": "iniciativa",
+      "dim": "Emprendimiento",
+      "q": "Me siento capaz de probar una idea pequeña antes de intentar hacerla grande."
+    },
+    {
+      "id": "creatividad",
+      "dim": "Emprendimiento",
+      "q": "Puedo proponer más de una solución para un mismo problema."
+    }
+  ],
+  "cursoPreguntas": [
+    [
+      "Quién soy hoy",
+      "¿Qué actividad te absorbe positivamente y qué habilidad estás usando cuando la realizas?"
+    ],
+    [
+      "Lo que valoro",
+      "¿Qué tres valores no quieres perder aunque cambies de profesión?"
+    ],
+    [
+      "Cómo decido",
+      "¿Qué parte de tu decisión depende de ti y qué parte viene de expectativas externas?"
+    ],
+    [
+      "Mi futuro posible",
+      "Imagina un día laboral dentro de diez años: ¿qué haces, con quién trabajas y qué problema resuelves?"
+    ],
+    [
+      "Profesiones de referencia",
+      "¿Qué profesión te gustaría entrevistar o investigar y qué necesitas comprobar sobre ella?"
+    ],
+    [
+      "Emprender con propósito",
+      "¿Qué problema de tu entorno te gustaría convertir en una pequeña solución?"
+    ],
+    [
+      "Mi portafolio",
+      "¿Qué proyecto, curso, experiencia o competencia puedes construir durante los próximos seis meses?"
+    ],
+    [
+      "Decisión provisional",
+      "¿Qué opción investigarás primero, cuáles son dos alternativas y qué evidencia necesitas para compararlas?"
+    ]
+  ],
+  "carreras": [
+    {
+      "nombre": "Ingeniería de Software",
+      "icon": "💻",
+      "ria": [
+        "I",
+        "C"
+      ],
+      "bach": "Bachillerato Técnico / área tecnológica",
+      "laboral": 92,
+      "competencias": "Programación, lógica, resolución de problemas, innovación",
+      "descripcion": "Alternativa relacionada con tecnología, sistemas y solución de problemas."
+    },
+    {
+      "nombre": "Medicina",
+      "icon": "🩺",
+      "ria": [
+        "I",
+        "S"
+      ],
+      "bach": "Bachillerato en Ciencias",
+      "laboral": 88,
+      "competencias": "Ciencias, análisis, comunicación, disciplina",
+      "descripcion": "Área relacionada con ciencias de la salud y servicio a las personas."
+    },
+    {
+      "nombre": "Docencia",
+      "icon": "👩‍🏫",
+      "ria": [
+        "S",
+        "A"
+      ],
+      "bach": "Bachillerato en Ciencias",
+      "laboral": 82,
+      "competencias": "Comunicación, empatía, planificación, colaboración",
+      "descripcion": "Área orientada al aprendizaje, acompañamiento y desarrollo humano."
+    },
+    {
+      "nombre": "Ingeniería",
+      "icon": "⚙️",
+      "ria": [
+        "R",
+        "I"
+      ],
+      "bach": "Bachillerato Técnico / área tecnológica",
+      "laboral": 90,
+      "competencias": "Matemática, física, análisis, diseño y resolución de problemas",
+      "descripcion": "Área relacionada con sistemas, procesos y solución de problemas técnicos."
+    },
+    {
+      "nombre": "Arquitectura",
+      "icon": "🏛️",
+      "ria": [
+        "A",
+        "R"
+      ],
+      "bach": "Bachillerato Técnico / área tecnológica",
+      "laboral": 84,
+      "competencias": "Diseño, creatividad, representación espacial, tecnología",
+      "descripcion": "Combina creatividad, diseño y resolución de necesidades espaciales."
+    },
+    {
+      "nombre": "Psicología",
+      "icon": "🧠",
+      "ria": [
+        "S",
+        "I"
+      ],
+      "bach": "Bachillerato en Ciencias",
+      "laboral": 80,
+      "competencias": "Escucha, análisis, comunicación y pensamiento científico",
+      "descripcion": "Área vinculada con comportamiento humano y acompañamiento."
+    },
+    {
+      "nombre": "Diseño gráfico",
+      "icon": "🎨",
+      "ria": [
+        "A",
+        "C"
+      ],
+      "bach": "Bachillerato Técnico / área artística-tecnológica",
+      "laboral": 78,
+      "competencias": "Creatividad, comunicación visual, tecnología",
+      "descripcion": "Área relacionada con creación visual y comunicación."
+    },
+    {
+      "nombre": "Administración",
+      "icon": "📊",
+      "ria": [
+        "E",
+        "C"
+      ],
+      "bach": "Bachillerato Técnico / área administrativa",
+      "laboral": 85,
+      "competencias": "Organización, liderazgo, análisis y gestión",
+      "descripcion": "Área orientada a planificación, administración y emprendimiento."
+    },
+    {
+      "nombre": "Trabajo Social",
+      "icon": "🤝",
+      "ria": [
+        "S",
+        "E"
+      ],
+      "bach": "Bachillerato en Ciencias",
+      "laboral": 77,
+      "competencias": "Comunicación, empatía, gestión y trabajo comunitario",
+      "descripcion": "Área centrada en personas, comunidades y desarrollo social."
+    },
+    {
+      "nombre": "Biología",
+      "icon": "🔬",
+      "ria": [
+        "I",
+        "R"
+      ],
+      "bach": "Bachillerato en Ciencias",
+      "laboral": 76,
+      "competencias": "Investigación, ciencias naturales, observación",
+      "descripcion": "Área científica orientada al estudio de los seres vivos."
+    }
+  ],
+  "profesionesRenombre": [
+    {
+      "n": "Ingeniería de software",
+      "i": "💻",
+      "c": "Programación, sistemas, datos, resolución de problemas",
+      "r": "I-C"
+    },
+    {
+      "n": "Medicina y ciencias de la salud",
+      "i": "🩺",
+      "c": "Ciencia, servicio, análisis, comunicación",
+      "r": "I-S"
+    },
+    {
+      "n": "Ingeniería y diseño tecnológico",
+      "i": "⚙️",
+      "c": "Matemática, diseño, sistemas, innovación",
+      "r": "R-I"
+    },
+    {
+      "n": "Arquitectura y diseño de espacios",
+      "i": "🏛️",
+      "c": "Creatividad, representación, tecnología",
+      "r": "A-R"
+    },
+    {
+      "n": "Educación y aprendizaje",
+      "i": "👩‍🏫",
+      "c": "Comunicación, acompañamiento, planificación",
+      "r": "S-A"
+    },
+    {
+      "n": "Psicología y comportamiento humano",
+      "i": "🧠",
+      "c": "Escucha, investigación, análisis",
+      "r": "S-I"
+    },
+    {
+      "n": "Dirección, gestión y emprendimiento",
+      "i": "📈",
+      "c": "Liderazgo, organización, estrategia",
+      "r": "E-C"
+    },
+    {
+      "n": "Ciencia de datos e investigación",
+      "i": "🔬",
+      "c": "Datos, evidencia, modelado, pensamiento crítico",
+      "r": "I-C"
+    }
+  ],
+  "profesionesFuturo": [
+    {
+      "n": "IA y automatización",
+      "i": "🤖",
+      "s": "Sistemas inteligentes, automatización, evaluación humana de IA",
+      "h": "Alto aprendizaje continuo"
+    },
+    {
+      "n": "Ciberseguridad",
+      "i": "🔐",
+      "s": "Protección de sistemas, datos y personas",
+      "h": "Actualización tecnológica"
+    },
+    {
+      "n": "Tecnologías de salud",
+      "i": "🧬",
+      "s": "Salud digital, dispositivos, datos biomédicos",
+      "h": "Interdisciplinariedad"
+    },
+    {
+      "n": "Energía y transición sostenible",
+      "i": "🌱",
+      "s": "Eficiencia, energías limpias, gestión ambiental",
+      "h": "Ciencia + sostenibilidad"
+    },
+    {
+      "n": "Economía creativa digital",
+      "i": "🎨",
+      "s": "Diseño, contenido, experiencias digitales",
+      "h": "Creatividad + tecnología"
+    },
+    {
+      "n": "Educación y bienestar",
+      "i": "❤️",
+      "s": "Aprendizaje, acompañamiento, bienestar y servicios",
+      "h": "Competencias humanas"
+    }
+  ],
+  "source": {
+    "file": "Vocacion360_v2_portable.html",
+    "sha256": "41a4f73b704860526ae623001476f272e41b517639f63e684a17f6eddfd7c2eb"
+  }
+}
