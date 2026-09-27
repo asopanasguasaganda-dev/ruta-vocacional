@@ -25,7 +25,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
     }} />;
   return <main id="contenido" className={`auth-shell${admin ? ' auth-shell--admin' : ''}`}>
     <header className="auth-header">
-      <a href="/" aria-label="Ruta Vocacional 360°, inicio"><Brand /></a>
+      <a href="/" aria-label="Ruta Vocacional 360°, inicio"><Brand inverse /></a>
       <a className="auth-home-link" href="/"><ArrowLeft size={16} />Volver al inicio</a>
     </header>
     <div className="auth-stage">

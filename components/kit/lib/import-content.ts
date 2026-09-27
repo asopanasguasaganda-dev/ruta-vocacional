@@ -1,0 +1,35 @@
+﻿import {parse} from 'acorn';
+const clean=(node:any)=>String(node?.textContent||'').replace(/\s+/g,' ').trim();
+function directText(node:any){const copy=node.cloneNode(true);for(const n of copy.querySelectorAll('ol,ul,table'))n.remove();return clean(copy);}
+function literal(n:any):any{if(n.type==='Literal')return n.value;if(n.type==='ArrayExpression')return n.elements.map(literal);if(n.type==='ObjectExpression')return Object.fromEntries(n.properties.filter((p:any)=>p.type==='Property'&&!p.computed).map((p:any)=>[p.key.name||p.key.value,literal(p.value)]));throw Error('Solo datos literales');}
+export function readDocumentMarkup(document:any){
+ const embedded:any[]=[];for(const script of document.querySelectorAll('script')){try{const ast:any=parse(script.textContent||'',{ecmaVersion:'latest'});for(const n of ast.body){if(n.type!=='VariableDeclaration')continue;for(const d of n.declarations){try{const v=literal(d.init);if(Array.isArray(v)&&v.length&&v.every(x=>x&&typeof(x.q||x.text)==='string'))embedded.push({name:d.id.name,items:v});else if(Array.isArray(v)&&v.length&&/ria/i.test(d.id.name)&&v.every(x=>Array.isArray(x)&&x.length===2&&x.every(y=>typeof y==='string')))embedded.push({name:d.id.name,items:v.map((x,i)=>({id:'q'+i,q:x[1],dim:x[0]}))});}catch{}}}}catch{}script.remove();}
+ for(const n of document.querySelectorAll('style,iframe,object,embed,link,meta'))n.remove();
+ const tests:any[]=[];let title='',section='',description='',questions:any[]=[],current:any=null,scale:any[]=[];const lines:string[]=[];
+ const add=(text:string,type='open',options:any[]=[])=>{const q:any={id:'q'+(questions.length+1),text:text.replace(/^\d{1,3}[.)]\s*/,''),type,options,section,source:'Documento · '+(section||title||'pregunta '+(questions.length+1))};const multiple=text.match(/(?:hasta|máximo)\s+(tres|dos|cuatro|cinco|\d+)\s+opciones/i);if(multiple){q.type='multiple';q.maxSelections=Number(multiple[1])||({tres:3,dos:2,cuatro:4,cinco:5} as any)[multiple[1].toLowerCase()];}questions.push(q);current=q;return q;};
+ const finish=()=>{if(questions.length)tests.push({name:title||'Instrumento importado',description,items:questions});questions=[];current=null;description='';};
+ const visit=(node:any)=>{if(node.nodeType!==1)return;const tag=node.tagName.toLowerCase(),text=clean(node);if(!text)return;
+ if(/^h[1-3]$/.test(tag)){lines.push(text);if(/cuestionario|entrevista|^test\b|^instrumento\b/i.test(text)){finish();title=text;section='';}return;}
+ if(tag==='table'){
+  const rows=Array.from(node.querySelectorAll('tr')).map((r:any)=>Array.from(r.children).map(clean));lines.push(...rows.map(r=>r.join(' | ')));
+  if(rows.length>=3&&/valor/i.test(rows[0][0])&&rows.slice(1).every(r=>/^\d+$/.test(r[0])&&r[1])){scale=rows.slice(1).map(r=>({value:Number(r[0]),label:r[1]}));return;}
+  const header=rows[0]||[];if(header.length>=2&&/enunciado|pregunta|ítem/i.test(header[1])){for(const r of rows.slice(1)){if(!r[1]||!/^\d+$/.test(r[0]))continue;const options=header.slice(2).filter(x=>/^\d+$/.test(x)).map(x=>scale.find(s=>s.value===Number(x))||{value:Number(x),label:x});const q=add(r[1],options.length>=2?'likert':'open',options);q.source+=' · ítem '+r[0];}current=null;return;}
+  return;
+ }
+ if(tag==='fieldset'){const legend=node.querySelector('legend');if(legend){const labels=Array.from(node.querySelectorAll('label')).map((l:any,i)=>({value:i+1,label:clean(l)}));const q=add(clean(legend),node.querySelector('input[type=checkbox]')?'multiple':'single',labels);if(!labels.length)q.type='open';lines.push(text);return;}}
+ if(tag==='li'){const own=directText(node);if(own){lines.push(own);if(node.parentElement?.tagName.toLowerCase()==='ol')add(own);else if(current){current.options.push({value:current.options.length+1,label:own});if(current.type==='open')current.type='single';}}for(const child of node.children)if(['ol','ul'].includes(child.tagName.toLowerCase()))visit(child);return;}
+ if(tag==='p'){lines.push(text);if(/^secci[oó]n\s/i.test(text)){section=text;current=null;return;}if(/^(instrucciones|propósito|dirigido a|título de la investigación|nota para la aplicación)\s*:/i.test(text)){description+=(description?'\n':'')+text;current=null;return;}
+ const numbered=text.match(/^(?:pregunta\s*)?\d{1,3}[.)\-:]\s+(.+)/i);if(numbered){add(numbered[1]);return;}const option=text.match(/^(?:[a-h][.)\-:]|[○◯□☐])\s*(.+)/i);if(option&&current){current.options.push({value:current.options.length+1,label:option[1]});if(current.type==='open')current.type='single';return;}
+ if(/^curso y paralelo\b/i.test(text)){add(text,'short');return;}
+ return;}
+ for(const child of node.children||[])visit(child);
+ };visit(document.body||document.documentElement);finish();
+ return {text:lines.join('\n'),embedded:embedded.length?embedded:tests,warnings:tests.some(t=>/bachillerato|representante legal/i.test(t.description))?['El documento original se refiere a bachillerato. Revisa su población destinataria antes de publicarlo en una plataforma para adultos que buscan carrera universitaria.']:[]};
+}
+export function proposeTests(text:string,embedded:any[],name:string){
+ const base=(title:string)=>({schemaVersion:2,id:'test-'+globalThis.crypto.randomUUID(),version:'1',title,description:'Instrumento importado. Revisa su contenido antes de publicar.',source:name,status:'Borrador',group:'Todos los estudiantes',due:'',scoring:'manual',aggregation:'sum',resultRelease:'immediate',options:[],questions:[] as any[]});
+ if(embedded.some(e=>!Array.isArray(e.items)||e.items.length>500))throw Error('El límite es de 500 preguntas por instrumento.');
+ if(embedded.length)return embedded.map(e=>({...base(e.name),description:e.description||base(e.name).description,questions:e.items.map((q:any,i:number)=>{const options=(q.options||[]).map((o:any,j:number)=>({label:typeof o==='string'?o:String(o.label||''),value:typeof o.value==='number'?o.value:j+1})).filter((o:any)=>o.label.trim());return {id:'q'+(i+1),text:q.q||q.text,dimension:q.dim||q.dimension||'',type:options.length>=2?(['likert','multiple','single','yesno'].includes(q.type)?q.type:'single'):['number','short','info'].includes(q.type)?q.type:'open',...(options.length>=2?{options}:{}),...(q.maxSelections?{maxSelections:q.maxSelections}:{}),section:q.section||'',source:q.source||name};})}));
+ const items:any[]=[];let q:any;for(const raw of text.split(/\r?\n/)){const line=raw.trim(),question=line.match(/^(?:pregunta\s*)?\d{1,3}[.)\-:]\s+(.+)/i),option=line.match(/^(?:[a-h][.)\-:]|[○◯□☐])\s*(.+)/i);if(question){q={text:question[1],options:[]};items.push(q);}else if(option&&q)q.options.push(option[1]);}
+ if(!items.length)throw Error('No se detectaron preguntas. Usa listas numeradas, tablas con columnas N.° y Enunciado, o campos HTML con legend y label.');return proposeTests('',[{name:name.replace(/\.[^.]+$/,''),items}],name);
+}

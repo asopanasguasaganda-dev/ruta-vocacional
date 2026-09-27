@@ -1,5 +1,6 @@
 "use client";
 import { useSyncExternalStore } from 'react';
+import {readApiResponse} from './api-response';
 import { configureInstruments } from '../data/instruments';
 import { configureCatalog } from './catalog';
 export type SessionUser={id:string;name:string;email:string;role:'student'|'orientador'|'admin';institutionId:string|null;group:string};
@@ -11,7 +12,7 @@ const update=(patch:Partial<Snapshot>)=>{state={...state,...patch};listeners.for
 const subscribe=(fn:()=>void)=>{listeners.add(fn);return()=>{listeners.delete(fn);};};
 export function useSession(){return useSyncExternalStore(subscribe,()=>state,()=>serverState);}
 export function getSession(){return state;}
-async function request(path:string,options:RequestInit={}){if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'){const {designRequest}=await import('./design-preview');return designRequest(path,options);}const response=await fetch('/api/'+path,{...options,headers:{'Content-Type':'application/json',...options.headers},cache:'no-store'});const data=await response.json();if(!response.ok)throw new Error(data.error||'No se pudo completar la operación.');return data;}
+async function request(path:string,options:RequestInit={}){if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'){const {designRequest}=await import('./design-preview');return designRequest(path,options);}const response=await fetch('/api/'+path,{...options,headers:{'Content-Type':'application/json',...options.headers},cache:'no-store'});return readApiResponse(response);}
 export async function refreshSession(){try{const generation=mutation;const data=await request('session');if(generation!==mutation||state.pending)return;configureCatalog(data.values['rv360:published-content']||[]);configureInstruments(data.values['rv360:battery']?.instruments.filter((t:any)=>['intereses','valores','autoconocimiento'].includes(t.id)));update({...data,ready:true});}catch(e){update({ready:true,error:(e as Error).message});}}
 export function setPreviewContext(_admin:boolean){}
 let queue=Promise.resolve();const failed=new Map<string,unknown>();

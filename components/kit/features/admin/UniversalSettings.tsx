@@ -1,3 +1,4 @@
+import {previewAction} from '../../lib/session';
 import {useEffect,useState} from 'react';
 import type {Instrument,Question} from '../../types';
 import {Button,Card,Field,SelectField,TextareaField,Notice} from '../../components/ui/primitives';
@@ -17,7 +18,7 @@ export function QuestionFormat({test,q,onChange}:{test:Instrument;q:Question;onC
 }
 export function UniversalResults({test,onChange}:{test:Instrument;onChange:(v:Partial<Instrument>)=>void}){
  const[careers,setCareers]=useState<{id:string;name:string}[]>([]),[query,setQuery]=useState('');
- useEffect(()=>{fetch('/api/admin/tests/careers').then(r=>r.ok?r.json():null).then(r=>{if(r)setCareers(r.careers);}).catch(()=>{});},[]);
+ useEffect(()=>{previewAction('admin/tests/careers').then(r=>setCareers(r.careers||[])).catch(()=>{});},[]);
  const change=(q:Question,patch:Partial<Question>)=>onChange({questions:test.questions.map(x=>x.id===q.id?{...x,...patch}:x)});
  return <div className="stack"><Notice tone="neutral">Configura las reglas documentadas de tu instrumento. Los resultados describen lo medido; no son porcentajes de aptitud ni garantías de éxito.</Notice><div className="grid grid-2"><SelectField label="Agregación" value={test.aggregation||'sum'} onChange={e=>onChange({aggregation:e.target.value as 'sum'|'mean'})}><option value="sum">Suma ponderada</option><option value="mean">Media ponderada (divide por suma de pesos)</option></SelectField><Field label="Cobertura mínima para resultado completo (%)" type="number" min={0} max={100} value={test.minimumCoverage??0} onChange={e=>onChange({minimumCoverage:Number(e.target.value)})}/></div><label><input type="checkbox" checked={!!test.normalize} onChange={e=>onChange({normalize:e.target.checked})}/> Mostrar posición dentro del recorrido de la escala (0–100)</label>
  <details className="te-advanced" open={test.scoring==='dimensions'}><summary>Dimensiones del instrumento</summary><p className="small muted">Los identificadores se conservan aunque cambies el nombre.</p>{test.dimensions?.map(d=><div className="row" key={d.id}><Field label="Nombre de la dimensión" value={d.name} onChange={e=>onChange({dimensions:test.dimensions!.map(x=>x.id===d.id?{...x,name:e.target.value}:x)})}/><Button variant="ghost" disabled={test.questions.some(q=>(q.options||test.options).some(o=>d.id in (o.contributions||{})))} onClick={()=>onChange({dimensions:test.dimensions!.filter(x=>x.id!==d.id)})}>Eliminar dimensión</Button></div>)}<Button variant="secondary" onClick={()=>onChange({dimensions:[...(test.dimensions||[]),{id:uid(),name:''}]})}>Añadir dimensión</Button><p className="small muted">Para eliminar una dimensión, retira primero sus contribuciones en las preguntas.</p></details>

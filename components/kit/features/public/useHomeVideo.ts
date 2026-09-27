@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 /** The video is decorative: navigation and content never depend on playback. */
 export function useHomeVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const toggleRef = useRef<() => void>(() => {});
   const [playing, setPlaying] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
@@ -17,7 +16,6 @@ export function useHomeVideo() {
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     let wanted = !connection?.saveData;
     let disposed = false;
-    try { if (sessionStorage.getItem("rv-background-paused") === "true") wanted = false; } catch { /* Storage is optional. */ }
     const play = () => {
       if (disposed || !wanted || preference.matches || document.hidden) return;
       if (!video.getAttribute("src")) {
@@ -41,11 +39,6 @@ export function useHomeVideo() {
       root?.setAttribute("data-reading", String(!entry.isIntersecting));
     }) : undefined;
     if (hero) observer?.observe(hero);
-    toggleRef.current = () => {
-      wanted = video.paused;
-      try { sessionStorage.setItem("rv-background-paused", String(!wanted)); } catch { /* Storage is optional. */ }
-      sync();
-    };
     video.addEventListener("play", onPlay);
     video.addEventListener("pause", onPause);
     video.addEventListener("error", onError);
@@ -56,7 +49,6 @@ export function useHomeVideo() {
       disposed = true;
       observer?.disconnect();
       video.pause();
-      toggleRef.current = () => {};
       video.removeEventListener("play", onPlay);
       video.removeEventListener("pause", onPause);
       video.removeEventListener("error", onError);
@@ -65,5 +57,5 @@ export function useHomeVideo() {
     };
   }, []);
 
-  return { videoRef, playing, reduced, unavailable, toggle: () => toggleRef.current() };
+  return { videoRef, playing, reduced, unavailable };
 }
