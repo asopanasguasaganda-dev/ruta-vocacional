@@ -21,7 +21,7 @@ export function PublicHeader({navigate}:{navigate:Navigate}){
   <IconButton label={open?'Cerrar navegación':'Abrir navegación'} className="site-menu-toggle" aria-expanded={open} aria-controls="public-navigation" onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</IconButton>
   <nav ref={nav} id="public-navigation" className={'site-navigation '+(open?'is-open':'')} aria-label="Menú público">
    <a href="/#como-funciona" onClick={()=>setOpen(false)}>Cómo funciona</a>
-   <a href="/#instituciones" onClick={()=>setOpen(false)}>Instituciones</a>
+   <a href="/#areas" onClick={()=>setOpen(false)}>Áreas de estudio</a><a href="/#tu-informe" onClick={()=>setOpen(false)}>Tu informe</a>
    
    <Link className="site-login" href="/ingresar" onClick={()=>setOpen(false)}>Ingresar<LogIn size={17}/></Link>
    {open&&<Button className="site-menu-close" variant="ghost" onClick={()=>setOpen(false)}>Cerrar menú</Button>}
