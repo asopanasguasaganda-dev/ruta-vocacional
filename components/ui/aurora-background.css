@@ -1,0 +1,8 @@
+.rv-aurora{--rv-aurora-violet:#baa5ee;--rv-aurora-blue:#b8d8ed;--rv-aurora-cream:#faf9ff;position:relative;isolation:isolate;background:linear-gradient(120deg,#faf9ff 15%,#f0edf9 65%,#e4edf9)}
+.rv-aurora-decoration{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.rv-aurora-light{position:absolute;inset:-35%;background:repeating-linear-gradient(110deg,transparent 0%,var(--rv-aurora-violet) 14%,var(--rv-aurora-cream) 24%,var(--rv-aurora-blue) 36%,transparent 48%);background-size:220% 180%;opacity:.65;filter:blur(28px);animation:rv-aurora-drift 60s linear infinite;animation-play-state:paused}
+.rv-aurora[data-active=true] .rv-aurora-light{animation-play-state:running}
+.rv-aurora-mask{mask-image:radial-gradient(ellipse at 85% 15%,#000 10%,#0008 55%,transparent 90%)}
+.rv-aurora-content{position:relative;z-index:1}
+@keyframes rv-aurora-drift{0%{background-position:0% 50%}50%{background-position:100% 30%}100%{background-position:0% 50%}}
+@media(prefers-reduced-motion:reduce){.rv-aurora-light{animation:none}}

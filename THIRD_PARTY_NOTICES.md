@@ -27,3 +27,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Aurora Background and Bento Grid
+
+The public homepage components in `components/ui/aurora-background.tsx` and
+`components/ui/bento-grid.tsx` adapt patterns by Manu Arora / Aceternity UI,
+listed under the MIT license on 21st.dev:
+
+- https://21st.dev/@manuarora700/components/aurora-background
+- https://21st.dev/@manuarora700/components/bento-grid
+- Upstream implementation: https://ui.aceternity.com/registry/aurora-background.json
+- Upstream implementation: https://ui.aceternity.com/registry/bento-grid.json
+
+Adaptations include scoped academic colors, automatic heights, offscreen pause,
+reduced motion, accessible persistent links, and responsive card spans.
+No third-party demonstration media is included. The MIT permission and warranty
+terms reproduced above apply to these MIT-licensed patterns as well.

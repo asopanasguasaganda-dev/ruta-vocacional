@@ -16,6 +16,7 @@
     "acorn": "^8.18.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^13.4.4",
     "jspdf": "^4.2.1",
     "linkedom": "^0.18.13",
     "lucide-react": "^1.16.0",
