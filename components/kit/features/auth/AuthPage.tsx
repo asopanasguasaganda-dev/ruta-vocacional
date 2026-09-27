@@ -20,7 +20,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
         method: 'POST', body: JSON.stringify({ ...payload, admin }),
       });
       await refreshSession();
-      toast(register ? 'Tu cuenta está lista.' : 'Has iniciado sesión.');
+      toast(process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Tu sesión de prueba está lista en esta pestaña.':register ? 'Tu cuenta está lista.' : 'Has iniciado sesión.');
       navigate(result.user.role === 'student' ? 'mi-ruta' : 'admin');
     }} />;
   return <main id="contenido" className={`auth-shell${admin ? ' auth-shell--admin' : ''}`}>
@@ -47,7 +47,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
             <h1 id="auth-title">{admin ? 'Acceso a administración' : register ? 'Crea tu cuenta' : reset ? 'Recupera tu acceso' : 'Te damos la bienvenida'}</h1>
             <p>{admin ? 'Ingresa con tus credenciales de administración.' : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? 'Te enviaremos instrucciones a tu correo.' : 'Ingresa y retoma donde lo dejaste.'}</p>
           </div>
-          {form}
+          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&!admin&&<p className="auth-test-note">Prueba de diseño: usa datos ficticios. Tu cuenta se conserva solo en esta pestaña; no se crea una cuenta en el servidor.</p>}{form}
           {!admin && !reset && <p className="auth-alternative">{register ? '¿Ya tienes una cuenta?' : '¿Aún no tienes una cuenta?'}{' '}
             <a href={register ? '/ingresar' : '/registro'}>{register ? 'Ingresar' : 'Crear cuenta'}</a>
           </p>}

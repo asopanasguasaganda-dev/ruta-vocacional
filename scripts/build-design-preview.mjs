@@ -1,5 +1,5 @@
-import {cp,mkdir,writeFile,rm} from 'node:fs/promises';
-import {resolve,join} from 'node:path';
+import {cp,mkdir,writeFile,rm,readdir} from 'node:fs/promises';
+import {resolve,join,relative,sep} from 'node:path';
 import {spawnSync} from 'node:child_process';
 const root=process.cwd(),target=resolve(root,'.design-preview');
 if(target!==join(root,'.design-preview'))throw Error('Directorio de build inválido');
@@ -14,4 +14,14 @@ export function generateStaticParams(){return [...new Set([...Object.values(rout
 export default function Page(){return <KitRoot/>;}
 `);
 const result=spawnSync(process.execPath,[join(root,'node_modules','next','dist','bin','next'),'build'],{cwd:target,stdio:'inherit',env:{...process.env,NEXT_PUBLIC_DESIGN_PREVIEW:'true'}});
+// Next's static segment requests use dotted paths. Keep aliases for builds
+// that emit nested segment folders (observed on Windows with Next 16.3).
+if(result.status===0){
+ const out=join(target,'out');
+ for(const entry of await readdir(out,{recursive:true,withFileTypes:true})){
+  if(!entry.isFile()||!entry.name.endsWith('.txt'))continue;
+  const source=join(entry.parentPath,entry.name),parts=relative(out,source).split(sep),index=parts.findIndex(p=>p.startsWith('__next.'));
+  if(index>=0&&index<parts.length-1)await cp(source,join(out,...parts.slice(0,index),parts.slice(index).join('.')));
+ }
+}
 process.exit(result.status??1);

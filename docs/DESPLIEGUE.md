@@ -13,8 +13,9 @@ Esta entrega publica exclusivamente el diseño navegable, según el alcance actu
 
 - Páginas públicas, formularios, dashboard de estudiante y administración navegables.
 - Estados vacíos explícitos; identidad de muestra, sin estadísticas inventadas.
-- Responder preguntas modifica únicamente el estado temporal de la pestaña. No se guarda en una cuenta ni se emite un reporte.
-- Registro, ingreso, publicación, importación, cambios de cuenta e IA requieren conectar el backend.
+- Registro, ingreso y edición del perfil pueden ensayarse con una cuenta de prueba por pestaña. Usa datos ficticios: no se crea una cuenta en el servidor. Al cerrar la pestaña, los datos de prueba dejan de estar disponibles.
+- Los borradores de preguntas se conservan durante la sesión de prueba; no se emite un reporte real.
+- La autenticación de producción, publicación, importación, seguridad de cuenta e IA requieren conectar el backend.
 - No se exportan rutas API ni código del servidor en el sitio estático.
 
 ## Pruebas locales

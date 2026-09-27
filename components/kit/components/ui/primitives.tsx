@@ -121,20 +121,21 @@ export function Field({
   hint,
   id,
   className = "",
+  icon,
   ...props
-}: InputHTMLAttributes<HTMLInputElement> & FieldMeta) {
+}: InputHTMLAttributes<HTMLInputElement> & FieldMeta & {icon?:ReactNode}) {
   const auto = useId();
   const key = id || auto;
   const desc = error || hint;
   return (
     <div className={"field " + className}>
       <label htmlFor={key}>{label}</label>
-      <input
+      <div className={icon ? 'field-icon-control' : undefined}>{icon&&<span aria-hidden="true">{icon}</span>}<input
         id={key}
         aria-invalid={!!error}
         aria-describedby={desc ? key + "-hint" : undefined}
         {...props}
-      />
+      /></div>
       {desc && (
         <small id={key + "-hint"} className={error ? "error-text" : "muted"}>
           {desc}
