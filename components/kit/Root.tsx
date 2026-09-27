@@ -11,7 +11,11 @@ import { Brand } from './components/layout/Brand';
 import { previewAction,clearNotice,flush,refreshSession,retrySaves,useSession,setPreviewContext } from './lib/session';
 import { routes,publicViews } from './routes';
 import type { View } from './types';
-export function KitRoot(){return <Suspense fallback={<Loading />}><ToastProvider><ConnectedApp /></ToastProvider></Suspense>;}
+export function KitRoot({publicHome=false}:{publicHome?:boolean}){
+ // The static public home must not wait for a streamed client reveal to be visible.
+ const content=<ToastProvider><ConnectedApp /></ToastProvider>;
+ return publicHome?content:<Suspense fallback={<Loading />}>{content}</Suspense>;
+}
 function Loading(){return <main className="loading-screen"><Brand /><p>Preparando tu espacio…</p></main>;}
 function ConnectedApp(){
  const path=usePathname().replace(/\/$/,'')||'/',router=useRouter(),session=useSession();const view=(Object.entries(routes).find(([,url])=>url===path)?.[0]||'inicio') as View;const protectedView=!publicViews.includes(view)&&view!=='catalogo';const admin=path.startsWith('/admin')&&view!=='admin-ingresar';

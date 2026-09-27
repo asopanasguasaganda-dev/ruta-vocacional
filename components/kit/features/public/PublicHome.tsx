@@ -1,6 +1,6 @@
 import { BlurFade } from "@/components/ui/blur-fade";
 import Link from 'next/link';
-import { Check } from 'lucide-react';
+import { Check, Pause, Play, Image as ImageIcon } from 'lucide-react';
 import { Resources } from '../student/Resources';
 import type { Navigate } from '../../types';
 import { PublicHeader } from '../../components/layout/Shells';
@@ -14,13 +14,23 @@ import './home-upgrade.css';
 import './aurora-home.css';
 import { HeroSection } from './HeroSection';
 import { VocationalToolsSection } from './VocationalToolsSection';
+import { useHomeVideo } from './useHomeVideo';
+import './video-home.css';
 
 export function PublicHome({ navigate }: { navigate: Navigate }) {
   const session = useSession();
   const motionRoot = useHomeMotion();
+  const scene = useHomeVideo();
   const student = session.user?.role === 'student';
-  return <div className="site-page site-home" id="inicio" ref={motionRoot}>
-    <PublicHeader navigate={navigate} />
+  const staticScene = scene.reduced || scene.unavailable;
+  const videoLabel = staticScene ? 'Fondo estático' : scene.playing ? 'Pausar video de fondo' : 'Reproducir video de fondo';
+  return <div className="site-page site-home site-cinematic" id="inicio" ref={motionRoot}>
+    <div className="rv-video-backdrop" aria-hidden="true">
+      <img src="/media/vocational-background-poster.webp" alt="" width={1280} height={720} fetchPriority="high" />
+      <video ref={scene.videoRef} muted loop playsInline preload="none" poster="/media/vocational-background-poster.webp" tabIndex={-1} hidden={scene.unavailable} />
+      <div className="rv-video-shade" />
+    </div>
+    <PublicHeader navigate={navigate} cinematic backgroundControl={<button type="button" className="rv-video-toggle" onClick={scene.toggle} disabled={staticScene} aria-label={videoLabel} title={videoLabel}>{staticScene ? <ImageIcon size={18} aria-hidden="true" /> : scene.playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}</button>} />
     <main id="contenido">
       <HeroSection />
       <HowItWorksSection />
