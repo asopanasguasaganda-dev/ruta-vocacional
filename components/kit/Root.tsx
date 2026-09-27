@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname,useRouter,useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-import './design-preview.css';
+
 import { Check,CloudUpload,RefreshCw,ShieldCheck } from 'lucide-react';
 import App from './App';
 import { ToastProvider } from './components/ui/Toast';
@@ -11,7 +11,7 @@ import { Brand } from './components/layout/Brand';
 import { previewAction,clearNotice,flush,refreshSession,retrySaves,useSession,setPreviewContext } from './lib/session';
 import { routes,publicViews } from './routes';
 import type { View } from './types';
-export function KitRoot(){return <Suspense fallback={<Loading />}><ToastProvider>{process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&<aside className="design-preview-banner"><strong>Vista de diseño · sin base de datos</strong><span>Datos de muestra. Las operaciones no se guardan.</span><nav aria-label="Navegar por el diseño"><a href="/">Web</a><a href="/mi-ruta/">Estudiante</a><a href="/admin/">Administración</a></nav></aside>}<ConnectedApp /></ToastProvider></Suspense>;}
+export function KitRoot(){return <Suspense fallback={<Loading />}><ToastProvider><ConnectedApp /></ToastProvider></Suspense>;}
 function Loading(){return <main className="loading-screen"><Brand /><p>Preparando tu espacio…</p></main>;}
 function ConnectedApp(){
  const path=usePathname().replace(/\/$/,'')||'/',router=useRouter(),session=useSession();const view=(Object.entries(routes).find(([,url])=>url===path)?.[0]||'inicio') as View;const protectedView=!publicViews.includes(view)&&view!=='catalogo';const admin=path.startsWith('/admin')&&view!=='admin-ingresar';

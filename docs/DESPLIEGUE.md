@@ -7,7 +7,7 @@ Esta entrega publica exclusivamente el diseño navegable, según el alcance actu
 1. Importar `asopanasguasaganda-dev/ruta-vocacional` en Vercel, rama `main`, raíz `.`.
 2. Framework Preset: **Other**. `vercel.json` define `npm ci`, `npm run build:design` y `.design-preview/out`.
 3. Usar Node 24. No añadir claves, base de datos ni variables de entorno para esta vista previa.
-4. Desplegar. La franja «Vista de diseño · sin base de datos» permite abrir Web, Estudiante y Administración sin credenciales reales.
+4. Desplegar. Accesos de revisión: `/`, `/mi-ruta/` y `/admin/`, sin credenciales reales. No se muestra una barra de navegación de demostración.
 
 ## Qué incluye
 
