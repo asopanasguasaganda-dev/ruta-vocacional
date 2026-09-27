@@ -1,3 +1,4 @@
+import { BlurFade } from "@/components/ui/blur-fade";
 import { Compass, Heart, NotebookPen, Lightbulb, Microscope, Palette, HandHeart, Check } from "lucide-react";
 import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
 
@@ -8,7 +9,7 @@ export function VocationalToolsSection({ student }: { student: boolean }) {
     { id: "autoconocimiento", title: "Autoconocimiento", icon: NotebookPen, description: "Reflexiona sobre tus experiencias, fortalezas percibidas y aspectos que quieres desarrollar.", visual: <div className="rv-notebook-visual"><NotebookPen size={30} /><div><span>Mis experiencias</span><i /><i /></div></div> },
   ];
   return <section id="estudiantes" className="site-section site-container rv-tools" aria-labelledby="rv-tools-title">
-    <div className="site-section-heading" data-reveal><p className="site-eyebrow">TRES PERSPECTIVAS, TU PROPIA RUTA</p><h2 id="rv-tools-title">Empieza por conocerte mejor.</h2><p>Cada herramienta aporta una mirada distinta. Descubre qué te interesa, qué valoras y cómo te ves hoy.</p></div>
+    <BlurFade className="site-section-heading" inView><p className="site-eyebrow">TRES PERSPECTIVAS, TU PROPIA RUTA</p><h2 id="rv-tools-title">Empieza por conocerte mejor.</h2><p>Cada herramienta aporta una mirada distinta. Descubre qué te interesa, qué valoras y cómo te ves hoy.</p></BlurFade>
     <BentoGrid>{tools.map((tool, index) => <BentoCard key={tool.id} {...tool} featured={index === 0} href={student ? `/evaluacion/${tool.id}` : "/ingresar"} action={student ? "Explorar esta herramienta" : "Ingresar para comenzar"} />)}</BentoGrid>
     <p className="site-tools-note">Tus resultados son un punto de partida para explorar, no una profesión asignada.</p>
   </section>;

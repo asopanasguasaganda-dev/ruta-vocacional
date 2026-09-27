@@ -1,3 +1,4 @@
+import { BlurFade } from "@/components/ui/blur-fade";
 import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { Resources } from '../student/Resources';
@@ -32,7 +33,7 @@ export function PublicHome({ navigate }: { navigate: Navigate }) {
         ['Decisiones con contexto', 'Recursos y reflexiones que enriquecen la conversación.'],
       ].map(([title, text]) => <div key={title}><Check size={20} /><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></div></section>
       
-      <section id="preguntas-frecuentes" className="site-faq site-container"><div data-reveal><p className="site-eyebrow">RESOLVEMOS TUS DUDAS</p><h2>Antes de dar<br />el siguiente paso.</h2><p>Elegir también es aprender a hacer preguntas.</p></div><div className="site-faq-items" data-reveal>{[
+      <section id="preguntas-frecuentes" className="site-faq site-container"><BlurFade inView><p className="site-eyebrow">RESOLVEMOS TUS DUDAS</p><h2>Antes de dar<br />el siguiente paso.</h2><p>Elegir también es aprender a hacer preguntas.</p></BlurFade><div className="site-faq-items" data-reveal>{[
         ['¿El test me dirá qué carrera debo estudiar?', 'Los resultados ayudan a reconocer intereses y abrir posibilidades. Tu elección se construye con información sobre las carreras, experiencias y acompañamiento.'],
         ['¿Necesito tener una carrera elegida?', 'No. Puedes explorar distintas posibilidades y comparar lo que vas descubriendo, aunque todavía no tengas una opción en mente.'],
         ['¿Puedo continuar otro día?', 'Puedes avanzar por etapas. El guardado y la consulta desde otros dispositivos requieren una cuenta y el servicio de almacenamiento habilitado.'],
@@ -44,7 +45,7 @@ export function PublicHome({ navigate }: { navigate: Navigate }) {
 
 export function PublicFooter() {
   return <footer className="site-footer"><div className="site-container">
-    <div className="site-footer-main"><div className="site-footer-identity"><Link href="/" aria-label="Ruta Vocacional 360°, inicio"><Brand inverse /></Link><p>Un espacio para conocerte, explorar tus posibilidades y construir tu camino académico y profesional.</p><span>Tu decisión. Tu ritmo. Tu camino.</span></div>
+    <div className="site-footer-main"><div className="site-footer-identity"><Link href="/" aria-label="Ruta Vocacional 360°, inicio"><Brand inverse /></Link><BlurFade className="rv-footer-intro" inView><p>Un espacio para conocerte, explorar tus posibilidades y construir tu camino académico y profesional.</p><span>Tu decisión. Tu ritmo. Tu camino.</span></BlurFade></div>
       <nav aria-label="Explora el sitio"><h2>Explora</h2><a href="/#como-funciona">Cómo funciona</a><a href="/#estudiantes">Herramientas</a><a href="/#areas">Áreas de estudio</a><a href="/#instituciones">Para instituciones</a></nav>
       <nav aria-label="Recursos y acceso"><h2>Enlaces útiles</h2><a href="/#preguntas-frecuentes">Preguntas frecuentes</a><Link href="/ingresar">Ingresar a mi cuenta</Link><Link href="/recuperar">Recuperar acceso</Link></nav>
     </div>

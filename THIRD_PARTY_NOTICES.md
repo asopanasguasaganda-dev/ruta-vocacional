@@ -56,3 +56,11 @@ Adaptations: document scrolling, measured step positions, stable IDs, responsive
 inline illustrations, accessible contrast, reduced-motion styles, restrained
 perspective and content-driven sizing. The MIT permission and warranty terms
 above apply. All report and journey visuals are project-owned HTML compositions.
+
+## Blur Fade
+
+`components/ui/blur-fade.tsx` adapts the Blur Fade pattern by Dillion Verma /
+Magic UI, listed under MIT at https://21st.dev/@dillionverma/components/blur-fade.
+The MIT permission and warranty terms above apply. Adaptations include visible
+server output, one-time intersection activation, exact delays, immediate focus
+and reduced-motion recovery, mobile blur removal and final style cleanup.

@@ -1,3 +1,4 @@
+import { BlurFade } from "@/components/ui/blur-fade";
 import Link from "next/link";
 import { ArrowRight, Check, Compass, FileText, ListChecks, Map, MessageCircle, NotebookPen } from "lucide-react";
 import { StickyScroll, type StickyScrollItem } from "@/components/ui/sticky-scroll-reveal";
@@ -32,7 +33,7 @@ export function HowItWorksSection() {
 
 export function ReportPresentationSection() {
   return <section id="tu-informe" className="rv-report-section" aria-labelledby="rv-report-title"><div className="site-container">
-    <ContainerScroll titleComponent={<><p className="rv-report-eyebrow">TU INFORME DE ORIENTACIÓN</p><h2 id="rv-report-title">Una mirada más clara a tus opciones</h2><p>Organiza lo que descubriste y encuentra preguntas y caminos para seguir explorando.</p></>}>
+    <ContainerScroll titleComponent={<BlurFade inView><p className="rv-report-eyebrow">TU INFORME DE ORIENTACIÓN</p><h2 id="rv-report-title">Una mirada más clara a tus opciones</h2><p className="rv-report-intro">Organiza lo que descubriste y encuentra preguntas y caminos para seguir explorando.</p></BlurFade>}>
       <div className="rv-report-document">
         <header><div className="rv-report-brand"><img src="/media/brain-book-icon.png" width={44} height={44} alt="" /><span>Ruta Vocacional 360°<small>ORIENTACIÓN UNIVERSITARIA</small></span></div><span className="rv-report-preview-label">Vista previa del informe</span></header>
         <div className="rv-report-document-intro"><span>CONOCERTE PARA EXPLORAR</span><h3>Tu ruta, puesta en perspectiva.</h3><p>Una estructura para comprender tus resultados y organizar lo que quieres investigar.</p></div>

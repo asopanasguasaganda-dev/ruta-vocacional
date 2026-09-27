@@ -1,0 +1,3 @@
+/* No hidden initial state: content remains usable without hydration or observers. */
+.rv-blur-fade{min-width:0}
+@media(prefers-reduced-motion:reduce){.rv-blur-fade{opacity:1!important;filter:none!important;transform:none!important}}
