@@ -1,0 +1,57 @@
+/* Intrinsic sizing: children may shrink without clipping text or disabling zoom. */
+.ad-main,.ad-content,.compact-content,.focus-main,.auth-main,.account-layout>*{min-width:0}
+.grid>*{min-width:0}
+.field,.field>input,.field>textarea,.rv-select-trigger{min-width:0;max-width:100%}
+.page-header,.section-title{flex-wrap:wrap}
+.page-header h1,.card h2,.card h3,.notice{overflow-wrap:anywhere}
+.test-builder-header{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+.test-builder-header>div{flex:1;min-width:180px}
+.test-builder-header h1{font-size:28px;line-height:1.25;margin:6px 0;overflow-wrap:anywhere}
+.test-builder-header p{font-size:14px;color:var(--muted);margin:0}
+.test-builder-header>[role=status]{font-size:14px;color:var(--muted)}
+.te-editor-page{max-width:1100px;margin:auto}
+.te-editor-page .te-steps{grid-template-columns:repeat(5,minmax(0,1fr))}
+.te-editor-page .te-body{background:#fff;padding:24px;border:1px solid var(--border);border-radius:14px}
+.ad-app .te-editor-page .te-footer{position:static;border-radius:12px;padding:16px;flex-wrap:wrap}
+.te-editor-page .te-body>.stack{gap:20px}
+.te-editor-page .editor-option{grid-template-columns:minmax(0,1fr) minmax(80px,130px) 44px}
+.te-editor-page textarea{min-height:100px}
+.te-editor-page button[aria-label]{min-width:44px;min-height:44px}
+.dialog{max-width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}
+.dialog .dialog-inner{min-width:0}
+.dialog .section-title{gap:12px;align-items:flex-start}
+.dialog .section-title h2{min-width:0;flex:1;overflow-wrap:anywhere}
+@media(max-width:767px){
+ .te-editor-page .te-steps{display:flex;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:8px}
+ .te-editor-page .te-steps button{flex:0 0 126px;min-height:66px;scroll-snap-align:start;font-size:14px}
+ .te-editor-page .te-body{padding:16px}
+ .te-editor-page .grid-2{grid-template-columns:minmax(0,1fr)}
+ .te-editor-page .row{flex-wrap:wrap}
+ .ad-app .te-editor-page .te-footer{display:flex;gap:10px}
+ .ad-app .te-editor-page .te-footer .button{font-size:14px;min-height:44px;padding:10px 14px}
+ .ad-app .te-editor-page .te-footer>span{width:100%;font-size:13px}
+ .test-builder-header{gap:12px}
+ .test-builder-header h1{font-size:24px}
+ .dialog .dialog-inner{padding:18px}
+ .dialog .grid-2{grid-template-columns:minmax(0,1fr)}
+ .dialog .row{flex-wrap:wrap}
+ .compact-header-inner>.account-header{min-width:0}
+ .question-jump button{min-width:44px;min-height:44px}
+}
+@media(max-width:480px){
+ .te-editor-page .editor-option{grid-template-columns:minmax(0,1fr) 84px 44px;gap:8px}
+ .te-editor-page .card{padding:14px}
+ .te-editor-page .notice{font-size:14px}
+ .account-layout input[type=file]{width:100%;min-width:0}
+}
+
+.ranking-row{display:flex;gap:8px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:10px}.ranking-row>span{flex:1;min-width:0}.ranking-row>button{min-width:44px;min-height:44px}
+
+.test-result{margin-block:20px}.test-score>div{display:flex;align-items:center;justify-content:space-between;gap:16px}.test-score meter{width:100%;height:14px}.test-result-pdf{width:100%;height:70dvh;min-height:360px;border:1px solid var(--border);border-radius:12px}.test-result summary{padding-block:12px;min-height:44px;cursor:pointer}
+
+body:has(dialog[open]){overflow:hidden}
+@media(max-width:767px){.te-editor-page .te-steps button{padding:10px;gap:4px;min-height:70px}.te-editor-page .te-steps{scrollbar-width:thin}.te-editor-page .te-steps button{flex-basis:116px}}
+
+.audience-list{border:1px solid var(--border);border-radius:10px;padding:12px;max-height:260px;overflow:auto}.audience-list label{display:flex;align-items:center;gap:10px;min-height:44px}
+
+.question-outline{border:1px solid var(--border);border-radius:10px;padding:10px}.question-outline summary{padding:8px;cursor:pointer;font-weight:600}.te-editor-page .te-question-nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));max-height:240px;padding-top:8px}.te-editor-page .te-question-nav button{display:flex;text-align:left;align-items:center;gap:10px;padding:8px 12px}.te-question-nav button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}.te-question-nav button b{flex-shrink:0}

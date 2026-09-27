@@ -1,4 +1,6 @@
-import { previewAction, flush } from "../../lib/session";
+import {visibleQuestions} from '../../lib/test-engine';
+import {TestQuestion,answerText} from './TestQuestion';
+import { previewAction, flush, useSession } from "../../lib/session";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -55,12 +57,16 @@ export function Questionnaire({
     {},
     (v):v is Record<string,any>=>!!v&&typeof v==='object'&&!Array.isArray(v),
   );
+  const activeQuestions=visibleQuestions(instrument,answers);
   const [index, setIndex] = useState(() => {
-    const first = instrument.questions.findIndex(
+    const first = activeQuestions.findIndex(
       (q) => !validAnswer(instrument, q.id, answers[q.id]),
     );
     return first < 0 ? 0 : first;
   });
+  const session=useSession();
+  const attempt=(session.values['rv360:attempts']||[]).find((a:any)=>a.instrument_id===instrument.id&&a.state==='in_progress');
+  const[starting,setStarting]=useState(false);
   const [finished, setFinished] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -68,9 +74,9 @@ export function Questionnaire({
   const [review,setReview]=useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const answered = completion(instrument, answers);
-  const total = instrument.questions.length;
-  const ready=instrument.questions.every(q=>q.required===false||validAnswer(instrument,q.id,answers[q.id]));
-  const q = instrument.questions[index];
+  const total = activeQuestions.length;
+  const ready=activeQuestions.every(q=>q.required===false||validAnswer(instrument,q.id,answers[q.id]));
+  const q = activeQuestions[Math.min(index,activeQuestions.length-1)];
   const options = q.options || instrument.options;
   useEffect(() => {
     heading.current?.focus({preventScroll:true});
@@ -78,6 +84,8 @@ export function Questionnaire({
     const headerBottom=Math.max(0,document.querySelector('.compact-header')?.getBoundingClientRect().bottom||0);
     if(rect&&(rect.top<headerBottom+16||rect.bottom>window.innerHeight-40))window.scrollBy({top:rect.top-headerBottom-20,behavior:'instant'});
   }, [index, finished]);
+  const expired=!!(attempt&&instrument.durationMinutes&&Date.now()>Date.parse(attempt.started_at)+instrument.durationMinutes*60000);
+  if(instrument.schemaVersion===2&&(!attempt||expired)&&!finished)return <Card className="stack"><h1>{instrument.title}</h1><p>{instrument.description}</p><p>{instrument.questions.filter(q=>q.type!=='info').length} preguntas · {instrument.maxAttempts?'Máximo '+instrument.maxAttempts+' intentos':'Sin límite de intentos'}</p><Notice>{expired?'El tiempo del intento anterior terminó. Puedes iniciar otro si quedan intentos disponibles.':'El intento comienza al confirmar. Puedes guardar y continuar con esta versión del test.'}</Notice>{submitError&&<Notice tone="danger">{submitError}</Notice>}<Button loading={starting} onClick={async()=>{setStarting(true);setSubmitError('');try{await previewAction('assessments/start',{method:'POST',body:JSON.stringify({instrumentId:instrument.id})});}catch(e){setSubmitError((e as Error).message);}finally{setStarting(false);}}}>Confirmar e iniciar intento</Button></Card>;
   if (finished)
     return (
       <Card className="empty-state">
@@ -130,15 +138,7 @@ export function Questionnaire({
         </h1>
         {q.image&&<img className="assessment-image" src={q.image} alt={q.imageAlt||''}/>}<fieldset style={{ border: 0, padding: 0, margin: 0 }}>
           <legend className="sr-only">{q.text}</legend>
-          {q.type==='open'?<TextareaField label="Tu respuesta" rows={5} value={answers[q.id]||''} onChange={e=>void setAnswers(prev=>({...prev,[q.id]:e.target.value}))}/>:q.type==='multiple'?<div className="answer-list">{options.map(o=><label className="likert-option" key={o.value}><input type="checkbox" checked={(answers[q.id]||[]).includes(o.value)} onChange={e=>void setAnswers(prev=>({...prev,[q.id]:e.target.checked?[...(prev[q.id]||[]),o.value]:(prev[q.id]||[]).filter((v:number)=>v!==o.value)}))}/>{o.label}</label>)}</div>:<AnswerOptions key={q.id}
-            options={options}
-            value={answers[q.id]}
-            onChange={(value) =>
-              setAnswers((prev) => ({ ...prev, [q.id]: value }))
-            }
-            name={q.id}
-            vertical={!!q.options}
-          />}
+          <TestQuestion instrument={instrument} question={q} value={answers[q.id]} onChange={value=>void setAnswers(prev=>({...prev,[q.id]:value}))}/>
         </fieldset>
         {q.required===false&&<Button variant="ghost" size="sm" onClick={()=>setAnswers(prev=>{const next={...prev};delete next[q.id];return next;})}>Dejar esta pregunta sin respuesta</Button>}<div className="question-footer">
           <Button
@@ -165,7 +165,7 @@ export function Questionnaire({
               }
               else
                 setIndex(
-                  instrument.questions.findIndex(
+                  activeQuestions.findIndex(
                     (item) =>
                       item.required!==false&&!validAnswer(instrument, item.id, answers[item.id]),
                   ),
@@ -182,10 +182,10 @@ export function Questionnaire({
         </div>
       </Card>
       {submitError && <Notice tone="danger">{submitError}</Notice>}
-      <Dialog open={review} onClose={()=>setReview(false)} title="Revisa tus respuestas" wide><div className="stack">{instrument.questions.map((item,i)=><div className="row between" key={item.id}><div><b>{i+1}. {item.text}</b><p className="muted">{item.type==='open'?answers[item.id]:(item.options||instrument.options).filter(o=>Array.isArray(answers[item.id])?answers[item.id].includes(o.value):o.value===answers[item.id]).map(o=>o.label).join(', ')}</p></div><Button size="sm" variant="ghost" onClick={()=>{setIndex(i);setReview(false);}}>Editar</Button></div>)}{submitError&&<Notice tone="danger">{submitError}</Notice>}<Button loading={submitting} onClick={async()=>{setSubmitting(true);setSubmitError('');try{await flush();await previewAction('assessments/submit',{method:'POST',body:JSON.stringify({instrumentId:instrument.id})});setReview(false);setFinished(true);}catch(e){setSubmitError((e as Error).message);}finally{setSubmitting(false);}}}>Confirmar entrega</Button></div></Dialog>
+      <Dialog open={review} onClose={()=>setReview(false)} title="Revisa tus respuestas" wide><div className="stack">{activeQuestions.map((item,i)=><div className="row between" key={item.id}><div><b>{i+1}. {item.text}</b><p className="muted">{answerText(instrument,item,answers[item.id])}</p></div><Button size="sm" variant="ghost" onClick={()=>{setIndex(i);setReview(false);}}>Editar</Button></div>)}{submitError&&<Notice tone="danger">{submitError}</Notice>}<Button loading={submitting} onClick={async()=>{setSubmitting(true);setSubmitError('');try{await flush();await previewAction('assessments/submit',{method:'POST',body:JSON.stringify({instrumentId:instrument.id})});setReview(false);setFinished(true);}catch(e){setSubmitError((e as Error).message);}finally{setSubmitting(false);}}}>Confirmar entrega</Button></div></Dialog>
       <div className="row between">
         <div className="question-jump" aria-label="Ir a una pregunta">
-          {instrument.questions.map((item, i) => (
+          {activeQuestions.map((item, i) => (
             <button
               key={item.id}
               onClick={() => setIndex(i)}

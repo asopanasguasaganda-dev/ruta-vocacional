@@ -1,3 +1,4 @@
+import {answerProblem,absent} from '../lib/test-engine';
 import type { Instrument, Option } from "../types";
 import original from './original.json';
 export const interestOptions: Option[] = [
@@ -184,14 +185,7 @@ export let preferences: Instrument = {
 export let instruments = [interests, preferences, awareness];
 export const answerKey = (instrument: Instrument) =>
   "rv360:answers:" + instrument.id + ":" + instrument.version;
-export function validAnswer(instrument: Instrument, id: string, value: any) {
-  const q = instrument.questions.find((q) => q.id === id);
-  if(q?.type==='open')return typeof value==='string'&&value.trim().length>0;
-  if(q?.type==='multiple')return Array.isArray(value)&&value.length>0&&value.every(v=>(q.options||instrument.options).some(o=>o.value===v));
-  return (
-    !!q && (q.options || instrument.options).some((o) => o.value === value)
-  );
-}
+export function validAnswer(instrument:Instrument,id:string,value:any){const q=instrument.questions.find(q=>q.id===id);return !!q&&(q.type==='info'||!absent(value)&&!answerProblem(instrument,q,value));}
 export function completion(
   instrument: Instrument,
   answers: Record<string, any>,

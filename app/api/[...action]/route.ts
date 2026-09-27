@@ -1,3 +1,7 @@
+import {ecuadorCareers,catalogSource} from '@/lib/server/ecuador-catalog';
+import {testPdf} from '@/lib/server/test-results';
+import {startTest,reviewTest} from '@/lib/server/test-attempts';
+import {calculateTest} from '@/components/kit/lib/test-engine';
 import {educationProfile} from '@/lib/server/education';
 import {manageUser,adminAnalytics} from '@/lib/server/admin-management';
 import {refreshAcademicContent} from '@/lib/server/academic-content.mjs';
@@ -25,7 +29,11 @@ else {const user=await requireUser();if(action==='state'&&req.method==='PUT'){co
 else if(action==='admin/users'&&req.method==='POST')result=manageUser(user,body);
 else if(action==='admin/analytics'&&req.method==='GET')result=adminAnalytics(user);
 else if(action==='admin/orientation-content'&&req.method==='POST'){await requireUser(true);try{const shared=await refreshAcademicContent();result={source:shared.source,model:shared.model,contentId:shared.id,reused:!!shared.reused};}catch(e:any){fail(e.message==='PROVIDER_QUOTA'?'Cuota de Gemini agotada. Se conserva el contenido disponible.':e.message==='LOCAL_DAILY_LIMIT'?'Límite diario local alcanzado.':'No se pudo actualizar el contenido académico: '+e.message,e.message==='PROVIDER_QUOTA'||e.message==='LOCAL_DAILY_LIMIT'?429:502);}}
-else if(action==='admin/tests/preview'&&req.method==='POST'){await requireUser(true);validateTest({...body.instrument,status:'Borrador'});if(!body.answers||typeof body.answers!=='object'||Array.isArray(body.answers))fail('Respuestas de prueba no válidas.');result={scores:evaluateInstrument(body.instrument,body.answers),engineVersion:'1',persisted:false};}
+else if(action==='assessments/pdf'&&req.method==='GET'){const pdf=testPdf(user,req.nextUrl.searchParams.get('id')||'');return new NextResponse(new Uint8Array(pdf),{headers:{'Content-Type':'application/pdf','Cache-Control':'private, no-store','Content-Disposition':'inline; filename=resultado-vocacional.pdf'}});}
+else if(action==='assessments/start'&&req.method==='POST'){result=startTest(user,String(body.instrumentId));}
+else if(action==='admin/tests/careers'&&req.method==='GET'){await requireUser(true);result={careers:ecuadorCareers.map(c=>({id:c.id,name:c.name})),source:catalogSource};}
+else if(action==='admin/tests/review'&&req.method==='POST'){result=reviewTest(user,body);}
+else if(action==='admin/tests/preview'&&req.method==='POST'){await requireUser(true);validateTest({...body.instrument,status:'Publicado'});if(!body.answers||typeof body.answers!=='object'||Array.isArray(body.answers))fail('Respuestas de prueba no válidas.');result={...calculateTest(instruments.some(t=>t.id===body.instrument.id)?{...body.instrument,scoring:'dimensions'}:body.instrument,body.answers),persisted:false};}
 else if(action==='account/profile'&&req.method==='PUT')result=updateProfile(user,body);
 else if(action==='account/password'&&req.method==='POST')result=await changePassword(user,body);
 else if(action==='account/email'&&req.method==='POST')result=await requestEmail(user,body);
@@ -34,7 +42,7 @@ else if(action==='battery/start'&&req.method==='POST'){battery(user,true);result
 else if(action==='reports/guidance'&&req.method==='GET'){if(user.role==='student'){try{ensureGuidance(user);}catch(e:any){if(e.status!==409)throw e;}}result={items:listGuidance(user),configured:configured()};}
 else if(action==='reports/guidance/detail'&&req.method==='GET')result=readGuidance(user,req.nextUrl.searchParams.get('id')||'');
 else if(action==='reports/guidance'&&req.method==='POST')result=await analyzeGuidance(user,body);
-else if(action==='assessments/submit'&&req.method==='POST'){result=submitAssessment(user,body.instrumentId);{try{ensureGuidance(user);}catch(e:any){if(e.status!==409)throw e;}}}
+else if(action==='assessments/submit'&&req.method==='POST'){result=submitAssessment(user,body.instrumentId);try{ensureGuidance(user);}catch{result={...result,guidancePending:true};}}
 
 else if(action==='reports/integral'&&req.method==='POST')fail('La generación de informes anteriores fue retirada. Consulta Mis resultados.',410);
 else if(action==='reports/integral'&&req.method==='GET')result={items:listIntegralReports(user,req.nextUrl.searchParams.get('studentId'))};

@@ -37,17 +37,42 @@ export interface NavItem {
   icon: LucideIcon;
 }
 export interface Option {
+  id?: string;
+  points?: number;
+  contributions?: Record<string,number>;
   value: number;
   label: string;
   description?: string;
 }
 export interface Question {
+  section?: string;
+  help?: string;
+  minSelections?: number;
+  maxSelections?: number;
+  exclusiveValue?: number;
+  min?: number;
+  max?: number;
+  step?: number;
+  unit?: string;
+  maxLength?: number;
+  minLength?: number;
+  visibleWhen?: {questionId:string;operator:'equals'|'notEquals'|'includes';value:number|string};
+  policy?: 'none'|'total'|'dimensions'|'objective'|'rubric';
+  rubric?: {id:string;label:string;levels:{id:string;label:string;points:number}[]}[];
+  rows?: {id:string;label:string}[];
+  matrixMultiple?: boolean;
+  rankingPoints?: number[];
+  acceptedTexts?: string[];
+  normalizeText?: boolean;
+  numericKey?: {min:number;max:number};
+  partialCredit?: boolean;
+  incorrectPenalty?: number;
   required?: boolean;
   image?: string;
   imageAlt?: string;
   explanation?: string;
   correctValues?: number[];
-  type?: 'single'|'multiple'|'likert'|'open';
+  type?: 'single'|'multiple'|'likert'|'open'|'short'|'number'|'yesno'|'matrix'|'ranking'|'info';
   inverse?: boolean;
   weight?: number;
   source?: string;
@@ -57,14 +82,26 @@ export interface Question {
   options?: Option[];
 }
 export interface Instrument {
+  audience?: 'all'|'selected';
+  careerLinks?: {id:string;dimensionId:string;careerId:string;min:number;max:number;reason:string;source:string;careerName?:string;sourceUrl?:string;offers?:{institution:string;title:string;location:string;modality:string}[]}[];
+  schemaVersion?: number;
+  purpose?: string;
+  source?: string;
+  stableId?: string;
+  dimensions?: {id:string;name:string}[];
+  normalize?: boolean;
+  minimumCoverage?: number;
+  studentIds?: string[];
+  durationMinutes?: number;
+  releaseAt?: string;
   due?: string;
   battery?: string;
   availableFrom?: string;
   estimatedMinutes?: number;
-  resultPublication?: 'immediate'|'review';
+  resultPublication?: 'immediate'|'review'|'date';
   aggregation?: 'mean'|'sum';
   ranges?: {dimension:string;min:number;max:number;label:string}[];
-  scoring?: 'manual'|'dimensions'|'objective';
+  scoring?: 'manual'|'dimensions'|'objective'|'total'|'rubric'|'mixed';
   sourceId?: string;
   maxAttempts?: number;
   id: string;

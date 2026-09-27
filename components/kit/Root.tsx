@@ -23,7 +23,7 @@ function ConnectedApp(){
 
  useEffect(()=>{const warn=(event:BeforeUnloadEvent)=>{if(session.pending||session.error){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);},[session.pending,session.error]);
  const navigate=useCallback((next:View)=>{router.push(routes[next]);},[router]);
- useEffect(()=>{const refresh=()=>void refreshSession();window.addEventListener('pageshow',refresh);return()=>window.removeEventListener('pageshow',refresh);},[]);
+ useEffect(()=>{const refresh=()=>void refreshSession();window.addEventListener('pageshow',refresh);window.addEventListener('focus',refresh);return()=>{window.removeEventListener('pageshow',refresh);window.removeEventListener('focus',refresh);};},[]);
  useEffect(()=>{if(session.ready&&protectedView&&!session.user)router.replace(admin?'/admin/login':'/ingresar');},[session.ready,session.user,protectedView,admin,router]);
  if(path==='/restablecer')return <ResetPassword />;
  if((!session.ready||!session.user)&&protectedView)return <Loading />;
