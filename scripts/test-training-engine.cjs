@@ -1,6 +1,17 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript'),vm=require('node:vm');
 function load(file,deps={}){const m={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:m.exports,module:m,require:id=>deps[id]||require(id),console});return m.exports;}
 const universal=load('components/kit/lib/test-engine.ts'),{academicResult,simulatorProblems,selectQuestions,principalGrade,courseProgress}=load('components/kit/lib/training-engine.ts',{'./test-engine':universal});
+const {matchesCourseProfile,courseUniversityProblem}=load('components/kit/lib/course-links.ts');
+const admission={type:'admission',profileId:'university-period',profileVersion:1};
+assert.equal(matchesCourseProfile(admission,{}),true,'La carrera sugerida ofrece preparación sin exigir elegir convocatoria');
+assert.equal(matchesCourseProfile(admission,{profileId:'other',profileVersion:1}),false);
+assert.equal(matchesCourseProfile(admission,{profileId:'university-period',profileVersion:1}),true);
+assert.equal(matchesCourseProfile(admission,{profileId:'university-period',profileVersion:2}),false);
+const offers=[{id:'career',offers:[{institution:'Universidad de prueba'}]}];
+assert.equal(courseUniversityProblem(['Universidad de prueba'],['career'],offers),'');
+assert.notEqual(courseUniversityProblem(['Universidad ajena'],['career'],offers),'');
+assert.notEqual(courseUniversityProblem(['Universidad de prueba'],[],offers),'');
+assert.equal(courseUniversityProblem(undefined,['career'],offers),'');
 const q=(id,topic='General',weight=2)=>({id,text:'Pregunta '+id,type:'single',policy:'objective',weight,topic,correctValues:[11],options:[{value:11,label:'Correcta'},{value:22,label:'Incorrecta'}],reviewed:true,source:'Fixture aislada',explanation:'Explicación de prueba'});
 const base={id:'fixture',title:'Solo pruebas',version:1,instrument:{id:'fixture',version:'1',title:'Solo pruebas',description:'',source:'Fixture aislada',options:[],questions:[]},purpose:'general',modes:['practice','exam'],durationMinutes:30,maxAttempts:3,gradePolicy:'last',feedback:'finish',selection:'fixed',quotas:[],areaWeights:[],questions:Array.from({length:10},(_,i)=>q('q'+i)),shuffleOptions:true,questionOrderFixedIds:[]};
 let r=academicResult(base,Object.fromEntries(Array.from({length:9},(_,i)=>['q'+i,i<6?11:22])));

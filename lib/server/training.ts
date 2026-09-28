@@ -18,6 +18,7 @@ import {
   principalGrade,
 } from "@/components/kit/lib/training-engine";
 import { answerProblem, absent } from "@/components/kit/lib/test-engine";
+import { matchesCourseProfile, courseUniversityProblem } from "@/components/kit/lib/course-links";
 import type {
   Course,
   Simulator,
@@ -254,6 +255,8 @@ function validate(u: User, kind: string, e: any) {
     c.fields.some((f) => !catalog.careers.some((x) => x.area === f))
   )
     fail("Completa objetivos, destinatarios y relaciones del curso.");
+  const universityProblem = courseUniversityProblem(c.institutions, c.careerIds, catalog.careers);
+  if (universityProblem) fail(universityProblem);
   if (
     c.studentIds.some(
       (id) =>
@@ -286,6 +289,8 @@ function validate(u: User, kind: string, e: any) {
       fail(
         "Relaciona el curso con carreras incluidas en el perfil de admisión.",
       );
+    if (c.institutions?.some(i => i !== p.institution))
+      fail("La universidad del curso debe coincidir con la convocatoria de admisión.");
   }
   if (
     !c.activities?.length ||
@@ -587,10 +592,7 @@ export function trainingState(u: User) {
             goal.careerIds.includes(id),
           ),
           field = c.fields.some((f: string) => goal.fields.includes(f)||catalog.careers.some(career=>career.area===f&&(goal.careerIds.includes(career.id)||recs.some(r=>r.careerId===career.id))));
-        const exact =
-          c.type !== "admission" ||
-          (c.profileId === goal.profileId &&
-            c.profileVersion === goal.profileVersion);
+        const exact = matchesCourseProfile(c, goal);
         const reasons = [
           ...chosen.map(
             (id: string) =>

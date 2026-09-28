@@ -33,6 +33,7 @@ export const blankCourse = (): Course => ({
   level: "Introductorio",
   type: "general",
   careerIds: [],
+  institutions: [],
   fields: [],
   activities: [],
   studentIds: [],
@@ -124,8 +125,15 @@ export function CourseEditor({
         label="Carreras relacionadas"
         items={d.careers}
         value={c.careerIds}
-        onChange={(careerIds) => patch({ careerIds })}
+        onChange={(careerIds) => patch({ careerIds, institutions: (c.institutions || []).filter(i => d.careers.some((career: any) => careerIds.includes(career.id) && career.offers.some((o: any) => o.institution === i))) })}
       />
+      <ChoiceList
+        label="Universidades relacionadas"
+        items={[...new Set<string>(d.careers.filter((career: any) => c.careerIds.includes(career.id)).flatMap((career: any) => career.offers.map((o: any) => o.institution)))].sort().map(name => ({ id: name, name }))}
+        value={c.institutions || []}
+        onChange={(institutions) => patch({ institutions })}
+      />
+      <small>Selecciona primero las carreras. Aparecen las universidades que las ofrecen en el catálogo de Ecuador. Para preparar un examen de una convocatoria concreta, elige su perfil de admisión.</small>
       <ChoiceList
         label="Relaciones por área revisadas"
         items={[...new Set<string>(d.careers.map((c: any) => c.area))].map(

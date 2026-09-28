@@ -64,15 +64,15 @@ export function StudentCourses() {
           )) &&
         (!type || c.type === type) &&
         (!institution ||
-          d.profiles.some(
+          c.institutions?.includes(institution) || d.profiles.some(
             (p: any) => p.id === c.profileId && p.institution === institution,
           )),
     ) || [];
   return (
     <div className="training">
       <PageHeader
-        title="Cursos y simuladores"
-        description="Explora, aprende y practica. Tu avance y tu calificación son indicadores diferentes."
+        title="Cursos de autopreparación"
+        description="Prepárate para ingresar a la universidad. Encuentra cursos según las carreras sugeridas en tu informe, estudia y practica con simuladores que muestran tu puntaje."
       />
       <TrainingError error={error} retry={refresh} />
       {!d && !error && <p role="status">Cargando preparación…</p>}
@@ -456,11 +456,13 @@ export function StudentCourses() {
                         </small>
                         <h2>{c.title}</h2>
                         <p>{c.description}</p>
+                        <p>{c.careerIds.map((id: string) => d.careers.find((career: any) => career.id === id)?.name).filter(Boolean).join(" · ")}</p>
+                        {(c.institutions?.length > 0 || c.profileId) && <small>Universidad: {(c.institutions?.length ? c.institutions : [d.profiles.find((p: any) => p.id === c.profileId && p.version === c.profileVersion)?.institution]).filter(Boolean).join(" · ")}</small>}
                         {c.reasons?.map((r: string) => (
                           <small key={r}>{r}</small>
                         ))}
                         <p>
-                          {c.activities.length} actividades · {c.level}
+                          {c.activities.length} actividades · {c.activities.filter((a: any) => a.kind === "simulator").length} simuladores con puntaje · {c.level}
                         </p>
                         <Button
                           disabled={busy}

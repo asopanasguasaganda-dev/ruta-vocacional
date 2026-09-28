@@ -2,6 +2,8 @@
 
 ## Accesos y alcance
 
+Una sola entrada **Cursos** reúne el recorrido: el administrador crea cursos y sus simuladores; el estudiante se autoprepara con los cursos relacionados con las carreras de su informe. Los cursos permiten asociar universidades que realmente ofrecen las carreras seleccionadas. Si el estudiante todavía no ha elegido una convocatoria, igualmente ve cursos de admisión relacionados con sus carreras; cuando elige una, las recomendaciones respetan esa convocatoria y versión. La nota del simulador mide la práctica dentro de la plataforma, no sustituye la calificación oficial de admisión.
+
 - Administración: `/admin/cursos`. Requiere una sesión administrativa del servidor.
 - Estudiante: `/mi-ruta/cursos`, con recomendaciones, inscripciones y catálogo.
 - El inicio del estudiante y su informe enlazan con los cursos relacionados.

@@ -62,8 +62,8 @@ export function AdminCourses() {
   return (
     <div className="training">
       <PageHeader
-        title="Cursos y simuladores"
-        description="Gestiona preparación, convocatorias y seguimiento. Los resultados académicos se mantienen separados de la orientación."
+        title="Cursos"
+        description="Crea cursos de autopreparación para carreras y universidades de Ecuador. Añade material de estudio y simuladores con puntaje; los estudiantes encontrarán los cursos relacionados con las carreras de su informe."
       />
       <TrainingError error={error} retry={refresh} />
       {!d && !error && <p role="status">Cargando administración de cursos…</p>}

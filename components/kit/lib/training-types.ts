@@ -21,6 +21,7 @@ export type Activity = {
   target?: number;
 };
 export type Course = Versioned & {
+  institutions?: string[];
   description: string;
   objectives: string;
   level: string;
