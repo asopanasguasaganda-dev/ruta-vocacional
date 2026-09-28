@@ -1,3 +1,5 @@
+import {StudentCourses} from './features/training/StudentCourses';
+import {AdminCourses} from './features/training/AdminCourses';
 import {CompactDashboard,CompactTests} from './features/student/CompactDashboard';
 import {GuidanceResults} from './features/student/GuidanceResults';
 import {AdminResults} from './features/admin/AdminResults';
@@ -81,6 +83,8 @@ export default function App({ view, navigate }: { view: View; navigate: (view: V
     default: {
       let content: ReactNode;
       switch (view) {
+        case "cursos": content=<StudentCourses/>; break;
+        case "admin-cursos": content=<AdminCourses/>; break;
         case "mi-ruta":
           content = <CompactDashboard />;
           break;

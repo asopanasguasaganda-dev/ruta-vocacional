@@ -1,0 +1,22 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript'),vm=require('node:vm');
+function load(file,deps={}){const m={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:m.exports,module:m,require:id=>deps[id]||require(id),console});return m.exports;}
+const universal=load('components/kit/lib/test-engine.ts'),{academicResult,simulatorProblems,selectQuestions,principalGrade,courseProgress}=load('components/kit/lib/training-engine.ts',{'./test-engine':universal});
+const q=(id,topic='General',weight=2)=>({id,text:'Pregunta '+id,type:'single',policy:'objective',weight,topic,correctValues:[11],options:[{value:11,label:'Correcta'},{value:22,label:'Incorrecta'}],reviewed:true,source:'Fixture aislada',explanation:'Explicación de prueba'});
+const base={id:'fixture',title:'Solo pruebas',version:1,instrument:{id:'fixture',version:'1',title:'Solo pruebas',description:'',source:'Fixture aislada',options:[],questions:[]},purpose:'general',modes:['practice','exam'],durationMinutes:30,maxAttempts:3,gradePolicy:'last',feedback:'finish',selection:'fixed',quotas:[],areaWeights:[],questions:Array.from({length:10},(_,i)=>q('q'+i)),shuffleOptions:true,questionOrderFixedIds:[]};
+let r=academicResult(base,Object.fromEntries(Array.from({length:9},(_,i)=>['q'+i,i<6?11:22])));
+assert.equal(r.raw,12);assert.equal(r.max,20);assert.equal(r.percent,60);assert.equal(r.coverage.omitted,1);
+assert.equal(academicResult(base,{}).percent,0);assert.equal(academicResult(base,{}).max,20);
+const weighted={...base,questions:[...Array.from({length:5},(_,i)=>q('m'+i,'Matemática',1)),...Array.from({length:2},(_,i)=>q('l'+i,'Lectura',1))],areaWeights:[{area:'Matemática',weight:60},{area:'Lectura',weight:40}]};
+r=academicResult(weighted,{m0:11,m1:11,m2:11,m3:11,m4:22,l0:11,l1:22});assert.equal(r.percent,68);
+assert.equal(principalGrade([40,70,60],'best'),70);assert.equal(principalGrade([40,70,60],'first'),40);assert.equal(principalGrade([40,70,60],'last'),60);assert(Math.abs(principalGrade([40,70,60],'mean')-56.666666666666664)<1e-10);
+assert.equal(courseProgress(Array.from({length:6},(_,i)=>({id:String(i),required:i<5})),['0','1','2','5']).percent,60);
+const rubric={...q('r'),type:'open',policy:'rubric',weight:1,rubric:[{id:'c',label:'Claridad',levels:[{id:'low',label:'Sin evidencia',points:0},{id:'high',label:'Completo',points:4}]}]};
+r=academicResult({...base,questions:[rubric]},{r:'Respuesta'});assert.equal(r.state,'pending-review');assert.equal(r.percent,null);assert.equal(r.max,4);
+assert.equal(academicResult({...base,questions:[rubric]},{r:'Respuesta'},{r:{c:'high'}}).percent,100);
+assert(simulatorProblems({...base,questions:[]}).length);assert(simulatorProblems({...base,questions:[{...q('z'),weight:0}]}).length);assert(simulatorProblems({...base,questions:[{...q('bad'),correctValues:[999]}]}).length);
+assert(simulatorProblems({...weighted,areaWeights:[{area:'Matemática',weight:0}]}).length);
+assert(simulatorProblems({...base,selection:'random',quotas:[{topic:'General',count:11}]}).length);
+const random={...base,selection:'random',quotas:[{topic:'General',count:5}]};const selected=selectQuestions(random,()=>0.4);assert.equal(selected.length,5);assert.equal(new Set(selected.map(q=>q.id)).size,5);assert(selected.every(q=>q.options.some(o=>o.value===11)));
+const short={...q('short'),type:'short',acceptedTexts:['álgebra'],normalizeText:true};assert.equal(academicResult({...base,questions:[short]},{short:'  ALGEBRA  '}).percent,100);
+const number={...q('n'),type:'number',min:0,max:100,step:0.1,numericKey:{min:1.9,max:2.1}};assert.equal(academicResult({...base,questions:[number]},{n:2}).percent,100);
+console.log('Cursos: omisiones, máximos, ponderación 68%, intentos, avance 60%, rúbricas, bancos, claves y formatos: OK');

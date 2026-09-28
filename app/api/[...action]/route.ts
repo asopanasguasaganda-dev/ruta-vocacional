@@ -1,3 +1,5 @@
+import {trainingAction} from '@/lib/server/training';
+import {trainingPdf} from '@/lib/server/training-pdf';
 import {ecuadorCareers,catalogSource} from '@/lib/server/ecuador-catalog';
 import {testPdf} from '@/lib/server/test-results';
 import {startTest,reviewTest} from '@/lib/server/test-attempts';
@@ -26,6 +28,8 @@ else if(action==='auth/password-reset'&&req.method==='POST'){if(!process.env.SMT
 else if(action==='auth/reset-confirm'&&req.method==='POST'){if(typeof body.password!=='string'||body.password.length<8||body.password.length>128)fail('Usa una contraseña de 8 a 128 caracteres.');const reset=db.prepare('SELECT * FROM resets WHERE token=? AND expires>?').get(hash(String(body.token)),Date.now()) as any;if(!reset)fail('El enlace no es válido o ha vencido.');db.prepare('UPDATE users SET password=?,status=? WHERE id=?').run(passwordHash(body.password),'Activo',reset.userId);db.prepare('DELETE FROM resets WHERE userId=?').run(reset.userId);db.prepare('DELETE FROM sessions WHERE userId=?').run(reset.userId);const account=db.prepare('SELECT role FROM users WHERE id=?').get(reset.userId) as any;result={ok:true,loginPath:account.role==='student'?'/ingresar':'/admin/login'};}
 else if(action==='account/adult'&&req.method==='POST'){fail('Este formulario ya no está disponible. Continúa en tu espacio.',410);}
 else {const user=await requireUser();if(action==='state'&&req.method==='PUT'){const revision=saveDocument(user,body.key,body.value,body.revision);result={revision};}
+else if(action==='training/pdf'&&req.method==='GET')return new NextResponse(new Uint8Array(trainingPdf(user,req.nextUrl.searchParams.get('id')||'')),{headers:{'Content-Type':'application/pdf','Cache-Control':'private, no-store','Content-Disposition':'inline; filename=resultado-simulador.pdf'}});
+else if(action.startsWith('training'))result=trainingAction(user,action,req.method,body,req.nextUrl.searchParams);
 else if(action==='admin/users'&&req.method==='POST')result=manageUser(user,body);
 else if(action==='admin/analytics'&&req.method==='GET')result=adminAnalytics(user);
 else if(action==='admin/orientation-content'&&req.method==='POST'){await requireUser(true);try{const shared=await refreshAcademicContent();result={source:shared.source,model:shared.model,contentId:shared.id,reused:!!shared.reused};}catch(e:any){fail(e.message==='PROVIDER_QUOTA'?'Cuota de Gemini agotada. Se conserva el contenido disponible.':e.message==='LOCAL_DAILY_LIMIT'?'Límite diario local alcanzado.':'No se pudo actualizar el contenido académico: '+e.message,e.message==='PROVIDER_QUOTA'||e.message==='LOCAL_DAILY_LIMIT'?429:502);}}

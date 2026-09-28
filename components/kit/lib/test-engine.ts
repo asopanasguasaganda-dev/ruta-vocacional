@@ -92,24 +92,24 @@ function selectionBounds(values:number[],q:Question){
  for(let n=min;n<=max;n++){sums.push(sorted.slice(0,n).reduce((a,b)=>a+b,0),sorted.slice(-n).reduce((a,b)=>a+b,0));}
  return [Math.min(...sums),Math.max(...sums)];
 }
-export function calculateTest(t:Instrument,answers:AnswerMap,reviews:Reviews={}){
+export function calculateTest(t:Instrument,answers:AnswerMap,reviews:Reviews={},config:{includeOmissions?:boolean}={}){
  const problems=instrumentProblems(t);if(problems.length)throw new TestError(problems.map(p=>p.message).join(' '));
  const visible=visibleQuestions(t,answers),applicable=visible.filter(q=>q.type!=='info'),trace:any[]=[];let pending=0,responded=0;
  const bins=new Map<string,{raw:number;min:number;max:number;weight:number;count:number}>();
  for(const q of applicable){
-  const v=answers[q.id],problem=answerProblem(t,q,v);if(problem)throw new TestError(q.text+': '+problem);if(absent(v)){trace.push({questionId:q.id,state:'omitted'});continue;}responded++;
+  const v=answers[q.id],problem=answerProblem(t,q,v);if(problem)throw new TestError(q.text+': '+problem);const omitted=absent(v);if(omitted&&!config.includeOmissions){trace.push({questionId:q.id,state:'omitted'});continue;}if(!omitted)responded++;
   const policy=q.policy||t.scoring||'manual';if(['none','manual','mixed'].includes(policy)){trace.push({questionId:q.id,state:'descriptive'});continue;}
   const weight=q.weight??1,choices=opts(t,q),mapped=choices.flatMap(o=>Object.keys(o.contributions||{})),dims=policy==='dimensions'?[...new Set(mapped.length?mapped:[q.dimension||'General'])]:['General'];
-  if(policy==='rubric'&&!q.rubric!.every(r=>r.levels.some(l=>l.id===reviews[q.id]?.[r.id]))){pending++;trace.push({questionId:q.id,state:'pending-review'});continue;}
+  const needsReview=policy==='rubric'&&!omitted&&!q.rubric!.every(r=>r.levels.some(l=>l.id===reviews[q.id]?.[r.id]));if(needsReview){pending++;if(!config.includeOmissions){trace.push({questionId:q.id,state:'pending-review'});continue;}}
   for(const dimension of dims){
    let raw=0,min=0,max=0;
    const point=(n:number)=>{const o=choices.find(o=>o.value===n)!;return policy==='dimensions'&&Object.keys(o.contributions||{}).length?o.contributions?.[dimension]||0:(policy!=='dimensions'||dimension===(q.dimension||'General'))?(o.points??o.value):0;};
    if(policy==='objective'){
     max=1;const normal=(s:string)=>q.normalizeText?s.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase().replace(/\s+/g,' '):s;
-    if(q.type==='short')raw=q.acceptedTexts!.some(s=>normal(s)===normal(v as string))?1:0;
+    if(omitted)raw=0;else if(q.type==='short')raw=q.acceptedTexts!.some(s=>normal(s)===normal(v as string))?1:0;
     else if(q.type==='number')raw=(v as number)>=q.numericKey!.min&&(v as number)<=q.numericKey!.max?1:0;
     else {const selected=Array.isArray(v)?v:[v],correct=q.correctValues!;raw=q.partialCredit?Math.max(0,selected.filter(n=>correct.includes(n as number)).length/correct.length-selected.filter(n=>!correct.includes(n as number)).length*q.incorrectPenalty!):selected.length===correct.length&&selected.every(n=>correct.includes(n as number))?1:0;}
-   }else if(policy==='rubric'){for(const r of q.rubric!){raw+=r.levels.find(l=>l.id===reviews[q.id][r.id])!.points;min+=Math.min(...r.levels.map(l=>l.points));max+=Math.max(...r.levels.map(l=>l.points));}}
+   }else if(policy==='rubric'){for(const r of q.rubric!){raw+=omitted||needsReview?0:r.levels.find(l=>l.id===reviews[q.id][r.id])!.points;min+=Math.min(...r.levels.map(l=>l.points));max+=Math.max(...r.levels.map(l=>l.points));}}
    else if(q.type==='number'){raw=v as number;min=q.min!;max=q.max!;if(q.inverse)raw=min+max-raw;}
    else if(q.type==='ranking'){const multipliers=q.rankingPoints!;raw=(v as number[]).reduce((s,n,i)=>s+point(n)*multipliers[i],0);const ps=choices.map(o=>point(o.value)).sort((a,b)=>a-b),ms=[...multipliers].sort((a,b)=>a-b);max=ps.reduce((s,n,i)=>s+n*ms[i],0);min=ps.reduce((s,n,i)=>s+n*ms[ms.length-1-i],0);}
    else {
@@ -119,7 +119,7 @@ export function calculateTest(t:Instrument,answers:AnswerMap,reviews:Reviews={})
     else [raw,min,max]=score(v,q.type==='multiple');
    }
    const b=bins.get(dimension)||{raw:0,min:0,max:0,weight:0,count:0};b.raw+=raw*weight;b.min+=min*weight;b.max+=max*weight;b.weight+=weight;b.count++;bins.set(dimension,b);
-   trace.push({questionId:q.id,dimension,policy,contribution:raw,weight,subtotal:raw*weight,min:min*weight,max:max*weight});
+   trace.push({questionId:q.id,state:omitted?'omitted':needsReview?'pending-review':'scored',dimension,policy,contribution:raw,weight,subtotal:raw*weight,min:min*weight,max:max*weight});
   }
  }
  const coverage=applicable.length?responded/applicable.length*100:100;
@@ -129,5 +129,5 @@ export function calculateTest(t:Instrument,answers:AnswerMap,reviews:Reviews={})
  const scores:Score[]=[...bins].map(([dimension,b])=>{const divisor=aggregation==='mean'?b.weight:1;const value=divisor?b.raw/divisor:0,min=divisor?b.min/divisor:0,max=divisor?b.max/divisor:0;return {dimension,raw:b.raw,value,min,max,...(t.normalize&&max>min&&state==='complete'?{normalized:(value-min)/(max-min)*100}:{}),band:state==='complete'?t.ranges?.find(r=>(!r.dimension||r.dimension===dimension)&&value>=r.min&&value<=r.max)?.label:undefined,answered:b.count,applicable:applicable.length};});
  if(scores.some(s=>![s.raw,s.value,s.min,s.max].every(Number.isFinite)))throw new TestError('El cálculo excede los límites numéricos permitidos.');
  const careers=state==='complete'?(t.careerLinks||[]).filter(link=>scores.some(s=>s.dimension===link.dimensionId&&s.value>=link.min&&s.value<=link.max)).map(link=>({...link,evidence:scores.find(s=>s.dimension===link.dimensionId)!.value})):[];
- return {careers,aggregation,boundsBasis:'answered-visible-questions',missingPolicy:'exclude-omitted-and-hidden',engineVersion:ENGINE_VERSION,instrumentVersion:t.version,state,scores,coverage:{applicable:applicable.length,responded,omitted:applicable.length-responded,pending,percent:coverage},trace,normalizationNote:t.normalize&&scores.some(s=>s.min===s.max)?'No se normaliza una escala sin recorrido.':undefined};
+ return {careers,aggregation,boundsBasis:config.includeOmissions?'all-applicable-questions':'answered-visible-questions',missingPolicy:config.includeOmissions?'zero-omitted':'exclude-omitted-and-hidden',engineVersion:ENGINE_VERSION,instrumentVersion:t.version,state,scores,coverage:{applicable:applicable.length,responded,omitted:applicable.length-responded,pending,percent:coverage},trace,normalizationNote:t.normalize&&scores.some(s=>s.min===s.max)?'No se normaliza una escala sin recorrido.':undefined};
 }

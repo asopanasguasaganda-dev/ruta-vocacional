@@ -27,8 +27,10 @@ export const studentNav: NavItem[] = [
  {id:'mi-ruta',label:'Inicio',icon:Home},
  {id:'evaluaciones',label:'Mis tests',icon:ClipboardCheck},
  {id:'resultados',label:'Mis resultados',icon:ChartNoAxesCombined},
+ {id:'cursos',label:'Cursos',icon:BookOpen},
 ];
 export const adminNav: NavItem[] = [
+ {id:'admin-cursos',label:'Cursos',icon:BookOpen},
  {id:'admin',label:'Resumen',icon:LayoutGrid},
 
  {id:'ajustes',label:'Configuración',icon:SlidersHorizontal},

@@ -1,5 +1,7 @@
 # Vercel: vista de diseño sin base de datos
 
+El módulo de cursos y simuladores ya tiene persistencia en la ejecución con servidor. Su arquitectura, requisitos y pruebas están en [CURSOS-Y-SIMULADORES.md](CURSOS-Y-SIMULADORES.md). La configuración estática descrita aquí no ejecuta ese backend.
+
 Esta entrega publica exclusivamente el diseño navegable, según el alcance actual. No conecta usuarios reales, credenciales, Gemini, informes personales ni almacenamiento. El backend original permanece en el código para la etapa siguiente.
 
 ## Desplegar

@@ -1,6 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 export type Tone = "primary" | "success" | "warning" | "danger" | "neutral";
 export type View =
+  | "cursos"
+  | "admin-cursos"
   | "admin-cuenta"
   | "admin-resultados"
   | "custom-test"

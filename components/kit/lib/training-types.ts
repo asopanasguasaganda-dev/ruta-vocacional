@@ -1,0 +1,81 @@
+import type { Instrument, Question } from "../types";
+export type TrainingStatus = "draft" | "published" | "archived";
+export type TrainingMode = "practice" | "exam";
+export type Versioned = {
+  id: string;
+  version: number;
+  revision: number;
+  status: TrainingStatus;
+  title: string;
+};
+export type Activity = {
+  id: string;
+  module: string;
+  title: string;
+  kind: "text" | "link" | "simulator";
+  content: string;
+  simulatorId?: string;
+  simulatorVersion?: number;
+  required: boolean;
+  completion: "read" | "submit" | "score";
+  target?: number;
+};
+export type Course = Versioned & {
+  description: string;
+  objectives: string;
+  level: string;
+  type: "general" | "field" | "admission";
+  careerIds: string[];
+  fields: string[];
+  profileId?: string;
+  profileVersion?: number;
+  activities: Activity[];
+  studentIds: string[];
+  access: "all" | "selected";
+  availableFrom?: string;
+  availableUntil?: string;
+};
+export type AdmissionProfile = Versioned & {
+  institution: string;
+  period: string;
+  level: string;
+  careerIds: string[];
+  sourceUrl: string;
+  reviewedAt: string;
+  scope: string;
+  rules: string;
+  areas: { name: string; count: number; weight: number }[];
+  durationMinutes: number;
+  internalRules: string;
+};
+export type BankQuestion = Question & {
+  bankId?: string;
+  bankVersion?: number;
+  reviewed?: boolean;
+  topic?: string;
+  difficulty?: "introductory" | "intermediate" | "advanced";
+};
+export type Simulator = Versioned & {
+  instrument: Instrument;
+  purpose: "general" | "admission";
+  profileId?: string;
+  profileVersion?: number;
+  modes: TrainingMode[];
+  durationMinutes: number;
+  practiceDurationMinutes?: number;
+  maxAttempts: number;
+  gradePolicy: "first" | "last" | "best" | "mean";
+  feedback: "finish" | "question";
+  selection: "fixed" | "random";
+  quotas: { topic: string; count: number }[];
+  areaWeights: { area: string; weight: number }[];
+  questions: BankQuestion[];
+  shuffleOptions: boolean;
+  questionOrderFixedIds: string[];
+};
+export type TrainingGoal = {
+  careerIds: string[];
+  fields: string[];
+  profileId?: string;
+  profileVersion?: number;
+};
