@@ -9,7 +9,7 @@ async function read(){
  if(typeof window==='undefined')return null;
  if(inflight)return inflight;
  inflight=(async()=>{try{
- const response=await fetch(local()?endpoint.slice(0,-1):endpoint,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+ const response=await fetch(local()?endpoint.slice(0,-1):'/api/design-publications',{cache:'no-store',signal:AbortSignal.timeout(15000)});
  if(response.status===404&&local()){supported=false;return null;}
  if(!response.ok)throw Error('No se pudo consultar la publicación compartida.');
  const data=await response.json();if(data.format!=='rv360-shared-catalog')throw Error('El servicio de publicación no está disponible.');
@@ -38,7 +38,7 @@ export async function publishSharedDesign(){
  if(data.configured===false)throw Error(data.error||'Configura la publicación en Vercel antes de publicar.');
  const key=sessionStorage.getItem('rv360:publish-key')||'';
  if(data.requiresPublishKey&&!key)throw Error('Introduce la clave en «Publicación en línea» antes de publicar.');
- const response=await fetch(local()?endpoint.slice(0,-1):endpoint,{method:'PUT',headers:{'Content-Type':'application/json',...(key?{'X-Publish-Key':key}:{})},body:JSON.stringify(packet),signal:AbortSignal.timeout(20000)});
+ const response=await fetch(local()?endpoint.slice(0,-1):'/api/design-publications',{method:'PUT',headers:{'Content-Type':'application/json',...(key?{'X-Publish-Key':key}:{})},body:JSON.stringify(packet),signal:AbortSignal.timeout(20000)});
  if(!response.ok){const data=await response.json().catch(()=>({}));throw Error(data.error||'No se pudo guardar la publicación compartida. Reintenta antes de salir.');}
  return true;
 }

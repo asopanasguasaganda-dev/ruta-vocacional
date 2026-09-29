@@ -15,8 +15,10 @@ No hay que trasladar archivos al estudiante. Un borrador no se publica. Si falta
 
 ## Verificación
 
-`GET /__design/publications/` debe devolver `configured: true`. Nunca devuelve la clave. `PUT` exige `X-Publish-Key`. Las escrituras usan ETag para no sobrescribir cambios simultáneos y las lecturas privadas evitan la caché del CDN.
+`GET /api/design-publications` debe devolver `configured: true`. Nunca devuelve la clave. `PUT` exige `X-Publish-Key`. Las escrituras usan ETag para no sobrescribir cambios simultáneos y las lecturas privadas evitan la caché del CDN.
 
 Pruebas: `node scripts/test-cloud-publications.cjs`, `node scripts/test-shared-design-server.cjs` y `npm run build:design`.
+
+`api/design-publications.js` es el artefacto CommonJS generado para la función independiente de Vercel. Se regenera con `npm run build:cloud-api` (también durante `build:design`); el código fuente está en `lib/server/design-publications-handler.ts` y `lib/server/design-publications.ts`.
 
 Documentación oficial: https://vercel.com/docs/vercel-blob/private-storage y https://vercel.com/docs/vercel-blob/using-blob-sdk.

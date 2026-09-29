@@ -1,5 +1,5 @@
 import type {IncomingMessage,ServerResponse} from 'node:http';
-import {createPublicationService} from '../lib/server/design-publications';
+import {createPublicationService} from './design-publications';
 
 const service=createPublicationService();
 export default async function handler(req:IncomingMessage&{body?:any},res:ServerResponse){
