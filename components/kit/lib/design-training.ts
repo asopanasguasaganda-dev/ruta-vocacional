@@ -1,3 +1,4 @@
+import {simulatorCareerIds} from './simulator-careers';
 import {localGuidance} from './local-guidance';
 import catalog from '../data/design-careers.json';
 import { designUser, localAccounts } from './design-preview';
@@ -51,7 +52,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     const recommendations=report?.analysis.recommendations.map(r=>({...r,reportVersion:report.version,mappingVersion:report.mappingVersion}))||[];
     const selected=recommendations.map(r=>r.careerId);
     save(data);
-    return {...data.catalog,careers:all?data.catalog.careers:data.catalog.careers.filter((c:any)=>selected.includes(c.id)),users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,questionCount:s.questions.length})),goal,recommendations,courses:courses.map((c:any)=>({...c,recommended:c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
+    return {...data.catalog,careers:all?data.catalog.careers:data.catalog.careers.filter((c:any)=>selected.includes(c.id)),users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,careerIds:simulatorCareerIds(s,data.courses),questionCount:s.questions.length})).filter((s:any)=>all||s.status==='published'&&s.careerIds.some((id:string)=>selected.includes(id))&&!data.simulators.some((n:any)=>n.id===s.id&&n.status==='published'&&n.version>s.version)),goal,recommendations,courses:courses.map((c:any)=>({...c,recommended:c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
   }
   let result:any={ok:true};
   if(route==='/entity'){
@@ -60,7 +61,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     const e=copy<any>(b.entity);
     if(!e.title?.trim())throw Error('Escribe un nombre para continuar.');
     if(e.status==='published'){
-      if(b.kind==='simulator'){const errors=simulatorProblems(e);if(errors.length)throw Error(errors.join(' '));}
+      if(b.kind==='simulator'){if(!e.careerIds?.length||e.careerIds.some((id:string)=>!data.catalog.careers.some((c:any)=>c.id===id)))throw Error('Selecciona al menos una carrera válida para publicar el simulador.');const errors=simulatorProblems(e);if(errors.length)throw Error(errors.join(' '));}
       if(b.kind==='course'){
         if(!e.description?.trim()||!e.careerIds.length||!e.activities.length)throw Error('Añade una descripción, una carrera y al menos una actividad.');
         for(const a of e.activities){if(!a.title.trim())throw Error('Completa los títulos de las actividades.');if(a.kind==='simulator'&&!data.simulators.some((s:any)=>s.id===a.simulatorId&&s.version===a.simulatorVersion&&s.status==='published'))throw Error('Selecciona un simulador publicado.');}
@@ -68,6 +69,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     }
     e.id ||= crypto.randomUUID();
     const prior=list.find((x:any)=>x.id===e.id&&x.version===e.version);
+    if(b.kind==='simulator'&&prior&&prior.status!=='draft')throw Error('Crea una nueva versión para modificar un simulador publicado.');
     if(prior&&prior.revision!==e.revision)throw Error('El contenido cambió. Cierra el editor y vuelve a abrirlo.');
     e.version ||= Math.max(0,...list.filter((x:any)=>x.id===e.id).map((x:any)=>x.version))+1;
     e.revision=(prior?.revision||0)+1;
@@ -105,6 +107,20 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
         const a={id:crypto.randomUUID(),user_id:user.id,name:user.name,enrollment_id:e.id,activity_id:activity.id,mode:b.mode,simulator:selected,instrument:academicInstrument(selected),feedback:s.feedback,answers:{},confirmed:{},flags:[],revision:0,state:'in_progress',started_at:now(),expires_at:duration?new Date(Date.now()+duration*60000).toISOString():null};
         data.attempts.push(a);result=attemptView(a);
       }
+    }
+  }else if(route==='/simulator/start'){
+    const s=data.simulators.filter((s:any)=>s.id===b.simulatorId&&s.status==='published').sort((a:any,b:any)=>b.version-a.version)[0];
+    if(!s||!s.modes.includes(b.mode))throw Error('Simulador no disponible.');
+    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[]);
+    if(!report?.analysis.recommendations.some(r=>simulatorCareerIds(s,data.courses).includes(r.careerId)))throw Error('Este simulador no corresponde a tus carreras recomendadas.');
+    const problems=simulatorProblems(s);if(problems.length)throw Error('El simulador necesita revisión antes de iniciar: '+problems[0]);
+    const prior=data.attempts.filter((a:any)=>a.user_id===user.id&&a.simulator.id===s.id&&a.mode===b.mode);
+    const open=prior.find((a:any)=>a.state==='in_progress');
+    if(open)result=attemptView(open);else{
+      if(prior.length>=s.maxAttempts)throw Error('Alcanzaste los intentos disponibles para esta modalidad.');
+      const selected={...copy(s),questions:selectQuestions(s)},duration=b.mode==='exam'?s.durationMinutes:s.practiceDurationMinutes;
+      const a={id:crypto.randomUUID(),user_id:user.id,name:user.name,simulator_id:s.id,enrollment_id:'direct:'+s.id,activity_id:s.id,mode:b.mode,simulator:selected,instrument:academicInstrument(selected),feedback:s.feedback,answers:{},confirmed:{},flags:[],revision:0,state:'in_progress',started_at:now(),expires_at:duration?new Date(Date.now()+duration*60000).toISOString():null};
+      data.attempts.push(a);result=attemptView(a);
     }
   }else if(route==='/answers'){
     const a=getAttempt();if(a.state!=='in_progress')throw Error('Este intento ya terminó.');if(a.revision!==b.revision)throw Error('Recupera la versión guardada antes de continuar.');

@@ -40,3 +40,15 @@ La vista de estudiante presenta exclusivamente las carreras recomendadas por sus
 Los nuevos simuladores deben ser autocalificables: selección única/múltiple, sí/no, número con intervalo correcto o texto breve con respuestas aceptadas. No se publican respuestas abiertas con rúbrica. Las claves deben existir y validarse al preparar el simulador; el estudiante obtiene la nota al entregar, sin revisión del administrador. Las versiones antiguas con rúbricas deben actualizarse antes de iniciar nuevos intentos. Los resultados históricos se conservan.
 
 El examen ofrece navegación numerada, estados de respuesta, marcas, temporizador, guardado automático y resumen antes de confirmar la entrega.
+
+## Simuladores directos por carrera
+
+La sección Cursos de administración contiene ahora una sola gestión: «Simuladores y preguntas». No hay que crear cursos, módulos ni actividades. En el editor se importan PDF con texto, DOCX o HTML, se revisan preguntas y claves y se asignan una o varias carreras mediante búsqueda.
+
+La detección propone carreras cuyos nombres aparecen explícitamente en el título, nombre de archivo o inicio del documento, o cuyos identificadores están incluidos en el documento estructurado. No asigna carreras basándose en una supuesta afinidad de preguntas genéricas. Si no hay coincidencias, el administrador las selecciona. Toda preselección es editable antes de publicar.
+
+El estudiante ve únicamente sus carreras recomendadas. «Autopreparación» abre los simuladores publicados de esa carrera y permite practicar o iniciar un examen sin inscripción intermedia. Se presentan intentos, notas según la política del simulador, historial y progreso (simuladores con una entrega calificada / simuladores disponibles).
+
+Las asociaciones anteriores se recuperan desde los cursos existentes para los simuladores que aún no tienen carreras explícitas. Los intentos conservan sus versiones y resultados; archivar no borra el historial. La versión publicada se protege: se crea otra versión para modificarla.
+
+Validación adicional: `node scripts/test-direct-simulators.cjs`. Se probó en navegador la detección de carrera en PDF/DOCX/HTML, revisión, publicación directa, selección de carrera recomendada, guardado automático, nota, progreso, recarga y móvil.

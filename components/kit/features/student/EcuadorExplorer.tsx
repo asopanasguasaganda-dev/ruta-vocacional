@@ -2,7 +2,7 @@ import {Button} from '../../components/ui/primitives';
 import {CareerOfferList} from './ReportContext';
 export function RecommendedCareerCard({report,rec,index,onFollow,onOpen}:{report:any;rec:any;index:number;onFollow:(id:string)=>void;onOpen:(rec:any)=>void}){
  const career=report.catalog.find((c:any)=>c.id===rec.careerId);
- return <article className="rd-career rd-recommended"><span className="rd-career-number">OPCIÓN {String(index+1).padStart(2,'0')} · SEGÚN TUS RESPUESTAS</span><h4>{career?.name||rec.careerId}</h4><p>{rec.comparison||rec.explore}</p><details><summary>Por qué aparece en tus resultados</summary><p>{rec.reason}</p></details><CareerOfferList offers={report.offers?.[rec.careerId]||career?.offers||[]} compact/><div className="rd-follow-actions"><Button onClick={()=>onFollow(rec.careerId)}>Seguir curso</Button><Button variant="secondary" onClick={()=>onOpen(rec)}>Conocer la carrera</Button></div></article>;
+ return <article className="rd-career rd-recommended"><span className="rd-career-number">OPCIÓN {String(index+1).padStart(2,'0')} · SEGÚN TUS RESPUESTAS</span><h4>{career?.name||rec.careerId}</h4><p>{rec.comparison||rec.explore}</p><details><summary>Por qué aparece en tus resultados</summary><p>{rec.reason}</p></details><CareerOfferList offers={report.offers?.[rec.careerId]||career?.offers||[]} compact/><div className="rd-follow-actions"><Button onClick={()=>onFollow(rec.careerId)}>Autopreparación</Button><Button variant="secondary" onClick={()=>onOpen(rec)}>Conocer la carrera</Button></div></article>;
 }
 export function EcuadorExplorer({report,onOpen,onFollow}:{report:any;onOpen:(value:any)=>void;onFollow:(id:string)=>void}){
  const recommendations=report.analysis?.recommendations||[];

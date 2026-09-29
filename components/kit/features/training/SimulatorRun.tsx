@@ -77,7 +77,7 @@ export function SimulatorRun({
     return (
       <div className="training-runner">
         <TrainingResult attempt={a} />
-        <Button onClick={onClose}>Volver al curso</Button>
+        <Button onClick={onClose}>Volver a mis simuladores</Button>
       </div>
     );
   return (

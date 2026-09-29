@@ -1,4 +1,5 @@
 "use client";
+import {suggestSimulatorCareers} from "../../lib/simulator-careers";
 import { AcademicQuestionSettings } from "./AcademicQuestionSettings";
 import { useState } from "react";
 import {
@@ -41,6 +42,7 @@ export const blankCourse = (): Course => ({
 });
 export const blankSimulator = (): Simulator => ({
   ...identity(),
+  careerIds: [],
   instrument: {
     id: "draft",
     version: "1",
@@ -583,8 +585,10 @@ export function SimulatorEditor({
       const tests = data.tests || [];
       if (!tests.length)
         throw Error("No se identificaron preguntas. Revisa el documento.");
+      const detected=suggestSimulatorCareers(file.name+" "+tests.map((t:any)=>t.title).join(" ")+" "+(data.text||"").slice(0,1200),d.careers,tests.flatMap((t:any)=>t.careerIds||[]));
       patch({
         title: s.title || tests[0].title,
+        careerIds: [...new Set([...(s.careerIds||[]),...detected])],
         instrument: { ...s.instrument, source: file.name },
         questions: [
           ...s.questions,
@@ -602,8 +606,8 @@ export function SimulatorEditor({
           ),
         ],
       });
-      setError((data.warnings || []).join(" "));
-      setStep(1);
+      setError([detected.length?detected.length+" carreras preseleccionadas por el contenido. Confirma o ajusta su selección.":"No se detectó una carrera explícita. Selecciona las carreras de este simulador.",...(data.warnings||[])].join(" "));
+      setStep(0);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -633,6 +637,9 @@ export function SimulatorEditor({
             value={s.title}
             onChange={(e) => patch({ title: e.target.value })}
           />
+          <ChoiceList label="Carreras del simulador" items={d.careers} value={s.careerIds||[]} onChange={careerIds=>patch({careerIds})}/>
+          <Button variant="secondary" onClick={()=>{const ids=suggestSimulatorCareers(s.title+' '+s.instrument.description,d.careers);patch({careerIds:[...new Set([...(s.careerIds||[]),...ids])]});setError(ids.length?'Carreras sugeridas por coincidencias explícitas. Confirma la selección antes de publicar.':'No hay una carrera explícita en el título. Búscala y selecciónala abajo.');}}>Detectar carreras del título</Button>
+          <p className="small muted">Al importar se preseleccionan nombres de carreras detectados. Puedes añadir o quitar carreras; cada una recibirá este simulador al publicarlo.</p>
           <TextareaField
             label="Instrucciones"
             value={s.instrument.description}
