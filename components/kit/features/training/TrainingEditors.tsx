@@ -1,4 +1,5 @@
 "use client";
+import {importSimulatorDocument} from '../../lib/import-simulator';
 import {PresentationEditor} from '../../components/domain/PresentationEditor';
 import {suggestSimulatorCareers} from "../../lib/simulator-careers";
 import { AcademicQuestionSettings } from "./AcademicQuestionSettings";
@@ -15,7 +16,6 @@ import { QuestionFormat } from "../admin/UniversalSettings";
 import { QuestionSettings } from "../admin/InstrumentSettings";
 import { TestQuestion } from "../../components/domain/TestQuestion";
 import { academicInstrument, selectQuestions } from "../../lib/training-engine";
-import { readApiResponse } from "../../lib/api-response";
 import type {
   Course,
   Simulator,
@@ -567,47 +567,9 @@ export function SimulatorEditor({
     setBusy(true);
     setError("");
     try {
-      let data;
-      if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true") {
-        const { importDesignDocument } = await import("../../lib/design-import");
-        data = await importDesignDocument(file);
-      } else {
-        const form = new FormData();
-        form.append("file", file);
-        const job = await readApiResponse(await fetch("/api/admin/import", { method: "POST", body: form }));
-        for (let n = 0; n < 180; n++) {
-          data = await readApiResponse(await fetch("/api/admin/import?id=" + job.id + "&status=1"));
-          if (data.status === "Error") throw Error(data.error);
-          if (data.status === "Completado") break;
-          await new Promise((r) => setTimeout(r, 1000));
-        }
-        if (data?.status !== "Completado") throw Error("La extracción sigue en proceso. Consúltala en Evaluaciones.");
-      }
-      const tests = data.tests || [];
-      if (!tests.length)
-        throw Error("No se identificaron preguntas. Revisa el documento.");
-      const detected=suggestSimulatorCareers(file.name+" "+tests.map((t:any)=>t.title).join(" ")+" "+(data.text||"").slice(0,1200),d.careers,tests.flatMap((t:any)=>t.careerIds||[]));
-      patch({
-        title: s.title || tests[0].title,
-        careerIds: [...new Set([...(s.careerIds||[]),...detected])],
-        instrument: { ...s.instrument, source: file.name, ...(s.questions.length?{}:{description:tests[0].description,presentation:tests[0].presentation}) },
-        questions: [
-          ...s.questions,
-          ...tests.flatMap((x: any) =>
-            x.questions
-              .filter((q: any) => q.type !== "info")
-              .map((q: any) => ({
-                ...q,
-                id: crypto.randomUUID(),
-                options: q.options || x.options,
-                source: file.name,
-                policy: "objective",
-                reviewed: false,
-              })),
-          ),
-        ],
-      });
-      setError([detected.length?detected.length+" carreras preseleccionadas por el contenido. Confirma o ajusta su selección.":"No se detectó una carrera explícita. Selecciona las carreras de este simulador.",...(data.warnings||[])].join(" "));
+      const result=await importSimulatorDocument(file,s,d.careers);
+      change(result.simulator);
+      setError(result.message);
       setStep(0);
     } catch (e) {
       setError((e as Error).message);
