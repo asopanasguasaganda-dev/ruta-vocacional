@@ -1,0 +1,191 @@
+{
+  "id": "dc2009b70e0e76e7cea9b3a8999db261424a05054d9c30d2bb0353c12f811ad2",
+  "version": "public-academic-1",
+  "source": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "createdAt": "2026-09-27T06:51:32.693Z",
+  "categories": [
+    {
+      "id": "salud",
+      "explanation": "Estudia el funcionamiento del cuerpo humano, la prevención de enfermedades y el cuidado integral de la salud mediante la aplicación de conocimientos científicos en entornos clínicos o comunitarios.",
+      "questions": [
+        "¿Prefiero trabajar en la atención directa a pacientes o en la investigación de procesos biológicos?",
+        "¿Me motiva más el diagnóstico clínico o la promoción de hábitos saludables en la población?"
+      ]
+    },
+    {
+      "id": "ciencias",
+      "explanation": "Se enfoca en el estudio de los fenómenos naturales, químicos y físicos a través de la observación, la experimentación y el análisis de datos para comprender el mundo.",
+      "questions": [
+        "¿Disfruto más realizando experimentos en laboratorios controlados o recolectando muestras en campo?",
+        "¿Me interesa profundizar en la teoría científica o aplicar el conocimiento para resolver problemas específicos?"
+      ]
+    },
+    {
+      "id": "tecnologia",
+      "explanation": "Analiza el desarrollo, implementación y gestión de sistemas informáticos, redes y soluciones digitales para optimizar procesos y proteger información.",
+      "questions": [
+        "¿Me atrae más el desarrollo de software y programación o la gestión estratégica de sistemas tecnológicos?",
+        "¿Prefiero enfocarme en la seguridad de la información o en la arquitectura de nuevas plataformas digitales?"
+      ]
+    },
+    {
+      "id": "ingenieria",
+      "explanation": "Aplica principios matemáticos y físicos para diseñar, construir y mantener infraestructuras, maquinaria y sistemas de producción eficientes.",
+      "questions": [
+        "¿Me interesa más el diseño de sistemas físicos y mecánicos o la optimización de procesos industriales?",
+        "¿Prefiero trabajar en la planificación de proyectos de infraestructura o en la supervisión de operaciones técnicas?"
+      ]
+    },
+    {
+      "id": "ambiente",
+      "explanation": "Examina la relación entre los seres vivos y su entorno, buscando soluciones para la gestión sostenible de recursos naturales y la conservación de ecosistemas.",
+      "questions": [
+        "¿Me inclino más por la producción agropecuaria sostenible o por la conservación de la biodiversidad?",
+        "¿Prefiero trabajar en la gestión de recursos hídricos o en el desarrollo de técnicas de cultivo ecológico?"
+      ]
+    },
+    {
+      "id": "educacion",
+      "explanation": "Estudia los procesos de enseñanza-aprendizaje, el desarrollo humano y las metodologías para transmitir conocimientos en diversos contextos sociales.",
+      "questions": [
+        "¿Me motiva más la enseñanza directa en el aula o el diseño de políticas y materiales educativos?",
+        "¿Prefiero trabajar con grupos de niños en educación básica o con jóvenes y adultos en entornos especializados?"
+      ]
+    },
+    {
+      "id": "arte",
+      "explanation": "Explora la expresión creativa, el diseño visual y la comunicación a través de diversos medios digitales, audiovisuales y estéticos.",
+      "questions": [
+        "¿Me interesa más la creación de contenido visual y animaciones o la producción técnica de medios audiovisuales?",
+        "¿Prefiero enfocar mi creatividad en el diseño de videojuegos o en la comunicación artística tradicional?"
+      ]
+    },
+    {
+      "id": "humanidades",
+      "explanation": "Analiza el comportamiento humano, las estructuras sociales, la historia y el pensamiento crítico para comprender la complejidad de la sociedad.",
+      "questions": [
+        "¿Me atrae más el análisis de fenómenos sociales y culturales o la participación activa en la gestión pública?",
+        "¿Prefiero investigar la historia y el pensamiento humano o aplicar teorías sociales para resolver conflictos actuales?"
+      ]
+    },
+    {
+      "id": "negocios",
+      "explanation": "Se centra en la gestión de recursos, la administración de organizaciones, el análisis financiero y las estrategias para el crecimiento empresarial.",
+      "questions": [
+        "¿Me interesa más la gestión operativa y administrativa de una empresa o el análisis financiero y de mercados?",
+        "¿Prefiero emprender proyectos innovadores o especializarme en la optimización de procesos contables?"
+      ]
+    },
+    {
+      "id": "servicios",
+      "explanation": "Gestiona la prestación de servicios orientados al bienestar, el turismo, la hospitalidad y el desarrollo físico de las personas.",
+      "questions": [
+        "¿Me motiva más la gestión de experiencias turísticas y hoteleras o el entrenamiento físico y deportivo?",
+        "¿Prefiero trabajar en la industria de la hospitalidad y gastronomía o en la promoción de la salud a través del deporte?"
+      ]
+    }
+  ],
+  "areas": [
+    {
+      "id": "salud",
+      "name": "Salud y cuidado",
+      "pattern": "MEDICINA|ENFERMER|ODONTO|NUTRICI|FISIOTER|TERAPIA|OBSTETR",
+      "dimensions": [
+        "I",
+        "S"
+      ],
+      "contrast": "Ciencias biológicas y atención a personas; investiga prácticas clínicas y condiciones de trabajo."
+    },
+    {
+      "id": "ciencias",
+      "name": "Ciencias e investigación",
+      "pattern": "BIOLOG|QUIMICA|FISICA|MATEMAT|ESTADIST|BIOTEC|GEOLOG",
+      "dimensions": [
+        "I",
+        "R"
+      ],
+      "contrast": "Observación, experimentación y razonamiento cuantitativo; compara trabajo de laboratorio y campo."
+    },
+    {
+      "id": "tecnologia",
+      "name": "Computación y tecnología",
+      "pattern": "SOFTWARE|COMPUTA|INFORMAT|SISTEMAS|DATOS|INTELIGENCIA ARTIFICIAL|CIBER",
+      "dimensions": [
+        "I",
+        "R"
+      ],
+      "contrast": "Resolución de problemas y construcción de sistemas; prueba una actividad de programación."
+    },
+    {
+      "id": "ingenieria",
+      "name": "Ingeniería y producción",
+      "pattern": "INGENIER|MECANIC|ELECTR|INDUSTRIAL|AUTOMOT|MECATR|CIVIL|TELECOM",
+      "dimensions": [
+        "R",
+        "I"
+      ],
+      "contrast": "Diseño, cálculo y funcionamiento de sistemas físicos; revisa matemáticas, proyectos y prácticas."
+    },
+    {
+      "id": "ambiente",
+      "name": "Ambiente y territorio",
+      "pattern": "AMBIENT|AGRO|FOREST|VETERIN|ZOOTEC|ACUIC|PESCA|RECURSOS NATURALES",
+      "dimensions": [
+        "R",
+        "I"
+      ],
+      "contrast": "Sistemas naturales y producción sostenible; explora actividades de campo y laboratorio."
+    },
+    {
+      "id": "educacion",
+      "name": "Educación y acompañamiento",
+      "pattern": "EDUCACI|PEDAGOG|PSICOLOG|TRABAJO SOCIAL|PSICOPEDAG",
+      "dimensions": [
+        "S",
+        "I"
+      ],
+      "contrast": "Aprendizaje y acompañamiento de personas; diferencia docencia, intervención e investigación."
+    },
+    {
+      "id": "arte",
+      "name": "Arte, diseño y comunicación",
+      "pattern": "DISENO|ARTES|MUSICA|CINE|COMUNICACI|PUBLICIDAD|ANIMACI|ARQUITECT|PERIODIS",
+      "dimensions": [
+        "A",
+        "E"
+      ],
+      "contrast": "Creación y comunicación; compara producción artística, diseño aplicado y comunicación informativa."
+    },
+    {
+      "id": "humanidades",
+      "name": "Humanidades y sociedad",
+      "pattern": "FILOSOF|HISTORIA|LITERAT|SOCIOLOG|ANTROPOLOG|LENGUA|DERECHO|RELACIONES INTERNACIONALES|CIENCIAS POLITICAS",
+      "dimensions": [
+        "S",
+        "A"
+      ],
+      "contrast": "Lectura, argumentación y análisis social; compara investigación, servicio público y ejercicio profesional."
+    },
+    {
+      "id": "negocios",
+      "name": "Economía y organizaciones",
+      "pattern": "ADMINISTR|ECONOM|FINANZ|CONTAB|COMERC|NEGOC|MARKETING|MERCAD|LOGIST|GESTION",
+      "dimensions": [
+        "E",
+        "C"
+      ],
+      "contrast": "Decisiones, organización y recursos; diferencia análisis financiero, gestión y relaciones comerciales."
+    },
+    {
+      "id": "servicios",
+      "name": "Turismo, deporte y servicios",
+      "pattern": "TURIS|HOTEL|GASTRONOM|DEPORTE|ENTRENAMIENTO|ACTIVIDAD FISICA",
+      "dimensions": [
+        "S",
+        "E"
+      ],
+      "contrast": "Experiencias y servicios para personas; investiga horarios, práctica y actividades cotidianas."
+    }
+  ]
+}

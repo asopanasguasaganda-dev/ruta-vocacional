@@ -6,3 +6,9 @@
 /* Keep the result itself above the fold; metadata stays secondary. */
 .results-page>.page-header{align-items:center;gap:20px}.results-page>.page-header .actions{min-width:300px}.results-toolbar{margin:0;width:100%}.results-toolbar .rv-select-trigger{font-size:13px;min-height:44px}.rd-heading{margin:14px 0;gap:12px}.rd-tabs{margin:12px 0 20px}.rd-status{font-size:11px}.rd-heading p{font-size:13px}.rd-document{top:90px}.rd-pdf-actions a{min-height:44px}
 @media(max-width:600px){.results-page>.page-header .actions{min-width:0;width:100%}.rd-heading{flex-direction:row;align-items:center;flex-wrap:wrap}.rd-heading p{font-size:12px}.rd-status{padding:6px 9px}.rd-progress p{font-size:12px}.rd-tabs{gap:14px}.rd-document{position:static}.results-toolbar .rv-select-trigger{font-size:12px}.results-page>.page-header{gap:12px}}
+
+.ec-filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px;margin:24px 0}.ec-explorer .rd-career-grid{margin-bottom:24px}.ec-explorer .rd-career h4{overflow-wrap:anywhere}.rd-tabs{flex-wrap:wrap}.rd-career-detail .button{margin-bottom:20px}@media(max-width:850px){.ec-filters{grid-template-columns:1fr}.rd-tabs button{flex:1 1 40%;min-height:44px}}
+
+.rd-score-explanation{display:block;color:var(--rd-muted);font-size:12px;line-height:1.5;margin-top:5px}.rd-tabs button{min-width:0;overflow-wrap:anywhere}
+
+.rd-catalog-full .ec-explorer .rd-career-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.ec-filters .field{min-width:0}@media(max-width:1000px){.rd-catalog-full .ec-explorer .rd-career-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.rd-catalog-full .ec-explorer .rd-career-grid{grid-template-columns:1fr}}

@@ -1,0 +1,32 @@
+import catalog from '../data/design-careers.json';
+import content from '../data/academic-guidance.json';
+import { dimensions } from '../data/instruments';
+
+/** The same saved answers drive the screen, PDF and course recommendations. */
+export function localGuidance(user:any,submissions:any[]){
+ const rows=submissions.filter((s,i)=>s.resultReleased!==false&&submissions.findIndex(x=>x.instrument_id===s.instrument_id&&x.resultReleased!==false)===i);
+ if(!rows.length)return null;
+ const instruments=rows.map(s=>({id:s.id,instrumentId:s.instrument_id,version:s.version,createdAt:s.created_at,instrument:JSON.parse(s.snapshot),answers:JSON.parse(s.answers),scores:JSON.parse(s.scores).map((v:any)=>{
+   const questions=JSON.parse(s.snapshot).questions.filter((q:any)=>q.dimension===v.dimension),count=questions.filter((q:any)=>JSON.parse(s.answers)[q.id]!=null).length;
+   return {...v,...(s.instrument_id==='autoconocimiento'&&count?{percent:20*v.raw/count}:{} )};
+ })}));
+ const interest=instruments.find(s=>s.instrumentId==='intereses'),scores=interest?.scores||[];
+ const ordered=[...scores].sort((a,b)=>b.raw-a.raw),max=ordered[0]?.raw||0,min=ordered.at(-1)?.raw||0;
+ const valid=!!interest&&scores.length===6&&interest.instrument.questions.every((q:any)=>Number.isFinite(interest.answers[q.id]));
+ const differentiated=valid&&max>min&&max>=15;
+ const cutoff=ordered[1]?.raw??max,top=differentiated?ordered.filter(s=>s.raw>=cutoff).map(s=>s.dimension):[];
+ const labels=(codes:string[])=>codes.map(c=>dimensions.find(d=>d.code===c)?.name||c).join(', ');
+ const examples=['SOFTWARE','COMPUTACIÓN','BIOLOGÍA','QUÍMICA','INGENIERÍA CIVIL','MECÁNICA','AGRONOMÍA','VETERINARIA','MEDICINA','ENFERMERÍA','PSICOLOGÍA','EDUCACIÓN BÁSICA','DISEÑO GRÁFICO','ARTES VISUALES','DERECHO','SOCIOLOGÍA','ADMINISTRACIÓN DE EMPRESAS','ECONOMÍA','TURISMO','GASTRONOMÍA'];
+ const candidates=catalog.careers.map(c=>({...c,weight:c.interests.reduce((n,d)=>n+(scores.find((s:any)=>s.dimension===d)?.raw||0),0)/(c.interests.length||1)})).filter(c=>c.offers.some(o=>o.level==='Grado universitario')&&c.interests.some(d=>top.includes(d))).sort((a,b)=>b.weight-a.weight||Number(examples.includes(b.name))-Number(examples.includes(a.name))||a.name.localeCompare(b.name,'es'));
+ const selected:typeof candidates=[];
+ for(const c of candidates){if(selected.filter(x=>x.areaId===c.areaId).length>=2)continue;selected.push(c);if(selected.length===8)break;}
+ const recommendations=selected.map(c=>{const area=content.areas.find(a=>a.id===c.areaId)!,academic=content.categories.find(a=>a.id===c.areaId)!;const support=c.interests.filter(d=>top.includes(d));return {careerId:c.id,areaId:c.areaId,reason:`Tus áreas de mayor interés incluyen ${labels(support)}. Esta carrera se relaciona con ${area.name.toLowerCase()} según la regla de orientación por áreas. No es una predicción de rendimiento.`,evidence:support.map(d=>'intereses:dimension:'+d),comparison:area.contrast,explore:academic.explanation+' '+academic.questions.join(' ')};});
+ // Explicit relations from administrator-authored tests remain available too.
+ for(const row of rows)for(const rec of row.evaluation?.careers||[]){const c=catalog.careers.find(c=>c.id===(rec.careerId||rec.id));if(c&&!recommendations.some(r=>r.careerId===c.id))recommendations.push({careerId:c.id,areaId:c.areaId,reason:rec.reason,evidence:[row.instrument_id+':dimension:'+rec.dimensionId],comparison:c.investigate,explore:c.activities});}
+ const progress={submitted:instruments.filter(i=>['intereses','valores','autoconocimiento'].includes(i.instrumentId)).length,total:3};
+ return {id:'local-'+rows.map(s=>s.id).join('-'),createdAt:rows[0].created_at,student:{id:user.id,name:user.name},version:submissions.length,status:'available',attempts:0,rulesVersion:'local-guidance-2',mappingVersion:'exploration-rules-1',contentId:content.id,contentSource:content.source,provider:content.source,model:content.model,partial:progress.submitted<3,progress,instruments,catalog:catalog.careers,catalogSource:catalog.source,offers:Object.fromEntries(catalog.careers.map(c=>[c.id,c.offers])),analysis:{
+ summary:!interest?'Completa el test de intereses para relacionar tus respuestas con áreas de estudio.':!differentiated?'Tus intereses están equilibrados, son poco diferenciados o aún falta información. Explora el catálogo y compara experiencias sin priorizar una carrera por ahora.':`Tus respuestas destacan ${labels(top)}. Te proponemos alternativas para comparar sus asignaturas, actividades y contextos de trabajo.`,
+ highlightedDimensions:top,recommendations,selfReported:instruments.filter(s=>s.instrumentId==='valores').flatMap(s=>s.instrument.questions.map((q:any)=>({text:q.text+': '+(q.options||s.instrument.options||[]).filter((o:any)=>o.value===s.answers[q.id]).map((o:any)=>o.label).join(', '),evidence:[s.instrumentId+':'+q.id]}))),
+ nextSteps:['Selecciona dos carreras y compara qué asignaturas te interesan y cuáles necesitas reforzar.','Filtra las universidades por provincia y modalidad; verifica la oferta y admisión con la institución.','Elige una carrera como objetivo para encontrar los cursos y simuladores publicados por tu administrador.','Prueba una actividad introductoria y conversa con estudiantes o profesionales antes de decidir.'],
+ limitations:['Los indicadores describen tus respuestas; no son porcentajes de aptitud ni probabilidades de éxito.','Las relaciones carrera–interés son reglas internas de exploración, sin baremos ecuatorianos acreditados. Se muestran hasta dos ejemplos por área, priorizando denominaciones de referencia; el orden no es un ranking de aptitud.','La IA generó explicaciones académicas generales; no recibe tus respuestas ni decide por ti.','La oferta corresponde a una consulta fechada del CES. Confirma nivel, sede, malla, costos y admisión directamente.']}};
+}

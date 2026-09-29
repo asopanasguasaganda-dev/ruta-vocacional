@@ -1,3 +1,4 @@
+import {localGuidance} from './local-guidance';
 import catalog from '../data/design-careers.json';
 import { designUser, localAccounts } from './design-preview';
 import { academicInstrument, academicResult, courseProgress, principalGrade, selectQuestions, simulatorProblems } from './training-engine';
@@ -10,10 +11,10 @@ const now = () => new Date().toISOString();
 function seed():any {return {courses:[],simulators:[],profiles:[],enrollments:[],attempts:[],goals:{},users:[],catalog:copy(catalog),pendingCatalog:null};}
 function read() {
   const value=localStorage.getItem(KEY);
-  if(value){try{return JSON.parse(value);}catch{/* Recover only this prototype's invalid data. */}}
+  if(value){try{const saved=JSON.parse(value);return {...saved,catalog:saved.catalog?.source?.careerCount===catalog.source.careerCount?saved.catalog:copy(catalog)};}catch{/* Recover only this prototype's invalid data. */}}
   const data=seed();save(data);return data;
 }
-function save(data:any){localStorage.setItem(KEY,JSON.stringify(data));}
+function save(data:any){const {catalog:current,...rest}=data;localStorage.setItem(KEY,JSON.stringify({...rest,...(data.catalogCustomized?{catalog:current}:{})}));}
 function finish(a:any, reviews:any={},annulled:string[]=[]) {
   const s={...a.simulator,questions:a.simulator.questions.filter((q:any)=>!annulled.includes(q.id))};
   if(!s.questions.length)throw Error('Conserva al menos una pregunta para calcular esta actividad.');
@@ -46,9 +47,11 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
   if(!route&&method==='GET'){
     const all=user.role==='admin';
     const courses=data.courses.filter((c:any)=>all||c.status==='published'&&(c.access!=='selected'||c.studentIds.includes(user.id))&&!data.courses.some((next:any)=>next.id===c.id&&next.status==='published'&&next.version>c.version));
-    const selected=goal.careerIds.length?goal.careerIds:data.courses[0]?.careerIds||[];
+    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[]);
+    const recommendations=report?.analysis.recommendations.map(r=>({...r,reportVersion:report.version,mappingVersion:report.mappingVersion}))||[];
+    const selected=[...new Set([...goal.careerIds,...recommendations.map(r=>r.careerId)])];
     save(data);
-    return {...data.catalog,users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,questionCount:s.questions.length})),goal,recommendations:selected.map((careerId:string)=>({careerId,reason:goal.careerIds.length?'Carrera elegida para explorar.':'Sugerencia de actividad para recorrer el diseño.'})),courses:courses.map((c:any)=>({...c,recommended:matchesCourseProfile(c,goal)&&c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
+    return {...data.catalog,users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,questionCount:s.questions.length})),goal,recommendations:[...recommendations,...goal.careerIds.filter((id:string)=>!recommendations.some(r=>r.careerId===id)).map((careerId:string)=>({careerId,reason:'Carrera elegida como objetivo.',reportVersion:report?.version||'—',mappingVersion:'Elección personal'}))],courses:courses.map((c:any)=>({...c,recommended:matchesCourseProfile(c,goal)&&c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
   }
   let result:any={ok:true};
   if(route==='/entity'){
@@ -122,7 +125,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     result={id:crypto.randomUUID(),added:b.input.careers.filter((c:any)=>!data.catalog.careers.some((x:any)=>x.id===c.id)),changed:b.input.careers.filter((c:any)=>data.catalog.careers.some((x:any)=>x.id===c.id)),absent:[],missingOffers:[],note:'El lote solo modificará esta configuración local en tu navegador.'};data.pendingCatalog={...result,input:b.input};
   }else if(route==='/catalog/apply'){
     requireAdmin(user);if(data.pendingCatalog?.id!==b.id)throw Error('Primero revisa el lote.');
-    const items=data.pendingCatalog.input.careers;data.catalog.careers=[...data.catalog.careers.filter((c:any)=>!items.some((x:any)=>x.id===c.id)),...items];data.catalog.institutions=[...new Set(data.catalog.careers.flatMap((c:any)=>c.offers.map((o:any)=>o.institution)))];data.pendingCatalog=null;
+    const items=data.pendingCatalog.input.careers;data.catalogCustomized=true;data.catalog.careers=[...data.catalog.careers.filter((c:any)=>!items.some((x:any)=>x.id===c.id)),...items];data.catalog.institutions=[...new Set(data.catalog.careers.flatMap((c:any)=>c.offers.map((o:any)=>o.institution)))];data.pendingCatalog=null;
   }else throw Error('Esta acción no está disponible en la configuración local.');
   save(data);return copy(result);
 }

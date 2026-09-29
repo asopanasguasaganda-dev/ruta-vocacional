@@ -1,0 +1,13 @@
+import {useState} from 'react';
+import {Button,Field,SelectField} from '../../components/ui/primitives';
+const normalize=(s:string)=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
+export function EcuadorExplorer({report,onOpen}:{report:any;onOpen:(value:any)=>void}){
+ const [query,setQuery]=useState(''),[province,setProvince]=useState(''),[level,setLevel]=useState('Grado universitario'),[page,setPage]=useState(1);
+ const provinces:string[]=[...new Set<string>(report.catalog.flatMap((c:any)=>(report.offers[c.id]||[]).map((o:any)=>o.location.split(' - ')[0])))].sort();
+ const options=report.catalog.map((c:any)=>({...c,matchingOffers:(report.offers[c.id]||[]).filter((o:any)=>(!province||o.location.split(' - ')[0]===province)&&(!level||o.level===level)&&normalize(c.name+' '+o.institution+' '+o.location+' '+o.modality).includes(normalize(query)))})).filter((c:any)=>c.matchingOffers.length);
+ return <section className="rd-panel ec-explorer"><h3>Encuentra dónde estudiar en Ecuador</h3><p>Busca por carrera, universidad o ciudad. Consulta del {report.catalogSource.date}; confirma la admisión y la oferta actual con cada institución.</p>
+ <div className="ec-filters"><Field label="Buscar carrera o universidad" type="search" value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}}/><SelectField label="Provincia" value={province} onChange={e=>{setProvince(e.target.value);setPage(1);}}><option value="">Todas las provincias</option>{provinces.map(p=><option key={p}>{p}</option>)}</SelectField><SelectField label="Nivel de estudio" value={level} onChange={e=>{setLevel(e.target.value);setPage(1);}}><option value="">Todos los niveles</option><option>Grado universitario</option><option>Técnico o tecnológico</option></SelectField></div>
+ <p aria-live="polite">{options.length} carreras encontradas · {options.reduce((n:number,c:any)=>n+c.matchingOffers.length,0)} ofertas</p><div className="rd-career-grid">{options.slice(0,page*12).map((c:any)=><article className="rd-career" key={c.id}><small>{c.area}</small><h4>{c.name}</h4><p>{c.matchingOffers.length} ofertas que coinciden con tus filtros</p><p>{[...new Set(c.matchingOffers.map((o:any)=>o.location.split(' - ')[0]))].slice(0,4).join(' · ')}</p><Button variant="secondary" onClick={()=>onOpen({careerId:c.id,reason:'Opción seleccionada para explorar en el catálogo nacional. Su aparición en la búsqueda no implica afinidad con tu test.',explore:c.investigate,filteredOffers:c.matchingOffers})}>Ver instituciones y carrera</Button></article>)}</div>
+ {!options.length&&<p>Prueba otra palabra o amplía los filtros.</p>}{options.length>page*12&&<Button variant="secondary" onClick={()=>setPage(page+1)}>Mostrar más carreras</Button>}
+ </section>;
+}

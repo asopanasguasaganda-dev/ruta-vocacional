@@ -1,3 +1,4 @@
+import {localGuidance} from './local-guidance';
 import {instruments} from '../data/instruments';
 import {calculateTest,instrumentProblems,answerProblem,visibleQuestions} from './test-engine';
 // Local accounts for the design stage; no database or server authentication.
@@ -62,6 +63,7 @@ export async function designRequest(path:string,options:RequestInit={}){
   const submission={id,user_id:read()?.user.id||'design-preview',instrument_id:t.id,version:t.version,snapshot:JSON.stringify(t),answers:JSON.stringify(answers),scores:JSON.stringify(evaluation.scores),created_at:new Date().toISOString(),resultReleased:released,...(released?{evaluation}:{})};
   values['rv360:submissions']=[submission,...(values['rv360:submissions']||[])];if(attempt){attempt.state='submitted';attempt.submission_id=id;}writeValues(values);return {id};
  }
+ if(path==='reports/guidance'){const user=designUser(),accounts=user.role==='admin'?localAccounts().filter(a=>a.user.role==='student'):[read()];const items=accounts.map(a=>localGuidance(a.user,a.values['rv360:submissions']||[])).filter(Boolean);return options.method==='POST'?items[0]:{items,configured:true};}
  if(options.method&&options.method!=='GET')throw Error('Vista de diseño: esta operación se habilitará al conectar la base de datos. No se ha guardado ni enviado información.');
  if(path==='session'){
   const account=read(),admin=account?.user.role==='admin';
@@ -69,7 +71,7 @@ export async function designRequest(path:string,options:RequestInit={}){
   return {user:account?.user||null,values,revisions:{},mailConfigured:false,serviceAvailable:true};
  }
  if(path==='me/export')return {user:designUser(),values:currentValues()};
- if(path==='reports/guidance')return {items:[],configured:false};
+
  if(path==='admin/analytics')return {students:localAccounts().filter(a=>a.user.role==='student').length,active:localAccounts().filter(a=>a.user.role==='student').length,started:0,completed:0,reports:0,recent:[],studentProgress:[],groups:[],byTest:[],activity:[]};
  return {items:[]};
 }

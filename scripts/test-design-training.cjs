@@ -1,8 +1,8 @@
-﻿const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
 const storage=()=>{const data=new Map();return {getItem:k=>data.get(k)||null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)}};
 global.localStorage=storage();global.sessionStorage=storage();global.location={pathname:'/admin/cursos'};
-const {designRequest:auth,designLogout,designUser}=require('../components/kit/lib/design-preview.ts');
+const {designRequest:auth,designLogout,designUser,designSave}=require('../components/kit/lib/design-preview.ts');
 const {designTraining:api}=require('../components/kit/lib/design-training.ts');
 const post=(path,data)=>auth(path,{method:'POST',body:JSON.stringify(data)});
 (async()=>{
@@ -14,6 +14,8 @@ await api('/entity',{kind:'course',entity:{id:'qa-course',title:'Curso QA',descr
 designLogout();assert.throws(designUser);
 await assert.rejects(()=>post('auth/login',{email:'admin@qa.test',password:'incorrect',admin:true}));
 await post('auth/register',{name:'Student QA',email:'student@qa.test',password:'Qa-password-123'});
+const {instruments}=require('../components/kit/data/instruments.ts');const t=instruments.find(t=>t.id==='intereses');designSave('rv360:answers:'+t.id+':'+t.version,Object.fromEntries(t.questions.map(q=>[q.id,q.dimension==='I'?5:q.dimension==='R'?4:2])));await post('assessments/submit',{instrumentId:t.id});const report=(await auth('reports/guidance')).items[0];assert(report.analysis.recommendations.length);const careerId=report.analysis.recommendations[0].careerId;
+const studentId=designUser().id;designLogout();await post('auth/login',{email:'admin@qa.test',password:'Qa-password-123',admin:true});const existing=(await api()).courses[0];await api('/entity',{kind:'course',entity:{...existing,careerIds:[careerId]}},'POST');designLogout();await post('auth/login',{email:'student@qa.test',password:'Qa-password-123'});assert.equal((await api()).courses[0].recommended,true);assert.equal((await api()).recommendations[0].careerId,careerId);
 const first=designUser().id;const e=await api('/enroll',{courseId:'qa-course'},'POST');await api('/read',{enrollmentId:e.id,activityId:'read'},'POST');assert.equal((await api()).enrollments[0].progress.percent,100);
 designLogout();await post('auth/register',{name:'Second QA',email:'second@qa.test',password:'Qa-password-123'});assert.equal((await api()).enrollments.length,0);
 await assert.rejects(()=>api('/entity',{kind:'course',entity:{title:'Invalid'}},'POST'));
