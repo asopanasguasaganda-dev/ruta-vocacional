@@ -10,3 +10,14 @@ Los cursos comienzan vacíos. El administrador crea el contenido y el estudiante
 
 Pruebas: `node scripts/test-design-training.cjs` y `npm run build:design`.
 La importación local admite Word y HTML. El envío de correos y las cuentas de servidor corresponden a una etapa posterior.
+
+
+## Probar la publicación sin base de datos
+
+1. En Administración → Usuarios, crea una cuenta de estudiante con correo y contraseña.
+2. En Evaluaciones, crea o importa el test y publícalo. Un borrador no se asigna al estudiante.
+3. Pulsa **Probar como estudiante**, selecciona la cuenta y abre su panel.
+4. El panel muestra los tests publicados para todos o asignados a esa cuenta. Puedes responderlos: las respuestas quedan en la cuenta seleccionada.
+5. Usa **Volver a administración** para continuar editando. La recarga conserva la vista elegida; cerrar sesión elimina el acceso de retorno.
+
+Este recorrido usa un mismo perfil de navegador, sin cuentas ficticias ni base de datos. También puedes iniciar sesión normalmente con el correo y la contraseña del estudiante en otra pestaña del mismo perfil. Otros perfiles o equipos mantienen un almacenamiento distinto y requieren transferir una publicación o conectar un servicio compartido.

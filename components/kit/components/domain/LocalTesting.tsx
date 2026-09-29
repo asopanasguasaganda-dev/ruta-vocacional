@@ -1,0 +1,13 @@
+import {useState} from 'react';
+import {useSession,flush} from '../../lib/session';
+import {Button,SelectField,Notice} from '../ui/primitives';
+import {Dialog} from '../ui/Dialog';
+import './local-testing.css';
+export function LocalTesting({admin=false}:{admin?:boolean}){
+ const session=useSession(),[open,setOpen]=useState(false),[id,setId]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+ if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true')return null;
+ const students=(session.values['rv360:admin-users']||[]).filter((u:any)=>u.role==='Estudiante'&&u.status==='Activo');
+ async function change(returning=false){setBusy(true);setError('');try{await flush();const {designRequest}=await import('../../lib/design-preview');await designRequest(returning?'local/return-admin':'admin/test-as-student',{method:'POST',body:JSON.stringify({id:id||students[0]?.id})});window.location.assign(returning?'/admin/evaluaciones/':'/mi-ruta/evaluaciones/');}catch(e){setError((e as Error).message);setBusy(false);}}
+ if(!admin)return session.values['rv360:testing-as']?<aside className="local-testing-return"><span>Panel de {session.user?.name}</span><Button size="sm" variant="secondary" loading={busy} onClick={()=>void change(true)}>Volver a administración</Button>{error&&<Notice tone="danger">{error}</Notice>}</aside>:null;
+ return <><Button size="sm" variant="secondary" onClick={()=>{setOpen(true);setError('');}}>Probar como estudiante</Button><Dialog open={open} title="Comprobar la publicación" onClose={()=>{if(!busy)setOpen(false);}}><div className="stack"><p>Abre el panel de un estudiante de este navegador. Verás los tests publicados que tiene asignados y podrás responderlos. Sus respuestas y avances se guardarán en su cuenta.</p>{students.length?<><SelectField label="Estudiante para la prueba" value={id||students[0].id} onChange={e=>setId(e.target.value)}>{students.map((u:any)=><option value={u.id} key={u.id}>{u.name} · {u.email}</option>)}</SelectField><p className="small muted">Puedes volver a administración desde el botón superior del panel.</p><Button loading={busy} onClick={()=>void change()}>Abrir panel del estudiante</Button></>:<><Notice>Crea primero una cuenta de estudiante en Usuarios, con su correo y contraseña. Después podrás probarla aquí.</Notice><a className="button button--secondary" href="/admin/usuarios/">Ir a Usuarios</a></>}{error&&<Notice tone="danger">{error}</Notice>}</div></Dialog></>;
+}
