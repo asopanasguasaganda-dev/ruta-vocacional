@@ -20,3 +20,19 @@ body:has(.ad-app dialog[open]){overflow:hidden}
 .ad-user-filters{grid-template-columns:minmax(220px,1fr) minmax(230px,300px) auto;align-items:end;gap:18px}.ad-user-filters input,.ad-user-filters [role=combobox],.ad-user-filters>.button{height:46px;min-height:46px;white-space:nowrap}.ad-user-filters [role=combobox]>span{white-space:nowrap}
 @media(max-width:1000px){.ad-user-filters{grid-template-columns:minmax(0,1fr) minmax(210px,1fr)}.ad-user-filters>.field:first-child{grid-column:auto}.ad-user-filters>.button{grid-column:1/-1;justify-self:end}}
 @media(max-width:600px){.ad-user-filters{grid-template-columns:minmax(0,1fr)}.ad-user-filters>.button{justify-self:stretch}.ad-users-table td:nth-child(3):before{content:'Estado: '}.ad-users-table td:nth-child(4):before{content:none}.ad-users-table td:last-child{grid-row:1/4}}
+
+/* Compact catalog: actions expand inside each row, without oversized cards. */
+.ad-app .test-manager-list{display:grid;gap:12px}
+.ad-app .test-manager-list .test-manager-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,280px);gap:8px 24px;padding:18px 22px}
+.ad-app .test-manager-list .test-manager-card>.row{grid-column:1/-1;justify-content:flex-start;gap:10px}
+.ad-app .test-manager-list .icon-tile{display:none}
+.ad-app .test-manager-list h2{font-size:17px;line-height:1.5;grid-column:1;margin:0}
+.ad-app .test-manager-list .test-manager-card>p{grid-column:1;margin:0;-webkit-line-clamp:2}
+.ad-app .test-manager-list .test-facts{grid-column:2;grid-row:2/4;margin:0;padding:0;border:0;font-size:12px}
+.test-actions{grid-column:1/-1;border-top:1px solid var(--border);padding-top:8px}
+.test-actions>summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--primary);padding:8px 0;width:fit-content;min-height:36px}
+.test-action-buttons{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px}
+.test-action-buttons>.button{width:auto!important;flex:0 1 auto}
+@media(max-width:650px){.ad-app .test-manager-list .test-manager-card{grid-template-columns:minmax(0,1fr);padding:16px}.ad-app .test-manager-list .test-facts{grid-column:1;grid-row:auto;display:flex;flex-wrap:wrap;gap:8px 16px}.ad-app .test-manager-list .test-facts>div{gap:8px}}
+
+.ad-app .report-method{background:var(--surface);color:var(--ink)}
