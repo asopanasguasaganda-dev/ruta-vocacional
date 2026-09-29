@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import '../admin/admin-design.css';
 import { previewAction, refreshSession, useSession } from '../../lib/session';
 import { ArrowLeft, ShieldCheck, Compass, CheckCircle2 } from 'lucide-react';
@@ -5,10 +6,12 @@ import type { Navigate } from '../../types';
 import { AuthForm, type AuthMode } from '../../components/domain/AuthForm';
 import { Brand } from '../../components/layout/Brand';
 import { useToast } from '../../components/ui/Toast';
-import { Notice, Button } from '../../components/ui/primitives';
+import { Notice, Button, Field } from '../../components/ui/primitives';
 
 export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigate }) {
   const toast = useToast();
+  const [setup,setSetup]=useState(false);
+  useEffect(()=>{if(mode==='admin'&&process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true')void previewAction('auth/local-status').then(r=>setSetup(!r.adminExists));},[mode]);
   const session = useSession();
   const register = mode === 'register', admin = mode === 'admin', reset = mode === 'reset';
   const form = <AuthForm key={mode} mode={mode}
@@ -22,7 +25,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
         method: 'POST', body: JSON.stringify({ ...payload, admin }),
       });
       await refreshSession();
-      toast(process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Tu sesión de prueba está lista en esta pestaña.':register ? 'Tu cuenta está lista.' : 'Has iniciado sesión.');
+      toast(register ? 'Tu cuenta está lista.' : 'Has iniciado sesión.');
       navigate(result.user.role === 'student' ? 'mi-ruta' : 'admin');
     }} />;
   return <main id="contenido" className={`auth-shell${admin ? ' auth-shell--admin' : ''}`}>
@@ -45,15 +48,11 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
         <section className="auth-main" aria-labelledby="auth-title">
           <div className="auth-heading">
             {admin && <span className="icon-tile"><ShieldCheck size={24} /></span>}
-            <span className="auth-kicker">{admin ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'VISTA ADMINISTRATIVA':'ACCESO RESTRINGIDO') : register ? 'EMPIEZA TU RUTA' : reset ? 'RECUPERA TU CUENTA' : 'CONTINÚA TU RUTA'}</span>
+            <span className="auth-kicker">{admin ? 'ACCESO RESTRINGIDO' : register ? 'EMPIEZA TU RUTA' : reset ? 'RECUPERA TU CUENTA' : 'CONTINÚA TU RUTA'}</span>
             <h1 id="auth-title">{admin ? 'Acceso a administración' : register ? 'Crea tu cuenta' : reset ? 'Recupera tu acceso' : 'Te damos la bienvenida'}</h1>
-            <p>{admin ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Explora la gestión de cursos y el recorrido de tus estudiantes.':'Ingresa con tus credenciales de administración.') : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? 'Te enviaremos instrucciones a tu correo.' : 'Ingresa y retoma donde lo dejaste.'}</p>
+            <p>{admin ? 'Ingresa con tus credenciales de administración.' : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'El envío de correos no está disponible en esta etapa.':'Te enviaremos instrucciones a tu correo.') : 'Ingresa y retoma donde lo dejaste.'}</p>
           </div>
-          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&<p className="auth-test-note">Diseño interactivo. Explora con datos de muestra; no necesitas una cuenta real.</p>}
-          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&!register ? <div className="stack-sm">
-            <Button onClick={async()=>{const {enterDesignRole}=await import('../../lib/design-preview');enterDesignRole(admin?'admin':'student');navigate(admin?'admin':'mi-ruta');}}>Entrar como {admin?'administrador':'estudiante'}</Button>
-            <a className="auth-return" href={admin?'/ingresar':'/admin/login'}>Ver diseño de {admin?'estudiante':'administración'}</a>
-          </div> : session.serviceAvailable === false ? <div className="stack-sm" role="status">
+          {setup ? <LocalAdminSetup onDone={()=>navigate('admin')}/> : session.serviceAvailable === false ? <div className="stack-sm" role="status">
             <Notice tone="warning">El acceso está temporalmente fuera de servicio. Vuelve a intentarlo más tarde.</Notice>
             <Button variant="secondary" onClick={() => void refreshSession()}>Comprobar disponibilidad</Button>
           </div> : form}
@@ -61,7 +60,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
             <a href={register ? '/ingresar' : '/registro'}>{register ? 'Ingresar' : 'Crear cuenta'}</a>
           </p>}
           {reset && <a className="auth-return" href="/ingresar">Volver al ingreso</a>}
-          {admin && <p className="auth-security"><ShieldCheck size={16} />{process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Vista de muestra, sin credenciales reales.':'Solo para personal autorizado.'}</p>}
+          {admin && <p className="auth-security"><ShieldCheck size={16} />Solo para personal autorizado.</p>}
         </section>
         {register && <aside className="auth-benefits">
           <img src="/media/brain-book-icon.png" alt="" width={44} height={44} />
@@ -78,4 +77,15 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
       {!admin && !register && <p className="auth-footer"><ShieldCheck size={15} />Un espacio personal para construir tu futuro.</p>}
     </div>
   </main>;
+}
+
+function LocalAdminSetup({onDone}:{onDone:()=>void}){
+ const [name,setName]=useState(''),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+ return <form className="auth-fields" onSubmit={async e=>{e.preventDefault();setBusy(true);setError('');try{await previewAction('auth/local-admin',{method:'POST',body:JSON.stringify({name,email,password})});await refreshSession();onDone();}catch(e){setError((e as Error).message);}finally{setBusy(false);}}}>
+ <p>Configura tu acceso administrativo en este navegador. Después ingresarás con tu correo y contraseña.</p>
+ <Field label="Nombre" value={name} onChange={e=>setName(e.target.value)} required/>
+ <Field label="Correo electrónico" type="email" value={email} onChange={e=>setEmail(e.target.value)} required/>
+ <Field label="Contraseña" type="password" autoComplete="new-password" minLength={8} value={password} onChange={e=>setPassword(e.target.value)} required/>
+ {error&&<Notice tone="danger">{error}</Notice>}<Button type="submit" loading={busy}>Crear acceso administrativo</Button>
+ </form>;
 }

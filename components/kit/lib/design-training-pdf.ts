@@ -12,10 +12,10 @@ export function designTrainingPdf(attempt:any){
     y+=3;
   };
   line('Ruta Vocacional 360°',20);
-  line('Resultado de muestra · Diseño interactivo');
+  line('Resultado del simulador');
   line(attempt.instrument.title,16);
   line(`Puntaje: ${attempt.result.percent ?? 'Pendiente de revisión'}${attempt.result.percent==null?'':' %'}`);
   for(const area of attempt.result.areas||[])line(`${area.area}: ${area.percent ?? 'Pendiente'} %`);
-  line('Documento generado en este navegador con datos de muestra.');
+  line('Documento generado con tus respuestas guardadas en este navegador.');
   return URL.createObjectURL(doc.output('blob'));
 }

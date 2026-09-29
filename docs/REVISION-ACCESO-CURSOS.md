@@ -1,10 +1,10 @@
-# Revisión del diseño interactivo
+# Revisión del acceso local
 
-El despliegue actual es estático y no crea bases de datos.
-- Acceso directo a estudiante y administración, sin pedir credenciales reales.
-- Imagen de estudiantes y navegación actualizadas.
-- Cursos de muestra editables, inscripción, lecturas, simuladores, puntajes y seguimiento local.
-- PDF de resultados generado en el navegador.
-- Cambios locales conservados al recargar; botón para reiniciar la muestra.
+- Formularios de correo y contraseña restaurados para ambos perfiles.
+- Primer acceso administrativo configurable en el navegador.
+- Registro de varias cuentas, cierre de sesión y separación de avances por usuario.
+- Eliminada la barra de demostración y los cursos y usuarios ficticios.
+- Cursos editables y publicables, inscripción, lecturas, simuladores y resultados locales.
+- Sin bases de datos ni autenticación de servidor en esta etapa.
 
-Pruebas: compilación estática de 35 páginas; prueba del adaptador de cursos desde publicación hasta resultado y avance; comprobación de acceso y cursos en navegador.
+Verificación automatizada: contraseña incorrecta, sesión, roles, publicación, inscripción, avance y aislamiento de dos estudiantes.
