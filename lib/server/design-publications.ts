@@ -4,8 +4,11 @@ import {validateTestPublication} from '../../components/kit/lib/test-publication
 
 const pathname='rv360/design-publications.json';
 const empty=()=>({format:'rv360-shared-catalog',publications:[] as any[]});
+// Blob's compressed GET adds W/ to the origin ETag. If-Match requires the
+// original strong validator (the same hash returned by Blob head/put).
+export const blobWriteEtag=(etag:string)=>etag.replace(/^W\//,'');
 export const blobCatalog={
- async read(){const result=await get(pathname,{access:'private',useCache:false});if(!result)return {data:empty(),etag:undefined};if(result.statusCode!==200)throw Error('Unexpected Blob response');return {data:JSON.parse(await new Response(result.stream).text()),etag:result.blob.etag};},
+ async read(){const result=await get(pathname,{access:'private',useCache:false});if(!result)return {data:empty(),etag:undefined};if(result.statusCode!==200)throw Error('Unexpected Blob response');return {data:JSON.parse(await new Response(result.stream).text()),etag:blobWriteEtag(result.blob.etag)};},
  async write(data:any,etag?:string){await put(pathname,JSON.stringify(data),{access:'private',addRandomSuffix:false,contentType:'application/json',...(etag?{ifMatch:etag}:{allowOverwrite:false})});},
 };
 export function createPublicationService(storage=blobCatalog,env:NodeJS.ProcessEnv=process.env){

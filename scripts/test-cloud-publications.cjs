@@ -1,6 +1,8 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript');
 require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:1,target:9,esModuleInterop:true}}).outputText,f);
-const {createPublicationService}=require('../lib/server/design-publications.ts');
+const {createPublicationService,blobWriteEtag}=require('../lib/server/design-publications.ts');
+assert.equal(blobWriteEtag('W/"origin-hash"'),'"origin-hash"');
+assert.equal(blobWriteEtag('"origin-hash"'),'"origin-hash"');
 const {BlobPreconditionFailedError}=require('@vercel/blob');
 const secret='qa-only-publishing-secret-32-characters',env={BLOB_READ_WRITE_TOKEN:'fake-test-adapter',DESIGN_PUBLISH_KEY:secret};
 let data={format:'rv360-shared-catalog',publications:[]},revision=0;
