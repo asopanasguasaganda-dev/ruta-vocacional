@@ -13,10 +13,10 @@ const now = () => new Date().toISOString();
 function seed():any {return {courses:[],simulators:[],profiles:[],enrollments:[],attempts:[],goals:{},users:[],catalog:copy(catalog),pendingCatalog:null};}
 function read() {
   const value=localStorage.getItem(KEY);
-  if(value){try{const saved=JSON.parse(value);return {...saved,catalog:saved.catalog?.source?.careerCount===catalog.source.careerCount?saved.catalog:copy(catalog)};}catch{/* Recover only this prototype's invalid data. */}}
+  if(value){try{const saved=JSON.parse(value);return {...seed(),...saved,catalog:saved.catalog?.source?.careerCount===catalog.source.careerCount?saved.catalog:copy(catalog)};}catch{/* Recover only this prototype's invalid data. */}}
   const data=seed();save(data);return data;
 }
-function save(data:any){const {catalog:current,...rest}=data;localStorage.setItem(KEY,JSON.stringify({...rest,...(data.catalogCustomized?{catalog:current}:{})}));}
+function save(data:any){const {catalog:current,...rest}=data;const serialized=JSON.stringify({...rest,...(data.catalogCustomized?{catalog:current}:{})});if(localStorage.getItem(KEY)!==serialized)localStorage.setItem(KEY,serialized);}
 function finish(a:any, reviews:any={},annulled:string[]=[]) {
   const s={...a.simulator,questions:a.simulator.questions.filter((q:any)=>!annulled.includes(q.id))};
   if(!s.questions.length)throw Error('Conserva al menos una pregunta para calcular esta actividad.');

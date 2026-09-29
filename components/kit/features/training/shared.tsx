@@ -43,11 +43,13 @@ export function useTraining() {
     const focus = () => refresh();
     window.addEventListener("focus", focus);
     window.addEventListener("storage", focus);
+    window.addEventListener("rv360:publication", focus);
     const timer = setInterval(focus, 30000);
     return () => {
       requestId.current++;
       window.removeEventListener("focus", focus);
       window.removeEventListener("storage", focus);
+      window.removeEventListener("rv360:publication", focus);
       clearInterval(timer);
     };
   }, [refresh]);

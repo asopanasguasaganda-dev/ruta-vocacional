@@ -39,3 +39,17 @@ Para corregir esa conexión se necesita almacenamiento compartido y autenticaci�
 - Comprobada la ausencia de errores JavaScript y desbordamiento horizontal a 390 px.
 
 Alcance: modo local sin base de datos; administrador y estudiante comparten el contenido en el mismo perfil del navegador. PDF escaneados necesitan OCR externo en este modo. Se conservan las reglas explícitas; no se inventan claves ni criterios de interpretación ausentes. El documento original mostrado en la captura del usuario no está disponible en el repositorio: la verificación utiliza documentos de prueba.
+
+## Publicación de tests y simuladores entre perfiles
+
+El modo sin base de datos conserva el contenido en cada perfil del navegador. No existe sincronización remota automática. Para comprobarlo dentro del mismo perfil, «Probar como estudiante» está disponible en Tests y en Simuladores.
+
+Para otros perfiles o equipos:
+1. Administración → Tests o Cursos → «Compartir tests y simuladores con otro perfil» → «Descargar publicación».
+2. Estudiante → Mis tests o Cursos → «Recibir tests y simuladores de administración» → seleccionar archivo → «Cargar publicación».
+3. Los tests públicos aparecen en Mis tests. Los simuladores aparecen en las carreras recomendadas por los resultados del estudiante.
+4. Para compartir actualizaciones o retiradas, repetir la descarga/carga. Se conservan respuestas, notas e intentos anteriores.
+
+El formato v2 contiene tests y simuladores; admite publicaciones antiguas v1 de solo tests. No transporta cuentas, contraseñas, respuestas de estudiantes ni notas. Solo exporta tests asignados a todos; los asignados a usuarios locales concretos se prueban en su propio perfil. Compartir publicaciones incluye las claves necesarias para la autocalificación local: es un entorno de pruebas, no un examen seguro.
+
+Verificación: scripts/test-shared-publication.cjs prueba perfiles aislados, catálogo de carreras, autocalificación, actualizaciones, retirada e historial; prueba de Chrome completa con importación, publicación, descarga, carga en otro contexto, respuesta del test, carrera recomendada, simulador con 100/100, recarga y diseño móvil. Compilación estática de 35 rutas y comprobación TypeScript correctas.
