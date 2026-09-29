@@ -73,6 +73,7 @@ export function simulatorProblems(s: Simulator) {
   )
     errors.push("Revisa la política de calificación y retroalimentación.");
   for (const q of s.questions) {
+    if(q.policy === "rubric" || !["single","multiple","yesno","number","short"].includes(q.type||"single"))errors.push("El simulador debe ser autocalificable: usa selección, número o texto breve con una clave correcta. Convierte las preguntas abiertas antes de publicar.");
     if (
       q.policy === "rubric" &&
       !(

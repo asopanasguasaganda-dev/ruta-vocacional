@@ -32,3 +32,11 @@ Las listas principales de tests y cursos en administración y estudiante muestra
 - `npm run build:design`
 
 Prueba de navegador: importar PDF, DOCX y HTML; publicar/archivar/restaurar/eliminar; paginar 23 instrumentos; responder el test; consultar guía y PDF; seleccionar carrera; publicar curso y simulador; entregar práctica; comprobar móvil.
+
+## Recorrido dirigido por resultados
+
+La vista de estudiante presenta exclusivamente las carreras recomendadas por sus tests. Muestra directamente las instituciones, sedes y modalidades vinculadas. «Seguir curso» abre `/mi-ruta/cursos/?carrera=ID` con la carrera filtrada. Las elecciones manuales previas no se agregan a las recomendaciones del test.
+
+Los nuevos simuladores deben ser autocalificables: selección única/múltiple, sí/no, número con intervalo correcto o texto breve con respuestas aceptadas. No se publican respuestas abiertas con rúbrica. Las claves deben existir y validarse al preparar el simulador; el estudiante obtiene la nota al entregar, sin revisión del administrador. Las versiones antiguas con rúbricas deben actualizarse antes de iniciar nuevos intentos. Los resultados históricos se conservan.
+
+El examen ofrece navegación numerada, estados de respuesta, marcas, temporizador, guardado automático y resumen antes de confirmar la entrega.

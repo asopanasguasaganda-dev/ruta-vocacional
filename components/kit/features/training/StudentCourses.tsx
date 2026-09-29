@@ -34,6 +34,9 @@ export function StudentCourses() {
     [active, setActive] = useState<any>(null),
     [goalOpen, setGoalOpen] = useState(false),
     [goal, setGoal] = useState<any>({ careerIds: [], fields: [] });
+  const recommendedIds=new Set<string>((d?.recommendations||[]).map((r:any)=>r.careerId));
+  const recommendedCareers=(d?.careers||[]).filter((c:any)=>recommendedIds.has(c.id));
+  useEffect(()=>{if(!d)return;const id=new URLSearchParams(window.location.search).get('carrera');if(id&&d.recommendations.some((r:any)=>r.careerId===id)){setCareer(id);setTab('Explorar');}},[d?.recommendations?.map((r:any)=>r.careerId).join(',')]);
   const perform = (fn: () => Promise<any>) => run(fn).catch(() => {});
   useEffect(() => {
     if (current && d) {
@@ -56,7 +59,7 @@ export function StudentCourses() {
   const courses =
     d?.courses?.filter(
       (c: any) =>
-        c.title.toLowerCase().includes(query.toLowerCase()) &&
+        c.careerIds.some((id:string)=>recommendedIds.has(id)) && c.title.toLowerCase().includes(query.toLowerCase()) &&
         (!career || c.careerIds.includes(career)) &&
         (!area ||
           c.fields.includes(area) ||
@@ -96,7 +99,7 @@ export function StudentCourses() {
                 setGoalOpen(true);
               }}
             >
-              Elegir carrera o convocatoria
+              Ajustar mi preparación
             </Button>
           </div>
           {current ? (
@@ -183,8 +186,7 @@ export function StudentCourses() {
                             </p>
                           ))}
                         <small>
-                          Omisiones: cero puntos. Resultado al entregar; las
-                          rúbricas requieren revisión. Preparación propia de la
+                          Omisiones: cero puntos. Nota automática al entregar. Preparación propia de la
                           plataforma.
                         </small>
                         <div className="training-actions">
@@ -276,8 +278,7 @@ export function StudentCourses() {
                       <h2>Tu preparación puede empezar hoy</h2>
                       <p>
                         Completa un test para consultar carreras relacionadas
-                        con tu informe. También puedes explorar los cursos
-                        disponibles.
+                        con tu informe. Después verás aquí su preparación disponible.
                       </p>
                       <Link
                         href="/mi-ruta/evaluaciones"
@@ -285,7 +286,7 @@ export function StudentCourses() {
                       >
                         Ir a mis tests
                       </Link>
-                      <Button variant="ghost" onClick={() => setTab("Explorar")}>Explorar cursos disponibles</Button>
+
                     </div>
                   ) : (
                     <PagedList className="training-grid" label="cursos y carreras" resetKey={tab+query+career+area+institution+type}>
@@ -321,7 +322,7 @@ export function StudentCourses() {
                                     setTab("Explorar");
                                   }}
                                 >
-                                  Ver preparación
+                                  Seguir curso
                                 </Button>
                               )}
                             </div>
@@ -334,7 +335,7 @@ export function StudentCourses() {
                       })}
                     </PagedList>
                   )}
-                  <h2>Preparación relacionada con tus objetivos</h2>
+                  <h2>Cursos para tus carreras recomendadas</h2>
                   {d.courses.filter((c: any) => c.recommended).length === 0 && (
                     <p>
                       No hay cursos publicados que coincidan con tus objetivos
@@ -387,7 +388,7 @@ export function StudentCourses() {
                 <>
                   {tab === "Explorar" && (
                     <>
-                      <div className="training-split">
+                      {career&&<Notice><b>Preparación para {recommendedCareers.find((c:any)=>c.id===career)?.name}</b><p>Estos cursos y simuladores corresponden a la carrera de tus resultados.</p></Notice>}<div className="training-split">
                         <Field
                           label="Buscar curso"
                           value={query}
@@ -398,8 +399,8 @@ export function StudentCourses() {
                           value={career}
                           onChange={(e) => setCareer(e.target.value)}
                         >
-                          <option value="">Todas las carreras</option>
-                          {d.careers.map((c: any) => (
+                          <option value="">Tus carreras recomendadas</option>
+                          {recommendedCareers.map((c: any) => (
                             <option key={c.id} value={c.id}>
                               {c.name}
                             </option>
@@ -413,7 +414,7 @@ export function StudentCourses() {
                           <option value="">Todas las áreas</option>
                           {[
                             ...new Set<string>(
-                              d.careers.map((c: any) => c.area),
+                              recommendedCareers.map((c: any) => c.area),
                             ),
                           ].map((a) => (
                             <option key={a}>{a}</option>
@@ -446,7 +447,7 @@ export function StudentCourses() {
                   )}
                   <PagedList className="training-grid" label="cursos y carreras" resetKey={tab+query+career+area+institution+type}>
                     {(tab === "Para ti"
-                      ? d.courses.filter((c: any) => c.recommended)
+                      ? courses
                       : courses
                     ).map((c: any) => (
                       <Card key={c.id}>
@@ -534,14 +535,14 @@ export function StudentCourses() {
           <div className="training-editor">
             <ChoiceList
               label="Carreras"
-              items={d.careers}
+              items={recommendedCareers}
               value={goal.careerIds}
               onChange={(careerIds) => setGoal({ ...goal, careerIds })}
             />
             <ChoiceList
               label="Áreas"
               items={[
-                ...new Set<string>(d.careers.map((c: any) => c.area)),
+                ...new Set<string>(recommendedCareers.map((c: any) => c.area)),
               ].map((a) => ({ id: a, name: a }))}
               value={goal.fields}
               onChange={(fields) => setGoal({ ...goal, fields })}

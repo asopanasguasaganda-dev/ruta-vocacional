@@ -1,6 +1,8 @@
 "use client";
+import {Dialog} from "../../components/ui/Dialog";
+import {absent} from "../../lib/test-engine";
 import { answerText } from "../../lib/test-answer-text";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { trainingApi, decimal } from "./shared";
 import { Button, Card, Notice } from "../../components/ui/primitives";
 import { TestQuestion } from "../../components/domain/TestQuestion";
@@ -18,10 +20,15 @@ export function SimulatorRun({
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
     [dirty, setDirty] = useState(false),
+    [confirmFinish,setConfirmFinish]=useState(false),
     [feedback, setFeedback] = useState(""),
     [clock, setClock] = useState(Date.now()),
     [offset] = useState(Date.parse(initial.serverTime) - Date.now());
+  const latest=useRef({answers,flags});latest.current={answers,flags};
+  const revision=useRef(initial.revision),saving=useRef<Promise<any>|null>(null);
+  useEffect(()=>{if(!dirty||a.state!=='in_progress')return;const timer=setTimeout(()=>void act(async()=>{await save();}),600);return()=>clearTimeout(timer);},[answers,flags,dirty,a.state]);
   const q = a.instrument.questions[index];
+  const answered=a.instrument.questions.filter((q:any)=>!absent(answers[q.id])).length;
   const remaining = a.expires_at
     ? Math.max(0, Math.ceil((Date.parse(a.expires_at) - clock - offset) / 1000))
     : null;
@@ -43,7 +50,7 @@ export function SimulatorRun({
     if (remaining !== 0 || a.state !== "in_progress") return;
     trainingApi("/attempt?id=" + a.id)
       .then((r) => {
-        setA(r);
+        revision.current=r.revision;setA(r);
         setAnswers(r.answers);
         setDirty(false);
       })
@@ -61,14 +68,10 @@ export function SimulatorRun({
     }
   }
   async function save() {
-    const r = await trainingApi(
-      "/answers",
-      { id: a.id, revision: a.revision, answers, flags },
-      "PUT",
-    );
-    setA(r);
-    setDirty(false);
-    return r;
+    if(saving.current)await saving.current;
+    const payload=latest.current;
+    const request=trainingApi('/answers',{id:a.id,revision:revision.current,...payload},'PUT');saving.current=request;
+    try{const r=await request;revision.current=r.revision;setA(r);setDirty(JSON.stringify(payload)!==JSON.stringify(latest.current));return r;}finally{if(saving.current===request)saving.current=null;}
   }
   if (a.result)
     return (
@@ -110,7 +113,7 @@ export function SimulatorRun({
             onClick={() =>
               act(async () => {
                 const r = await trainingApi("/attempt?id=" + a.id);
-                setA(r);
+                revision.current=r.revision;setA(r);
                 setAnswers(r.answers);
                 setFlags(r.flags);
                 setDirty(false);
@@ -121,12 +124,14 @@ export function SimulatorRun({
           </Button>
         </Notice>
       )}
-      <nav
+      <div className="exam-workspace"><aside className="exam-sidebar"><h3>Navegación del examen</h3><p>{answered} de {a.instrument.questions.length} respondidas</p><progress max={a.instrument.questions.length} value={answered} aria-label="Progreso de respuestas"/><nav
         className="training-question-nav"
         aria-label="Preguntas del simulador"
       >
         {a.instrument.questions.map((x: any, i: number) => (
           <button
+            className={!absent(answers[x.id])?"is-answered":""}
+            aria-label={"Pregunta "+(i+1)+(!absent(answers[x.id])?", respondida":", sin responder")+(flags.includes(x.id)?", marcada":"")}
             aria-current={i === index ? "step" : undefined}
             key={x.id}
             onClick={() => {
@@ -134,12 +139,12 @@ export function SimulatorRun({
               setFeedback("");
             }}
           >
-            {i + 1}
+            {i + 1}{!absent(answers[x.id])?" ✓":""}
             {flags.includes(x.id) ? " ★" : ""}
           </button>
         ))}
-      </nav>
-      <Card>
+      </nav><p className="small">✓ Respondida · ★ Marcada para volver</p><p className="small">Puedes cambiar tus respuestas antes de entregar.</p></aside>
+      <Card className="exam-question">
         <p className="eyebrow">
           Pregunta {index + 1} de {a.instrument.questions.length}
         </p>
@@ -188,7 +193,8 @@ export function SimulatorRun({
           </Button>
         )}
         {feedback && <Notice>{feedback}</Notice>}
-      </Card>
+        <div className="exam-page-actions"><Button variant="secondary" disabled={index===0||busy} onClick={()=>{setIndex(index-1);setFeedback('');}}>Anterior</Button><Button disabled={index===a.instrument.questions.length-1||busy} onClick={()=>{setIndex(index+1);setFeedback('');}}>Siguiente</Button></div>
+      </Card></div>
       <p aria-live="polite">
         {dirty
           ? "Hay cambios sin sincronizar. Guarda antes de salir."
@@ -208,12 +214,7 @@ export function SimulatorRun({
         <Button
           disabled={busy}
           variant="secondary"
-          onClick={() =>
-            act(async () => {
-              if (dirty) await save();
-              setA(await trainingApi("/finish", { id: a.id }));
-            })
-          }
+          onClick={()=>setConfirmFinish(true)}
         >
           Entregar simulador
         </Button>
@@ -230,6 +231,7 @@ export function SimulatorRun({
           Guardar y volver
         </Button>
       </div>
+      <Dialog open={confirmFinish} title="Revisa antes de entregar" onClose={()=>{if(!busy)setConfirmFinish(false);}}><div className="stack"><p>{answered} de {a.instrument.questions.length} preguntas respondidas.</p><p>{a.instrument.questions.length-answered} sin responder · {flags.length} marcadas para revisar.</p><Notice>Al confirmar recibirás tu nota automáticamente. Las preguntas sin responder cuentan como cero.</Notice>{error&&<Notice tone="danger">{error}</Notice>}<Button disabled={busy} onClick={()=>act(async()=>{if(dirty)await save();setA(await trainingApi('/finish',{id:a.id}));setConfirmFinish(false);})}>Confirmar entrega y ver nota</Button><Button variant="secondary" disabled={busy} onClick={()=>setConfirmFinish(false)}>Volver a las preguntas</Button></div></Dialog>
     </div>
   );
 }
@@ -260,7 +262,7 @@ export function TrainingResult({ attempt: a }: { attempt: any }) {
             {r.state==='annulled'?'Anulado':decimal(r.percent)}
             {r.percent != null ? " / 100" : ""}
           </strong>
-          <p>Calificación académica</p>
+          <p>Nota calculada automáticamente</p>
         </div>
         <div>
           <strong>

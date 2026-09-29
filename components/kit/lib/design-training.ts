@@ -49,9 +49,9 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     const courses=data.courses.filter((c:any)=>all||c.status==='published'&&(c.access!=='selected'||c.studentIds.includes(user.id))&&!data.courses.some((next:any)=>next.id===c.id&&next.status==='published'&&next.version>c.version));
     const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[]);
     const recommendations=report?.analysis.recommendations.map(r=>({...r,reportVersion:report.version,mappingVersion:report.mappingVersion}))||[];
-    const selected=[...new Set([...goal.careerIds,...recommendations.map(r=>r.careerId)])];
+    const selected=recommendations.map(r=>r.careerId);
     save(data);
-    return {...data.catalog,users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,questionCount:s.questions.length})),goal,recommendations:[...recommendations,...goal.careerIds.filter((id:string)=>!recommendations.some(r=>r.careerId===id)).map((careerId:string)=>({careerId,reason:'Carrera elegida como objetivo.',reportVersion:report?.version||'—',mappingVersion:'Elección personal'}))],courses:courses.map((c:any)=>({...c,recommended:matchesCourseProfile(c,goal)&&c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
+    return {...data.catalog,careers:all?data.catalog.careers:data.catalog.careers.filter((c:any)=>selected.includes(c.id)),users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,questionCount:s.questions.length})),goal,recommendations,courses:courses.map((c:any)=>({...c,recommended:c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
   }
   let result:any={ok:true};
   if(route==='/entity'){
@@ -96,6 +96,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     else {
       const s=data.simulators.find((s:any)=>s.id===activity.simulatorId&&s.version===activity.simulatorVersion);
       if(!s||!s.modes.includes(b.mode))throw Error('Selecciona un simulador y una modalidad disponibles.');
+      if(s.questions.some((q:any)=>q.policy==='rubric'||q.type==='open'))throw Error('Este simulador necesita una nueva versión con claves automáticas. Solicita la actualización del curso.');
       const prior=data.attempts.filter((a:any)=>a.enrollment_id===e.id&&a.activity_id===activity.id&&a.mode===b.mode);
       const open=prior.find((a:any)=>a.state==='in_progress');
       if(open)result=attemptView(open);else{

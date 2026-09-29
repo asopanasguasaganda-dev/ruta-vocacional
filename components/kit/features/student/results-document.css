@@ -12,3 +12,5 @@
 .rd-score-explanation{display:block;color:var(--rd-muted);font-size:12px;line-height:1.5;margin-top:5px}.rd-tabs button{min-width:0;overflow-wrap:anywhere}
 
 .rd-catalog-full .ec-explorer .rd-career-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.ec-filters .field{min-width:0}@media(max-width:1000px){.rd-catalog-full .ec-explorer .rd-career-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.rd-catalog-full .ec-explorer .rd-career-grid{grid-template-columns:1fr}}
+
+.ec-explorer{display:grid;gap:24px}.rd-recommended .career-offers{margin-top:18px;padding-top:18px;border-top:1px solid var(--border)}.rd-recommended .career-offers h3{font-size:16px}.rd-follow-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.rd-recommended .rd-follow-actions button{width:auto;border-radius:10px;padding:12px 18px}.rd-recommended .career-offer{padding:12px 0}.rd-recommended .career-offer small{display:block}.rd-recommended details summary{cursor:pointer}.rd-career-detail{display:grid;gap:16px}

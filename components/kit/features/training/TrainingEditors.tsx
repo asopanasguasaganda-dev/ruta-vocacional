@@ -596,7 +596,7 @@ export function SimulatorEditor({
                 id: crypto.randomUUID(),
                 options: q.options || x.options,
                 source: file.name,
-                policy: q.policy||(["open","short"].includes(q.type)?"rubric":"objective"),
+                policy: "objective",
                 reviewed: false,
               })),
           ),
@@ -684,7 +684,7 @@ export function SimulatorEditor({
             {busy ? "Extrayendo…" : "Extraer HTML"}
           </Button>
           <Notice>
-            La importación crea preguntas sin revisar. Confirma claves,
+            La importación crea preguntas sin revisar. Configura claves automáticas,
             explicaciones y procedencia antes de publicar; no se ejecuta el
             código del documento.
           </Notice>
@@ -759,7 +759,7 @@ export function SimulatorEditor({
                 onChange={(e) =>
                   update({
                     type: e.target.value,
-                    policy: e.target.value === "open" ? "rubric" : "objective",
+                    policy: "objective",
                   })
                 }
               >
@@ -767,7 +767,7 @@ export function SimulatorEditor({
                 <option value="multiple">Selección múltiple</option>
                 <option value="number">Número</option>
                 <option value="short">Texto breve con clave</option>
-                <option value="open">Respuesta abierta con rúbrica</option>
+
               </SelectField>
               <TextareaField
                 label="Enunciado"
@@ -946,7 +946,7 @@ export function SimulatorEditor({
                 onChange={(e) => update({ policy: e.target.value })}
               >
                 <option value="objective">Clave objetiva</option>
-                <option value="rubric">Rúbrica manual</option>
+
               </SelectField>
               <QuestionSettings
                 value={q}
@@ -981,8 +981,7 @@ export function SimulatorEditor({
           )}
           <Notice>
             El peso de cada pregunta representa sus puntos máximos en una clave
-            objetiva. Omisiones y errores aportan cero; las rúbricas pendientes
-            no reciben una nota definitiva.
+            objetiva. Omisiones y errores aportan cero. Al entregar, el sistema calcula la nota automáticamente usando las claves.
           </Notice>
           <label>
             <input

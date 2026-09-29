@@ -31,3 +31,5 @@ const random={...base,selection:'random',quotas:[{topic:'General',count:5}]};con
 const short={...q('short'),type:'short',acceptedTexts:['álgebra'],normalizeText:true};assert.equal(academicResult({...base,questions:[short]},{short:'  ALGEBRA  '}).percent,100);
 const number={...q('n'),type:'number',min:0,max:100,step:0.1,numericKey:{min:1.9,max:2.1}};assert.equal(academicResult({...base,questions:[number]},{n:2}).percent,100);
 console.log('Cursos: omisiones, máximos, ponderación 68%, intentos, avance 60%, rúbricas, bancos, claves y formatos: OK');
+
+assert(simulatorProblems({...base,questions:[{...q("manual"),type:"open",policy:"rubric",rubric:[{id:"r",label:"Criterio",levels:[{id:"x",label:"Completo",points:1}]}]}]}).some(e=>e.includes("autocalificable")));
