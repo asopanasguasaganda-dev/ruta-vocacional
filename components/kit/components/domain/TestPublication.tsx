@@ -1,11 +1,27 @@
-﻿import {useState} from 'react';
+﻿import {publicationConnection,publishSharedDesign,setPublicationKey} from '../../lib/shared-design';
+import {useState} from 'react';
 import {Button,Notice} from '../ui/primitives';
-import {refreshSession,useSession} from '../../lib/session';
+import {clearNotice,refreshSession,useSession} from '../../lib/session';
 import {downloadText} from '../../lib/storage';
 export function TestPublication({admin=false}:{admin?:boolean}){
  const session=useSession();
+ const [key,setKey]=useState('');
  const [packet,setPacket]=useState<any>(null),[error,setError]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
- if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true'||session.values['rv360:shared-publication'])return null;
+ if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true')return null;
+ const remote=typeof window!=='undefined'&&!['localhost','127.0.0.1','[::1]'].includes(window.location.hostname);
+ if(remote){
+ if(!admin)return null;
+ const connection=publicationConnection();
+ return <section className="report-method"><details><summary>Publicación en línea</summary><div className="stack">
+ <p>Comparte los tests y simuladores publicados con los estudiantes, también desde otros navegadores.</p>
+ {connection.error&&<Notice tone="danger">{connection.error}</Notice>}
+ <label className="field">Clave de publicación<input type="password" autoComplete="off" value={key} onChange={e=>setKey(e.target.value)} placeholder="Clave del administrador"/></label>
+ <Button disabled={busy||!key||!connection.configured} onClick={async()=>{setBusy(true);setError('');setMessage('');try{setPublicationKey(key);await publishSharedDesign();clearNotice();await refreshSession();setKey('');setMessage('Catálogo compartido actualizado. Los estudiantes recibirán las publicaciones automáticamente.');}catch(e){setError((e as Error).message);}finally{setBusy(false);}}}>Conectar y publicar</Button>
+ <p className="small muted">La clave se conserva solo durante esta sesión de la pestaña.</p>
+ {error&&<Notice tone="danger">{error}</Notice>}{message&&<Notice tone="success">{message}</Notice>}
+ </div></details></section>;
+ }
+ if(session.values['rv360:shared-publication'])return null;
  return <section className="report-method">
  <p className="small muted">Contenido local: se comparte entre cuentas y pestañas del mismo perfil del navegador. Otro perfil o equipo necesita cargar la publicación.</p>
  <details><summary>{admin?'Compartir tests y simuladores con otro perfil':'Recibir tests y simuladores de administración'}</summary>

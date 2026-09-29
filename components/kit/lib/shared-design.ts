@@ -1,21 +1,26 @@
-﻿import {exportTestPublication,importTestPublication} from './test-publication';
-const endpoint='/__design/publications';
+import {exportTestPublication,importTestPublication} from './test-publication';
+const endpoint='/__design/publications/';
 let supported:boolean|undefined,inflight:Promise<any>|null=null;
-const canConnect=()=>typeof window!=='undefined'&&['localhost','127.0.0.1','[::1]'].includes(window.location.hostname);
+let connection={configured:false,requiresPublishKey:false,error:''};
+const local=()=>typeof window!=='undefined'&&['localhost','127.0.0.1','[::1]'].includes(window.location.hostname);
+export const publicationConnection=()=>connection;
+export function setPublicationKey(key:string){sessionStorage.setItem('rv360:publish-key',key);}
 async function read(){
- if(!canConnect()||supported===false)return null;
+ if(typeof window==='undefined')return null;
  if(inflight)return inflight;
  inflight=(async()=>{try{
- const response=await fetch(endpoint,{cache:'no-store',signal:AbortSignal.timeout(5000)});
- if(response.status===404){supported=false;return null;}
+ const response=await fetch(local()?endpoint.slice(0,-1):endpoint,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+ if(response.status===404&&local()){supported=false;return null;}
  if(!response.ok)throw Error('No se pudo consultar la publicación compartida.');
- const data=await response.json();if(data.format!=='rv360-shared-catalog')throw Error('Respuesta de publicación no válida.');
- supported=true;return data;
- }catch(error){if(supported)throw error;return null;}finally{inflight=null;}})();
+ const data=await response.json();if(data.format!=='rv360-shared-catalog')throw Error('El servicio de publicación no está disponible.');
+ connection={configured:data.configured!==false,requiresPublishKey:!!data.requiresPublishKey,error:data.error||''};
+ supported=connection.configured;return data;
+ }finally{inflight=null;}})();
  return inflight;
 }
 export async function syncSharedDesign(){
- const data=await read();if(!data)return;
+ let data;try{data=await read();}catch(e){connection.error=(e as Error).message;return;}
+ if(!data||data.configured===false)return;
  for(const packet of data.publications){
  if(packet.source===localStorage.getItem('rv360:test-publication-source-v1'))continue;
  const workspace=JSON.parse(localStorage.getItem('rv360:local-workspace-v1')||'{}');
@@ -24,11 +29,17 @@ export async function syncSharedDesign(){
  }
 }
 export async function publishSharedDesign(){
+ if(typeof window==='undefined')return false;
+ const packet=exportTestPublication();
  const data=await read();if(!data)return false;
- const packet=exportTestPublication();const prior=data.publications.find((p:any)=>p.source===packet.source);if(prior&&JSON.stringify({...prior,createdAt:undefined})===JSON.stringify({...packet,createdAt:undefined}))return true;
- const response=await fetch(endpoint,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(packet),signal:AbortSignal.timeout(10000)});
+ const prior=data.publications.find((p:any)=>p.source===packet.source);
+ if(!prior&&!packet.tests.length&&!packet.simulators.length)return true;
+ if(prior&&JSON.stringify({...prior,createdAt:undefined})===JSON.stringify({...packet,createdAt:undefined}))return true;
+ if(data.configured===false)throw Error(data.error||'Configura la publicación en Vercel antes de publicar.');
+ const key=sessionStorage.getItem('rv360:publish-key')||'';
+ if(data.requiresPublishKey&&!key)throw Error('Introduce la clave en «Publicación en línea» antes de publicar.');
+ const response=await fetch(local()?endpoint.slice(0,-1):endpoint,{method:'PUT',headers:{'Content-Type':'application/json',...(key?{'X-Publish-Key':key}:{})},body:JSON.stringify(packet),signal:AbortSignal.timeout(20000)});
  if(!response.ok){const data=await response.json().catch(()=>({}));throw Error(data.error||'No se pudo guardar la publicación compartida. Reintenta antes de salir.');}
  return true;
 }
-
 export const sharedDesignEnabled=()=>supported===true;

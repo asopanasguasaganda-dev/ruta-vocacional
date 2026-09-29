@@ -4,5 +4,11 @@
   "installCommand": "npm ci",
   "buildCommand": "npm run build:design",
   "outputDirectory": ".design-preview/out",
-  "trailingSlash": true
+  "trailingSlash": true,
+  "rewrites": [
+    {
+      "source": "/__design/publications/:path*",
+      "destination": "/api/design-publications"
+    }
+  ]
 }
