@@ -25,7 +25,7 @@ export function PublicHome({ navigate }: { navigate: Navigate }) {
   return <div className="site-page site-home site-cinematic" id="inicio" ref={motionRoot}>
     <div className="rv-video-backdrop" aria-hidden="true">
       <img src="/media/vocational-background-poster.webp" alt="" width={1280} height={720} fetchPriority="high" />
-      <video ref={scene.videoRef} muted loop playsInline preload="none" poster="/media/vocational-background-poster.webp" tabIndex={-1} hidden={scene.unavailable} />
+      <video ref={scene.videoRef} autoPlay muted loop playsInline controls={false} disablePictureInPicture preload="auto" poster="/media/vocational-background-poster.webp" tabIndex={-1} hidden={scene.unavailable} />
       <div className="rv-video-shade" />
     </div>
     <PublicHeader navigate={navigate} cinematic />

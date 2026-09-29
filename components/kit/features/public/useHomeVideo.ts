@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 /** The video is decorative: navigation and content never depend on playback. */
 export function useHomeVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [reduced, setReduced] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
@@ -23,39 +21,39 @@ export function useHomeVideo() {
           ? "/media/vocational-background-mobile.mp4"
           : "/media/vocational-background.mp4";
       }
-      void video.play().catch(() => { if (!disposed) setPlaying(false); });
+      video.muted = true;
+      void video.play().catch(() => {
+        // Keep the poster visible if the browser blocks automatic playback.
+      });
     };
     const sync = () => {
-      setReduced(preference.matches);
       if (preference.matches || document.hidden || !wanted) video.pause();
       else play();
     };
-    const onPlay = () => setPlaying(true);
-    const onPause = () => setPlaying(false);
-    const onError = () => { wanted = false; setPlaying(false); setUnavailable(true); };
+    const onError = () => { wanted = false; setUnavailable(true); };
     const root = video.closest(".site-cinematic");
     const hero = root?.querySelector(".rv-hero");
     const observer = typeof IntersectionObserver !== "undefined" ? new IntersectionObserver(([entry]) => {
       root?.setAttribute("data-reading", String(!entry.isIntersecting));
     }) : undefined;
     if (hero) observer?.observe(hero);
-    video.addEventListener("play", onPlay);
-    video.addEventListener("pause", onPause);
+    video.addEventListener("canplay", play);
     video.addEventListener("error", onError);
     preference.addEventListener("change", sync);
     document.addEventListener("visibilitychange", sync);
+    window.addEventListener("pageshow", sync);
     sync();
     return () => {
       disposed = true;
       observer?.disconnect();
       video.pause();
-      video.removeEventListener("play", onPlay);
-      video.removeEventListener("pause", onPause);
+      video.removeEventListener("canplay", play);
       video.removeEventListener("error", onError);
       preference.removeEventListener("change", sync);
       document.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("pageshow", sync);
     };
   }, []);
 
-  return { videoRef, playing, reduced, unavailable };
+  return { videoRef, unavailable };
 }
