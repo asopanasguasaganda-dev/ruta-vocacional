@@ -59,3 +59,11 @@ Verificación: scripts/test-shared-publication.cjs prueba perfiles aislados, cat
 El acceso «Probar como estudiante» está disponible en toda la administración, incluido el editor de tests. Permite escoger un estudiante local y abrir Inicio, Mis tests o Autopreparación. Por defecto abre el dashboard /mi-ruta/. «Volver a administración» recupera la cuenta y el apartado de origen, validado contra una lista de rutas internas.
 
 Prueba completa en Chrome: importar/publicar un test y un simulador, crear un estudiante desde Usuarios, cambiar al dashboard, comprobar el test después de recargar, responderlo, obtener la carrera vinculada, realizar su simulador, obtener 100/100 y conservar la nota al recargar. Regreso al apartado administrativo original y comprobación móvil a 390 px correctos. No se transfieren archivos para este recorrido. Se conserva la separación entre respuestas de estudiantes y el catálogo local compartido.
+
+## Diagnóstico de la publicación con inicio de sesión normal
+
+La captura del usuario continúa mostrando únicamente los tests originales. No se ha reproducido su caso con sus datos, ya que su sesión de Chrome no está accesible. Se comprobó el recorrido de cerrar sesión de administración e ingresar con correo y contraseña del estudiante, sin usar el cambio de panel: el test publicado aparece en el inicio, se responde y el simulador asociado conserva la nota.
+
+Se añadió «Comprobar conexión local» en administración, Inicio, Mis tests y Cursos. Muestra un identificador aleatorio del espacio del navegador, el número de tests publicados/borradores y el número de tests asignados. Permite consultar nuevamente el catálogo sin borrar información. No expone credenciales, respuestas ni identidades de otros estudiantes.
+
+Las pruebas verifican que el identificador persiste al cambiar de cuenta y en el login normal; otro almacenamiento aislado obtiene otro identificador y cero publicaciones. La causa del caso concreto del usuario sigue pendiente de comparar esos identificadores y contadores. Este cambio es diagnóstico, no sincronización entre perfiles.
