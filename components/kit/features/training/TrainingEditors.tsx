@@ -15,7 +15,7 @@ import { ChoiceList, trainingApi } from "./shared";
 import { QuestionFormat } from "../admin/UniversalSettings";
 import { QuestionSettings } from "../admin/InstrumentSettings";
 import { TestQuestion } from "../../components/domain/TestQuestion";
-import { academicInstrument, selectQuestions } from "../../lib/training-engine";
+import { academicInstrument, selectQuestions, simulatorProblems } from "../../lib/training-engine";
 import type {
   Course,
   Simulator,
@@ -533,7 +533,9 @@ export function SimulatorEditor({
   value: s,
   onChange: change,
   data: d,
+  onSave,onPublish,saving=false,
 }: {
+  onSave?:()=>void;onPublish?:()=>void;saving?:boolean;
   value: Simulator;
   onChange: (v: Simulator) => void;
   data: any;
@@ -578,20 +580,21 @@ export function SimulatorEditor({
     }
   }
   return (
-    <div className="training-editor">
-      <nav className="training-tabs" aria-label="Editor de simulador">
-        {["Información", "Preguntas", "Puntuación", "Aplicación", "Probar"].map(
+    <div className="training-editor te-editor te-editor-page">
+      <nav className="te-steps" aria-label="Editor de simulador">
+        {["Información", "Preguntas", "Puntuación", "Aplicación", "Revisar y publicar"].map(
           (label, i) => (
             <button
               key={label}
               aria-current={step === i ? "step" : undefined}
               onClick={() => setStep(i)}
             >
-              {i + 1}. {label}
+              <span>{i + 1}</span>{label}
             </button>
           ),
         )}
       </nav>
+      <section className="te-body stack">
       {error && <Notice tone="warning">{error}</Notice>}
       {step === 0 && (
         <>
@@ -663,6 +666,7 @@ export function SimulatorEditor({
       )}
       {step === 1 && (
         <>
+          <details className="question-outline" open><summary>Lista de preguntas ({s.questions.length})</summary><div className="te-question-nav" aria-label="Preguntas del simulador">{s.questions.map((item,i)=><button type="button" key={item.id} aria-current={qi===i?'true':undefined} onClick={()=>setQi(i)}><b>{i+1}</b><span>{item.text||'Pregunta sin enunciado'}</span></button>)}</div></details>
           <details>
             <summary>Reutilizar preguntas de un simulador publicado</summary>
             <SelectField
@@ -1071,6 +1075,12 @@ export function SimulatorEditor({
       )}
       {step === 4 && (
         <>
+          <h3>Revisa antes de publicar</h3>
+          <p>{s.title||'Simulador sin nombre'} · {s.questions.length} preguntas · {s.durationMinutes} minutos de examen</p>
+          <p>Práctica y examen según las modalidades elegidas. Nota sobre 100 puntos y publicación en las carreras asignadas.</p>
+          {!s.careerIds?.length&&<Notice tone="warning">Selecciona al menos una carrera en Información.</Notice>}
+          {simulatorProblems(s).length>0&&<Notice tone="warning"><b>Falta completar:</b><ul>{[...new Set(simulatorProblems(s))].map(message=><li key={message}>{message}</li>)}</ul></Notice>}
+          {onPublish&&<Button disabled={saving||busy||simulatorProblems(s).length>0||!s.careerIds?.length} onClick={onPublish}>Publicar simulador</Button>}
           <Button
             variant="secondary"
             onClick={async () => {
@@ -1132,6 +1142,8 @@ export function SimulatorEditor({
           )}
         </>
       )}
+      </section>
+      <div className="row te-footer"><Button variant="secondary" disabled={step===0||busy||saving} onClick={()=>setStep(step-1)}>Anterior</Button>{step<4&&<Button disabled={busy||saving} onClick={()=>setStep(step+1)}>Continuar</Button>}{onSave&&<Button variant="secondary" disabled={busy||saving} onClick={onSave}>Guardar borrador</Button>}<span className="small muted">Paso {step+1} de 5 · {s.questions.length} preguntas</span></div>
     </div>
   );
 }

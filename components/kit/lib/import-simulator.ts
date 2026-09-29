@@ -19,14 +19,20 @@ export async function importSimulatorDocument(file:File,s:Simulator,careers:{id:
    }
    if (data?.status !== "Completado") throw Error("La extracción sigue en proceso. Consúltala en Evaluaciones.");
  }
+ return simulatorFromDocument(data,file.name,s,careers);
+}
+export function simulatorFromDocument(data:any,filename:string,s:Simulator,careers:{id:string;name:string}[]){
  const tests=data.tests||[];
  if(!tests.length)throw Error('No se identificaron preguntas. Revisa el documento.');
- const detected=suggestSimulatorCareers(file.name+' '+tests.map((t:any)=>t.title).join(' ')+' '+(data.text||'').slice(0,1200),careers,tests.flatMap((t:any)=>t.careerIds||[]));
- const simulator:Simulator={...s,
+ const detected=suggestSimulatorCareers(filename+' '+tests.map((t:any)=>t.title).join(' ')+' '+(data.text||'').slice(0,1200),careers,tests.flatMap((t:any)=>[...(t.careerIds||[]),...(t.careerLinks||[]).map((link:any)=>link.careerId)]));
+ const metadata=tests.length===1&&!s.questions.length?tests[0]:{};
+ const time=Number.isInteger(metadata.durationMinutes)&&metadata.durationMinutes>0&&metadata.durationMinutes<=480?metadata.durationMinutes:s.durationMinutes;
+ const attempts=Number.isInteger(metadata.maxAttempts)&&metadata.maxAttempts>0&&metadata.maxAttempts<=100?metadata.maxAttempts:s.maxAttempts;
+ const simulator:Simulator={...s,durationMinutes:time,maxAttempts:attempts,
   title:s.title||tests[0].presentation?.title||tests[0].title,
   careerIds:[...new Set([...(s.careerIds||[]),...detected])],
-  instrument:{...s.instrument,source:file.name,...(s.questions.length?{}:{description:tests[0].description,presentation:tests[0].presentation})},
-  questions:[...s.questions,...tests.flatMap((t:any)=>t.questions.filter((q:any)=>q.type!=='info').map((q:any)=>({...q,id:crypto.randomUUID(),options:q.options||t.options,source:file.name,policy:'objective',reviewed:false})))],
+  instrument:{...s.instrument,source:filename,...(s.questions.length?{}:{description:tests[0].description,presentation:tests[0].presentation})},
+  questions:[...s.questions,...tests.flatMap((t:any)=>t.questions.filter((q:any)=>q.type!=='info').map((q:any)=>({...q,id:crypto.randomUUID(),options:q.options||t.options,source:filename,type:q.type==='likert'&&q.correctValues?.length?'single':q.type,weight:q.weight??1,policy:'objective',reviewed:false})))],
  };
  const message=[detected.length?detected.length+' carreras preseleccionadas por el contenido. Confirma o ajusta su selección.':'Selecciona las carreras que recibirán este simulador.',...(data.warnings||[])].join(' ');
  return {simulator,message};
