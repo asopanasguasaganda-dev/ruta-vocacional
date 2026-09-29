@@ -12,6 +12,16 @@ function writeValues(values:any){const account=read();if(account){account.values
 function published(){return (workspace()['rv360:custom-tests']||[]).filter((t:any)=>t.status==='Publicado');}
 function testById(id:string){const t=[...instruments,...published()].find(t=>t.id===id);if(!t)throw Error('El test no está publicado en esta pestaña.');return t;}
 export function designLogout(){sessionStorage.setItem(activeKey,'signed-out');}
+export function enterDesignRole(role:'student'|'admin'){
+ sessionStorage.setItem('rv360:design-role',role);
+ sessionStorage.setItem(activeKey,'demo');
+}
+export function designUser(){
+ const admin=location.pathname.startsWith('/mi-ruta')?false:location.pathname.startsWith('/admin')||sessionStorage.getItem('rv360:design-role')==='admin';
+ const account=read();
+ if(!admin&&account&&sessionStorage.getItem(activeKey)==='yes')return account.user;
+ return {id:admin?'design-admin':'design-student',name:admin?'Administrador de muestra':'Estudiante de muestra',email:admin?'admin@example.test':'estudiante@example.test',role:admin?'admin':'student',institutionId:'design',group:'Diseño'};
+}
 export function designSave(key:string,value:unknown){if(key==='rv360:custom-tests'){for(const t of value as any[]){if(t.status==='Publicado'){const issues=instrumentProblems(t);if(issues.length)throw Error(issues[0].message);}}const w=workspace();w[key]=value;writeWorkspace(w);}else writeValues({...currentValues(),[key]:value});}
 async function verifier(password:string,salt:string){const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:100000,hash:'SHA-256'},material,256);return Array.from(new Uint8Array(bits),v=>v.toString(16).padStart(2,'0')).join('');}
 // Isolated synthetic design context. No network, credentials or database.
@@ -59,9 +69,10 @@ export async function designRequest(path:string,options:RequestInit={}){
  if(path==='session'){
   const admin=location.pathname.startsWith('/admin'),account=read(),active=sessionStorage.getItem(activeKey);
   const values={...currentValues(),'rv360:custom-tests':admin?(workspace()['rv360:custom-tests']||[]):published(),'rv360:admin-users':[]};
-  if(!admin&&account&&active==='yes')return {user:account.user,values,revisions:{},mailConfigured:false};
+  if(!admin&&account&&active==='yes')return {user:account.user,values,revisions:{},mailConfigured:false,serviceAvailable:true};
   const publicPage=['/','/ingresar','/registro','/recuperar','/admin/login','/restablecer'].includes(location.pathname.replace(/\/$/,'')||'/');
-  return {user:publicPage||(!admin&&active==='signed-out')?null:{id:'design-preview',name:admin?'Administrador':'Estudiante de muestra',email:'diseno@example.test',role:admin?'admin':'student',institutionId:'design',group:''},values:{...values,'rv360:admin-settings':{name:'Ruta Vocacional 360°'},'rv360:profile':admin?{name:'Administrador',email:'diseno@example.test'}:values['rv360:profile']||{name:'Estudiante de muestra',email:'diseno@example.test'}},revisions:{},mailConfigured:false};
+  const user=publicPage||active==='signed-out'?null:designUser();
+  return {user,values:{...values,'rv360:admin-settings':{name:'Ruta Vocacional 360°'},'rv360:profile':admin?{name:'Administrador de muestra',email:'admin@example.test'}:values['rv360:profile']||{name:'Estudiante de muestra',email:'estudiante@example.test'}},revisions:{},mailConfigured:false,serviceAvailable:true};
  }
  if(path==='reports/guidance')return {items:[],configured:false};
  if(path==='admin/analytics')return {students:0,active:0,started:0,completed:0,reports:0,recent:[],studentProgress:[],groups:[],byTest:[],activity:[]};

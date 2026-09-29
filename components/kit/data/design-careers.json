@@ -1,0 +1,4573 @@
+{
+  "careers": [
+    {
+      "id": "ec-61e0fe079828",
+      "name": "ACTUACIÓN",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "22686",
+          "institution": "UNIVERSIDAD CASA GRANDE",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ACTUACIÓN",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-23fe8e34aaf7",
+      "name": "ACUICULTURA",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "5929",
+          "institution": "UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A ACUÍCOLA",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8858",
+          "institution": "UNIVERSIDAD TÉCNICA DE MACHALA",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A ACUÍCOLA",
+          "location": "EL ORO - MACHALA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9633",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A ACUÍCOLA",
+          "location": "MANABÍ - SUCRE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10241",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DEL LITORAL (ESPOL)",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A ACUÍCOLA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20685",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "TECNÓLOGO/A SUPERIOR EN ACUICULTURA",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20692",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "TECNÓLOGO/A SUPERIOR EN ACUICULTURA",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21087",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "TECNÓLOGO/A SUPERIOR EN ACUICULTURA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-469a7d48256e",
+      "name": "ADMINISTRACIÓN DE EMPRESAS",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "3255",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "INGENIERA/O EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "3458",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5188",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5189",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5197",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5201",
+          "institution": "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5205",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5238",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5242",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5243",
+          "institution": "UNIVERSIDAD DE OTAVALO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - OTAVALO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5257",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5263",
+          "institution": "UNIVERSIDAD DEL AZUAY",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8006",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8009",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8083",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8085",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8228",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8229",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8275",
+          "institution": "UNIVERSIDAD UTE",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8276",
+          "institution": "UNIVERSIDAD UTE",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8282",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8385",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "CAÑAR - CAÑAR",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8386",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "CAÑAR - LA TRONCAL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8387",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "CAÑAR - AZOGUES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8388",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MORONA SANTIAGO - MORONA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8412",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8415",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8444",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GALÁPAGOS - SAN CRISTÓBAL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8445",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8446",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8617",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8622",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8639",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8686",
+          "institution": "UNIVERSIDAD DEL RÍO-UDR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "NO EVALUADA"
+        },
+        {
+          "id": "8935",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8937",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8946",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8951",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - IBARRA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8966",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9027",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9041",
+          "institution": "UNIVERSIDAD TÉCNICA DE AMBATO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9044",
+          "institution": "UNIVERSIDAD DE LOS HEMISFERIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9172",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9225",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA AGROPECUARIA DE MANABÍ MANUEL FÉLIX LÓPEZ - ESPAM MFL",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - BOLÍVAR",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9232",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9233",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9292",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9311",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9327",
+          "institution": "UNIVERSIDAD DE LAS FUERZAS ARMADAS-ESPE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - RUMIÑAHUI",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9339",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9342",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9439",
+          "institution": "UNIVERSIDAD TÉCNICA DE MACHALA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "EL ORO - MACHALA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9445",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9480",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "DUAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9502",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DEL LITORAL (ESPOL)",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9509",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9513",
+          "institution": "UNIVERSIDAD TÉCNICA \"LUIS VARGAS TORRES\" DE ESMERALDAS (UTLVTE)",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9545",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9565",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9569",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9639",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9651",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9655",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9681",
+          "institution": "UNIVERSIDAD TÉCNICA \"LUIS VARGAS TORRES\" DE ESMERALDAS (UTLVTE)",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - LA CONCORDIA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9791",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9856",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9869",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9871",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9874",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9973",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "DUAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10088",
+          "institution": "ESCUELA POLITÉCNICA NACIONAL",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10298",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10303",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10501",
+          "institution": "UNIVERSIDAD DE OTAVALO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - OTAVALO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10523",
+          "institution": "UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - JIPIJAPA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10534",
+          "institution": "UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - JIPIJAPA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10560",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10589",
+          "institution": "UNIVERSIDAD POLITÉCNICA ESTATAL DEL CARCHI",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "CARCHI - TULCÁN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10621",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10656",
+          "institution": "UNIVERSIDAD NACIONAL DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10805",
+          "institution": "UNIVERSIDAD TÉCNICA DE COTOPAXI",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "COTOPAXI - LATACUNGA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10806",
+          "institution": "UNIVERSIDAD TÉCNICA DE COTOPAXI",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "COTOPAXI - LA MANÁ",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10878",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10928",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10962",
+          "institution": "UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11007",
+          "institution": "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11379",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11381",
+          "institution": "UNIVERSIDAD CASA GRANDE",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11382",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11383",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "EL ORO - MACHALA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11384",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11527",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11542",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11543",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "IMBABURA - IBARRA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11545",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11552",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11556",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11561",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11562",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11568",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11620",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11694",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11696",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11898",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12171",
+          "institution": "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "BOLÍVAR - GUARANDA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12225",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12340",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12517",
+          "institution": "UNIVERSIDAD BOLIVARIANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - DURÁN",
+          "modality": "EN LÍNEA",
+          "accreditation": "NO EVALUADA"
+        },
+        {
+          "id": "12629",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12648",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "DUAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12791",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - EL CARMEN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12792",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - PEDERNALES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12892",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13118",
+          "institution": "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "BOLÍVAR - GUARANDA",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13280",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13325",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A/A EN ADMINISTRACIÓN DE EMPRESA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13326",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A/A EN ADMINISTRACIÓN DE EMPRESA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13327",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A/A EN ADMINISTRACIÓN DE EMPRESA",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20132",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20298",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20486",
+          "institution": "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTA ELENA - LA LIBERTAD",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20600",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20601",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20964",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - MANTA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20965",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - SUCRE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20966",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - CHONE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20991",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21088",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "EL ORO - MACHALA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21475",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21698",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22200",
+          "institution": "UNIVERSIDAD CASA GRANDE",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22453",
+          "institution": "UNIVERSIDAD AGRARIA DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22624",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES TURÍSTICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22696",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22899",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23065",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GUAYAS - DAULE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23240",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "GALÁPAGOS - SAN CRISTÓBAL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23623",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23990",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN ADMINISTRACIÓN DE EMPRESAS",
+          "location": "AZUAY - CUENCA",
+          "modality": "DUAL",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-d0361e2c39a1",
+      "name": "DERECHO",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "3180",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A DE LOS TRIBUNALES DE LA REPÚBLICA DEL ECUADOR",
+          "location": "IMBABURA - IBARRA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4975",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4983",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4989",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5011",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5012",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5013",
+          "institution": "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5025",
+          "institution": "UNIVERSIDAD UTE",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5027",
+          "institution": "UNIVERSIDAD DEL AZUAY",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8011",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8012",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8331",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8453",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8455",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8662",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8666",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8978",
+          "institution": "UNIVERSIDAD TÉCNICA DE AMBATO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9069",
+          "institution": "UNIVERSIDAD DE LOS HEMISFERIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9127",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9132",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9145",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9196",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CAÑAR - AZOGUES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9198",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9235",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9290",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9325",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9349",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9352",
+          "institution": "UNIVERSIDAD TÉCNICA DE MACHALA",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "EL ORO - MACHALA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9430",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CAÑAR - LA TRONCAL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9469",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9657",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9658",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9669",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9748",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9777",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9799",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9859",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - MANTA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9969",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10237",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10312",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10320",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10362",
+          "institution": "UNIVERSIDAD DE LOS HEMISFERIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10375",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10376",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10377",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10444",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10574",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10626",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10632",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10691",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10875",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11083",
+          "institution": "UNIVERSIDAD CASA GRANDE",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11215",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11356",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11357",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11555",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11599",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11615",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11657",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11658",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11659",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11784",
+          "institution": "UNIVERSIDAD DEL RÍO-UDR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "NO EVALUADA"
+        },
+        {
+          "id": "11860",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11861",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11862",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11890",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "MORONA SANTIAGO - MORONA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11982",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CARCHI - TULCÁN",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11983",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11984",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12039",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12051",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12057",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12058",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CARCHI - TULCÁN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12072",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12074",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12155",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12162",
+          "institution": "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "BOLÍVAR - GUARANDA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12218",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12378",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12483",
+          "institution": "UNIVERSIDAD BOLIVARIANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - DURÁN",
+          "modality": "EN LÍNEA",
+          "accreditation": "NO EVALUADA"
+        },
+        {
+          "id": "12639",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12966",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13287",
+          "institution": "UNIVERSIDAD NACIONAL DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20121",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20208",
+          "institution": "UNIVERSIDAD DE OTAVALO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - OTAVALO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20214",
+          "institution": "UNIVERSIDAD DE OTAVALO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - OTAVALO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20331",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20347",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20370",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20371",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20372",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20373",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20374",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20375",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "CARCHI - TULCÁN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20551",
+          "institution": "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "SANTA ELENA - LA LIBERTAD",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20552",
+          "institution": "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - PLAYAS",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20663",
+          "institution": "UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - JIPIJAPA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20756",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20826",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20891",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21172",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21173",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - CHONE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21174",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - TOSAGUA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21175",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - EL CARMEN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21176",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - SUCRE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21177",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - PEDERNALES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21430",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21444",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21518",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21829",
+          "institution": "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22144",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22201",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "COTOPAXI - LATACUNGA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22538",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23074",
+          "institution": "UNIVERSIDAD NACIONAL DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23147",
+          "institution": "UNIVERSIDAD TÉCNICA DE BABAHOYO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23183",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES TURÍSTICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23288",
+          "institution": "UNIVERSIDAD BOLIVARIANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - DURÁN",
+          "modality": "PRESENCIAL",
+          "accreditation": "NO EVALUADA"
+        },
+        {
+          "id": "23304",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23305",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23436",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23437",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "MORONA SANTIAGO - MORONA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23438",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "ORELLANA - FRANCISCO DE ORELLANA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23590",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "EL ORO - MACHALA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23592",
+          "institution": "UNIVERSIDAD METROPOLITANA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "EL ORO - MACHALA",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23662",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "ABOGADO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23691",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23701",
+          "institution": "UNIVERSIDAD TÉCNICA DE COTOPAXI",
+          "funding": "PÚBLICA",
+          "title": "ABOGADO/A",
+          "location": "COTOPAXI - LATACUNGA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-1e88bc70dd9d",
+      "name": "EDUCACIÓN BÁSICA",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "4458",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4467",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4468",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4471",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4475",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4479",
+          "institution": "UNIVERSIDAD DE LAS FUERZAS ARMADAS-ESPE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - RUMIÑAHUI",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4482",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4489",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "IMBABURA - IBARRA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4494",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4500",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "AZUAY - CUENCA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4503",
+          "institution": "UNIVERSIDAD DEL AZUAY",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4504",
+          "institution": "UNIVERSIDAD UTE",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8231",
+          "institution": "UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8235",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8241",
+          "institution": "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8272",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8590",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8693",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8694",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8781",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8800",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8810",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9006",
+          "institution": "UNIVERSIDAD TÉCNICA DE BABAHOYO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9182",
+          "institution": "UNIVERSIDAD TÉCNICA DE MACHALA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "EL ORO - MACHALA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9207",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9212",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9220",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9223",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9732",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9756",
+          "institution": "UNIVERSIDAD TÉCNICA DE AMBATO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9760",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9765",
+          "institution": "UNIVERSIDAD NACIONAL DE EDUCACIÓN",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "CAÑAR - AZOGUES",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10100",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10101",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10133",
+          "institution": "UNIVERSIDAD NACIONAL DE EDUCACIÓN",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "CAÑAR - AZOGUES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10388",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10389",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10519",
+          "institution": "UNIVERSIDAD TÉCNICA \"LUIS VARGAS TORRES\" DE ESMERALDAS (UTLVTE)",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10937",
+          "institution": "UNIVERSIDAD TÉCNICA DE COTOPAXI",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "COTOPAXI - PUJILÍ",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11044",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11046",
+          "institution": "UNIVERSIDAD TÉCNICA DE BABAHOYO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11047",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11453",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11454",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11455",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "CARCHI - TULCÁN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11456",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "IMBABURA - IBARRA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11457",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11459",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11460",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11707",
+          "institution": "UNIVERSIDAD NACIONAL DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11742",
+          "institution": "UNIVERSIDAD DE OTAVALO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "IMBABURA - OTAVALO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11746",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - MANTA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11751",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - EL CARMEN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12060",
+          "institution": "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "BOLÍVAR - GUARANDA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12062",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN INICIAL",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12128",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12246",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12486",
+          "institution": "UNIVERSIDAD POLITÉCNICA ESTATAL DEL CARCHI",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "CARCHI - TULCÁN",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12614",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13027",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "AZUAY - CUENCA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13120",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "LOJA - LOJA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13534",
+          "institution": "UNIVERSIDAD NACIONAL DE EDUCACIÓN",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "CAÑAR - AZOGUES",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20265",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20334",
+          "institution": "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "SANTA ELENA - LA LIBERTAD",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20721",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21477",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - CHONE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21478",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - TOSAGUA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21480",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - PICHINCHA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21481",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - PEDERNALES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21482",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - SUCRE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21517",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21569",
+          "institution": "UNIVERSIDAD TÉCNICA DE MACHALA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "EL ORO - MACHALA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22243",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22728",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22911",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23193",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES TURÍSTICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23718",
+          "institution": "UNIVERSIDAD ESTATAL AMAZÓNICA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN CIENCIAS DE LA EDUCACIÓN BÁSICA",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-21c9f1f54797",
+      "name": "MEDICINA",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "3182",
+          "institution": "UNIVERSIDAD DEL AZUAY",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MEDICO",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5970",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5971",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5972",
+          "institution": "UNIVERSIDAD DEL AZUAY",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5974",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5976",
+          "institution": "UNIVERSIDAD TÉCNICA DE MACHALA",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A",
+          "location": "EL ORO - MACHALA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5977",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5978",
+          "institution": "UNIVERSIDAD UTE",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5983",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5985",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5987",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5988",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "CAÑAR - AZOGUES",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5989",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO GENERAL",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "5991",
+          "institution": "UNIVERSIDAD NACIONAL DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8221",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8265",
+          "institution": "UNIVERSIDAD DE LAS FUERZAS ARMADAS-ESPE",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - RUMIÑAHUI",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9266",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9605",
+          "institution": "UNIVERSIDAD NACIONAL DE LOJA",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9847",
+          "institution": "UNIVERSIDAD TÉCNICA DE AMBATO",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9977",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10013",
+          "institution": "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10144",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10153",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10212",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10218",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10250",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10251",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10722",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11176",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11971",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12462",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12519",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12616",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13486",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20165",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20763",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "MANABÍ - MANTA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21095",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21196",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22426",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "MÉDICO/A",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23237",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "MÉDICO/A GENERAL",
+          "location": "MANABÍ - CHONE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-7fa89261b6ed",
+      "name": "PSICOLOGÍA",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "3092",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "PSICÓLOGO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4827",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4828",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4842",
+          "institution": "UNIVERSIDAD CENTRAL DEL ECUADOR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4844",
+          "institution": "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "4848",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8016",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "LOJA - LOJA",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8022",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8284",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8384",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8397",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8665",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8745",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8847",
+          "institution": "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8982",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9016",
+          "institution": "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9070",
+          "institution": "UNIVERSIDAD TÉCNICA DE BABAHOYO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9120",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "ESMERALDAS - ESMERALDAS",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9126",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9317",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9446",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "MANABÍ - MANTA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9580",
+          "institution": "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9944",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9971",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9972",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10001",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10002",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10043",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10438",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10633",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10811",
+          "institution": "UNIVERSIDAD CASA GRANDE",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10886",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11822",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12036",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12173",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "A DISTANCIA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12317",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12391",
+          "institution": "UNIVERSIDAD BOLIVARIANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - DURÁN",
+          "modality": "EN LÍNEA",
+          "accreditation": "NO EVALUADA"
+        },
+        {
+          "id": "12563",
+          "institution": "UNIVERSIDAD DE CUENCA",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12682",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12769",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12770",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20206",
+          "institution": "UNIVERSIDAD CASA GRANDE",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20780",
+          "institution": "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "SANTA ELENA - LA LIBERTAD",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21515",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21910",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21911",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "LOJA - LOJA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22049",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22050",
+          "institution": "UNIVERSIDAD DE OTAVALO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "IMBABURA - OTAVALO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22077",
+          "institution": "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "BOLÍVAR - GUARANDA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22427",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22509",
+          "institution": "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22541",
+          "institution": "UNIVERSIDAD TÉCNICA DE BABAHOYO",
+          "funding": "PÚBLICA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22951",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA O PSICÓLOGO/A",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23502",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23504",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "LICENCIADO/A EN PSICOLOGÍA",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    },
+    {
+      "id": "ec-4f7790323ed9",
+      "name": "SOFTWARE",
+      "interests": [],
+      "description": "Carrera incluida en la consulta de oferta de tercer nivel del CES.",
+      "area": "Oferta académica de Ecuador",
+      "activities": "Consulta la malla curricular oficial de la institución.",
+      "skills": "Revisa requisitos y experiencias prácticas; el test no mide aptitudes.",
+      "investigate": "Verifica disponibilidad, admisión, costos, modalidad y malla con la institución.",
+      "offers": [
+        {
+          "id": "8390",
+          "institution": "UNIVERSIDAD CATÓLICA DE CUENCA",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "AZUAY - CUENCA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "8955",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "GUAYAS - MILAGRO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9005",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9062",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9152",
+          "institution": "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "CHIMBORAZO - RIOBAMBA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9340",
+          "institution": "UNIVERSIDAD TÉCNICA DE AMBATO",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9461",
+          "institution": "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "GUAYAS - SAMBORONDÓN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9550",
+          "institution": "UNIVERSIDAD DE LAS FUERZAS ARMADAS-ESPE",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "PICHINCHA - RUMIÑAHUI",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9551",
+          "institution": "UNIVERSIDAD DE LAS FUERZAS ARMADAS-ESPE",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "COTOPAXI - LATACUNGA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9612",
+          "institution": "ESCUELA POLITÉCNICA NACIONAL",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "9792",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10000",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "SEMIPRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10085",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10267",
+          "institution": "UNIVERSIDAD TÉCNICA DEL NORTE",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10635",
+          "institution": "UNIVERSIDAD TÉCNICA DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "10954",
+          "institution": "UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11544",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11546",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "IMBABURA - IBARRA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11549",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "LOS RÍOS - BABAHOYO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11551",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "PASTAZA - PASTAZA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11553",
+          "institution": "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11563",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "CARCHI - TULCÁN",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11564",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "LOS RÍOS - QUEVEDO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11565",
+          "institution": "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "SANTO DOMINGO DE LOS TSÁCHILAS - SANTO DOMINGO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11625",
+          "institution": "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/ A DE SOFTWARE",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "11771",
+          "institution": "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12049",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "MANABÍ - PORTOVIEJO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12159",
+          "institution": "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "BOLÍVAR - GUARANDA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12226",
+          "institution": "UNIVERSIDAD DE GUAYAQUIL",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12752",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "MANABÍ - MANTA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12753",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "MANABÍ - CHONE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "12754",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "MANABÍ - EL CARMEN",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "13433",
+          "institution": "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "SANTA ELENA - LA LIBERTAD",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "20760",
+          "institution": "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "AZUAY - CUENCA",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21120",
+          "institution": "UNIVERSIDAD TÉCNICA DE COTOPAXI",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "COTOPAXI - LATACUNGA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21136",
+          "institution": "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "GUAYAS - GUAYAQUIL",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21470",
+          "institution": "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A DE SOFTWARE",
+          "location": "MANABÍ - FLAVIO ALFARO",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21547",
+          "institution": "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+          "funding": "PARTICULAR COFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "IMBABURA - IBARRA",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "21566",
+          "institution": "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22554",
+          "institution": "UNIVERSIDAD DE LAS AMÉRICAS",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "PICHINCHA - DISTRITO METROPOLITANO DE QUITO",
+          "modality": "HÍBRIDA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "22591",
+          "institution": "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+          "funding": "PARTICULAR AUTOFINANCIADA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "TUNGURAHUA - AMBATO",
+          "modality": "EN LÍNEA",
+          "accreditation": "ACREDITADA"
+        },
+        {
+          "id": "23102",
+          "institution": "UNIVERSIDAD ESTATAL DE MILAGRO",
+          "funding": "PÚBLICA",
+          "title": "INGENIERO/A EN SOFTWARE",
+          "location": "GUAYAS - DAULE",
+          "modality": "PRESENCIAL",
+          "accreditation": "ACREDITADA"
+        }
+      ],
+      "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+      "sourceDate": "2026-09-27"
+    }
+  ],
+  "source": {
+    "source": "Consejo de Educación Superior (CES)",
+    "sourceUrl": "https://appcmi.ces.gob.ec/oferta_vigente/",
+    "date": "2026-09-27",
+    "scope": "Selección del catálogo para explorar el diseño.",
+    "careerCount": 8,
+    "offerCount": 488
+  },
+  "institutions": [
+    "ESCUELA POLITÉCNICA NACIONAL",
+    "ESCUELA SUPERIOR POLITÉCNICA AGROPECUARIA DE MANABÍ MANUEL FÉLIX LÓPEZ - ESPAM MFL",
+    "ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO",
+    "ESCUELA SUPERIOR POLITÉCNICA DEL LITORAL (ESPOL)",
+    "PONTIFICIA UNIVERSIDAD CATÓLICA DEL ECUADOR",
+    "UNIVERSIDAD AGRARIA DEL ECUADOR",
+    "UNIVERSIDAD BOLIVARIANA DEL ECUADOR",
+    "UNIVERSIDAD CASA GRANDE",
+    "UNIVERSIDAD CATÓLICA DE CUENCA",
+    "UNIVERSIDAD CATÓLICA DE SANTIAGO DE GUAYAQUIL (UCSG)",
+    "UNIVERSIDAD CENTRAL DEL ECUADOR",
+    "UNIVERSIDAD DE CUENCA",
+    "UNIVERSIDAD DE ESPECIALIDADES ESPÍRITU SANTO - UEES",
+    "UNIVERSIDAD DE ESPECIALIDADES TURÍSTICAS",
+    "UNIVERSIDAD DE GUAYAQUIL",
+    "UNIVERSIDAD DE LAS AMÉRICAS",
+    "UNIVERSIDAD DE LAS FUERZAS ARMADAS-ESPE",
+    "UNIVERSIDAD DE LOS HEMISFERIOS",
+    "UNIVERSIDAD DE OTAVALO",
+    "UNIVERSIDAD DEL AZUAY",
+    "UNIVERSIDAD DEL PACÍFICO-ESCUELA DE NEGOCIOS",
+    "UNIVERSIDAD DEL RÍO-UDR",
+    "UNIVERSIDAD ESTATAL AMAZÓNICA",
+    "UNIVERSIDAD ESTATAL DE BOLÍVAR",
+    "UNIVERSIDAD ESTATAL DE MILAGRO",
+    "UNIVERSIDAD ESTATAL DEL SUR DE MANABÍ",
+    "UNIVERSIDAD ESTATAL PENÍNSULA DE SANTA ELENA - UPSE",
+    "UNIVERSIDAD IBEROAMERICANA DEL ECUADOR",
+    "UNIVERSIDAD INTERNACIONAL DEL ECUADOR (UIDE)",
+    "UNIVERSIDAD LAICA \"ELOY ALFARO\" DE MANABÍ",
+    "UNIVERSIDAD LAICA VICENTE ROCAFUERTE DE GUAYAQUIL",
+    "UNIVERSIDAD METROPOLITANA",
+    "UNIVERSIDAD NACIONAL DE CHIMBORAZO",
+    "UNIVERSIDAD NACIONAL DE EDUCACIÓN",
+    "UNIVERSIDAD NACIONAL DE LOJA",
+    "UNIVERSIDAD PARTICULAR INTERNACIONAL SEK",
+    "UNIVERSIDAD POLITÉCNICA ESTATAL DEL CARCHI",
+    "UNIVERSIDAD POLITÉCNICA SALESIANA - UPS",
+    "UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES \"UNIANDES\"",
+    "UNIVERSIDAD SAN FRANCISCO DE QUITO USFQ",
+    "UNIVERSIDAD SAN GREGORIO DE PORTOVIEJO",
+    "UNIVERSIDAD TECNOLÓGICA ECOTEC",
+    "UNIVERSIDAD TECNOLÓGICA EMPRESARIAL DE GUAYAQUIL",
+    "UNIVERSIDAD TECNOLÓGICA INDOAMÉRICA",
+    "UNIVERSIDAD TECNOLÓGICA ISRAEL",
+    "UNIVERSIDAD TÉCNICA \"LUIS VARGAS TORRES\" DE ESMERALDAS (UTLVTE)",
+    "UNIVERSIDAD TÉCNICA DE AMBATO",
+    "UNIVERSIDAD TÉCNICA DE BABAHOYO",
+    "UNIVERSIDAD TÉCNICA DE COTOPAXI",
+    "UNIVERSIDAD TÉCNICA DE MACHALA",
+    "UNIVERSIDAD TÉCNICA DE MANABÍ",
+    "UNIVERSIDAD TÉCNICA DEL NORTE",
+    "UNIVERSIDAD TÉCNICA ESTATAL DE QUEVEDO",
+    "UNIVERSIDAD TÉCNICA PARTICULAR DE LOJA",
+    "UNIVERSIDAD UTE"
+  ]
+}

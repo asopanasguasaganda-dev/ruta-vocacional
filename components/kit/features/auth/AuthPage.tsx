@@ -45,12 +45,15 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
         <section className="auth-main" aria-labelledby="auth-title">
           <div className="auth-heading">
             {admin && <span className="icon-tile"><ShieldCheck size={24} /></span>}
-            <span className="auth-kicker">{admin ? 'ACCESO RESTRINGIDO' : register ? 'EMPIEZA TU RUTA' : reset ? 'RECUPERA TU CUENTA' : 'CONTINÚA TU RUTA'}</span>
+            <span className="auth-kicker">{admin ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'VISTA ADMINISTRATIVA':'ACCESO RESTRINGIDO') : register ? 'EMPIEZA TU RUTA' : reset ? 'RECUPERA TU CUENTA' : 'CONTINÚA TU RUTA'}</span>
             <h1 id="auth-title">{admin ? 'Acceso a administración' : register ? 'Crea tu cuenta' : reset ? 'Recupera tu acceso' : 'Te damos la bienvenida'}</h1>
-            <p>{admin ? 'Ingresa con tus credenciales de administración.' : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? 'Te enviaremos instrucciones a tu correo.' : 'Ingresa y retoma donde lo dejaste.'}</p>
+            <p>{admin ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Explora la gestión de cursos y el recorrido de tus estudiantes.':'Ingresa con tus credenciales de administración.') : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? 'Te enviaremos instrucciones a tu correo.' : 'Ingresa y retoma donde lo dejaste.'}</p>
           </div>
-          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&!admin&&<p className="auth-test-note">Prueba de diseño: usa datos ficticios. Tu cuenta se conserva solo en esta pestaña; no se crea una cuenta en el servidor.</p>}
-          {session.serviceAvailable === false ? <div className="stack-sm" role="status">
+          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&<p className="auth-test-note">Diseño interactivo. Explora con datos de muestra; no necesitas una cuenta real.</p>}
+          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&!register ? <div className="stack-sm">
+            <Button onClick={async()=>{const {enterDesignRole}=await import('../../lib/design-preview');enterDesignRole(admin?'admin':'student');navigate(admin?'admin':'mi-ruta');}}>Entrar como {admin?'administrador':'estudiante'}</Button>
+            <a className="auth-return" href={admin?'/ingresar':'/admin/login'}>Ver diseño de {admin?'estudiante':'administración'}</a>
+          </div> : session.serviceAvailable === false ? <div className="stack-sm" role="status">
             <Notice tone="warning">El acceso está temporalmente fuera de servicio. Vuelve a intentarlo más tarde.</Notice>
             <Button variant="secondary" onClick={() => void refreshSession()}>Comprobar disponibilidad</Button>
           </div> : form}
@@ -58,7 +61,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
             <a href={register ? '/ingresar' : '/registro'}>{register ? 'Ingresar' : 'Crear cuenta'}</a>
           </p>}
           {reset && <a className="auth-return" href="/ingresar">Volver al ingreso</a>}
-          {admin && <p className="auth-security"><ShieldCheck size={16} />Solo para personal autorizado.</p>}
+          {admin && <p className="auth-security"><ShieldCheck size={16} />{process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Vista de muestra, sin credenciales reales.':'Solo para personal autorizado.'}</p>}
         </section>
         {register && <aside className="auth-benefits">
           <img src="/media/brain-book-icon.png" alt="" width={44} height={44} />

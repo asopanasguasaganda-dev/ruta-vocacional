@@ -458,7 +458,7 @@ export function AdminCourses() {
                 })
               }
             >
-              Asignar de forma persistente
+              {process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true" ? "Asignar en esta muestra" : "Asignar de forma persistente"}
             </Button>
           </div>
         )}

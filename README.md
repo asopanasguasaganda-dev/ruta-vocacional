@@ -6,7 +6,7 @@ Importa este repositorio en Vercel con preset **Other**, Node 24 y raíz `.`. La
 
 Las secciones siguientes describen el backend local existente, que no se ejecuta en la vista de diseño.
 
-Aplicación Next.js con web pública, estudiante y administración independiente. Esta revisión sustituye el prototipo local por sesiones y persistencia del servidor, según la solicitud actualizada.
+Aplicación Next.js con web pública, estudiante y administración independiente. El backend se conserva para una etapa futura; la demostración publicada utiliza datos locales de muestra.
 
 ## Ejecutar
 

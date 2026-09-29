@@ -564,24 +564,22 @@ export function SimulatorEditor({
     setBusy(true);
     setError("");
     try {
-      const form = new FormData();
-      form.append("file", file);
-      const job = await readApiResponse(
-        await fetch("/api/admin/import", { method: "POST", body: form }),
-      );
       let data;
-      for (let n = 0; n < 180; n++) {
-        data = await readApiResponse(
-          await fetch("/api/admin/import?id=" + job.id + "&status=1"),
-        );
-        if (data.status === "Error") throw Error(data.error);
-        if (data.status === "Completado") break;
-        await new Promise((r) => setTimeout(r, 1000));
+      if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true") {
+        const { importDesignDocument } = await import("../../lib/design-import");
+        data = await importDesignDocument(file);
+      } else {
+        const form = new FormData();
+        form.append("file", file);
+        const job = await readApiResponse(await fetch("/api/admin/import", { method: "POST", body: form }));
+        for (let n = 0; n < 180; n++) {
+          data = await readApiResponse(await fetch("/api/admin/import?id=" + job.id + "&status=1"));
+          if (data.status === "Error") throw Error(data.error);
+          if (data.status === "Completado") break;
+          await new Promise((r) => setTimeout(r, 1000));
+        }
+        if (data?.status !== "Completado") throw Error("La extracción sigue en proceso. Consúltala en Evaluaciones.");
       }
-      if (data?.status !== "Completado")
-        throw Error(
-          "La extracción sigue en proceso. Consúltala en Evaluaciones.",
-        );
       const tests = data.tests || [];
       if (!tests.length)
         throw Error("No se identificaron preguntas. Revisa el documento.");
@@ -1097,7 +1095,7 @@ export function SimulatorEditor({
           </SelectField>
           <Notice>
             En examen, las explicaciones aparecen después de entregar. El
-            servidor controla el tiempo y las versiones.
+            recorrido conserva el tiempo y las versiones.
           </Notice>
         </>
       )}
@@ -1152,7 +1150,7 @@ export function SimulatorEditor({
                   }
                 }}
               >
-                Calcular con el servidor
+                {process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true" ? "Calcular resultado de muestra" : "Calcular con el servidor"}
               </Button>
               {result && (
                 <Notice>

@@ -192,7 +192,7 @@ export function SimulatorRun({
       <p aria-live="polite">
         {dirty
           ? "Hay cambios sin sincronizar. Guarda antes de salir."
-          : "Respuestas confirmadas por el servidor."}
+          : process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true" ? "Respuestas guardadas en este navegador." : "Respuestas confirmadas por el servidor."}
       </p>
       <div className="training-actions">
         <Button
@@ -236,6 +236,17 @@ export function SimulatorRun({
 export function TrainingResult({ attempt: a }: { attempt: any }) {
   const r = a.result,
     [pdf, setPdf] = useState(false);
+  const [pdfUrl,setPdfUrl]=useState('');
+  useEffect(()=>{
+    if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true')return;
+    let cancelled=false,url='';
+    import('../../lib/design-training-pdf').then(({designTrainingPdf})=>{
+      if(cancelled)return;
+      url=designTrainingPdf(a);setPdfUrl(url);
+    });
+    return ()=>{cancelled=true;if(url)URL.revokeObjectURL(url);};
+  },[a]);
+  const pdfSource=process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?pdfUrl:'/api/training/pdf?id='+a.id;
   return (
     <Card className="training-result">
       <small>
@@ -313,7 +324,7 @@ export function TrainingResult({ attempt: a }: { attempt: any }) {
         </Button>
         <a
           className="button button--secondary"
-          href={"/api/training/pdf?id=" + a.id}
+          href={pdfSource||undefined}
           target="_blank"
           rel="noreferrer"
         >
@@ -323,7 +334,7 @@ export function TrainingResult({ attempt: a }: { attempt: any }) {
       {pdf && (
         <iframe
           title={"Resultado de " + a.instrument.title}
-          src={"/api/training/pdf?id=" + a.id}
+          src={pdfSource||undefined}
         />
       )}
     </Card>

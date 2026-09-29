@@ -3,10 +3,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { readApiResponse } from "../../lib/api-response";
 import { Button, Notice } from "../../components/ui/primitives";
 export async function trainingApi(path = "", body?: any, method = "POST") {
-  if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true")
-    throw Error(
-      "Cursos necesita el servidor y una base de datos persistente. Esta publicación contiene solo el diseño.",
-    );
+  if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true") {
+    const { designTraining } = await import('../../lib/design-training');
+    return designTraining(path, body, body === undefined ? 'GET' : method);
+  }
   try { return await readApiResponse(
     await fetch("/api/training" + path, {
       method: body === undefined ? "GET" : method,
@@ -42,10 +42,12 @@ export function useTraining() {
     refresh();
     const focus = () => refresh();
     window.addEventListener("focus", focus);
+    window.addEventListener("storage", focus);
     const timer = setInterval(focus, 30000);
     return () => {
       requestId.current++;
       window.removeEventListener("focus", focus);
+      window.removeEventListener("storage", focus);
       clearInterval(timer);
     };
   }, [refresh]);

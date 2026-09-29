@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname,useRouter,useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { DesignToolbar } from './components/layout/DesignToolbar';
 
 import { Check,CloudUpload,RefreshCw,ShieldCheck } from 'lucide-react';
 import App from './App';
@@ -13,7 +14,7 @@ import { routes,publicViews } from './routes';
 import type { View } from './types';
 export function KitRoot({publicHome=false}:{publicHome?:boolean}){
  // The static public home must not wait for a streamed client reveal to be visible.
- const content=<ToastProvider><ConnectedApp /></ToastProvider>;
+ const content=<ToastProvider><DesignToolbar/><ConnectedApp /></ToastProvider>;
  return publicHome?content:<Suspense fallback={<Loading />}>{content}</Suspense>;
 }
 function Loading(){return <main className="loading-screen"><Brand /><p>Preparando tu espacio…</p></main>;}
