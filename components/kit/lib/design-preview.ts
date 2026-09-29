@@ -1,8 +1,9 @@
+import {cloudAdmin,adminLogin,adminPassword} from './admin-session';
 import nationalCatalog from '../data/design-careers.json';
 import {localGuidance} from './local-guidance';
 import {instruments} from '../data/instruments';
 import {calculateTest,instrumentProblems,answerProblem,visibleQuestions} from './test-engine';
-// Local accounts for the design stage; no database or server authentication.
+// Student data remains browser-local; cloud administrators authenticate on the server.
 const key='rv360:local-accounts-v1',activeKey='rv360:local-session-v1';
 export function localAccounts():any[]{try{return JSON.parse(localStorage.getItem(key)||'[]');}catch{return [];}}
 function read(){return localAccounts().find(a=>a.user.id===sessionStorage.getItem(activeKey)&&(!a.user.status||a.user.status==='Activo')&&(a.authVersion||0)===Number(sessionStorage.getItem('rv360:local-auth-version')||0))||null;}
@@ -28,26 +29,14 @@ export function designSave(key:string,value:unknown){const user=designUser();if(
  for(const old of prior){if(old.status==='Borrador')continue;const next=items.find(t=>t.id===old.id);if(!next)throw Error('Archiva las versiones publicadas; sus resultados deben conservarse.');if(next.status==='Borrador'||content(old)!==content(next))throw Error('Crea una nueva versión para modificar un test publicado.');}
  for(const t of items){if(t.status==='Publicado'){for(const link of t.careerLinks||[])if(!nationalCatalog.careers.some(c=>c.id===link.careerId))throw Error('Selecciona una carrera del catálogo antes de publicar.');const issues=instrumentProblems(t);if(issues.length)throw Error(issues[0].message);}}const w=workspace();w[key]=value;const states={...originalStatuses()};for(const t of items){if(t.status==='Publicado'&&t.stableId&&!prior.some((old:any)=>old.id===t.id&&old.status==='Publicado')&&instruments.some(i=>i.id===t.stableId))states[t.stableId]='Archivado';}w['rv360:admin-original-status']=states;writeWorkspace(w);}else writeValues({...currentValues(),[key]:value});}
 async function verifier(password:string,salt:string){const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveBits']);const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:new TextEncoder().encode(salt),iterations:100000,hash:'SHA-256'},material,256);return Array.from(new Uint8Array(bits),v=>v.toString(16).padStart(2,'0')).join('');}
-// Isolated synthetic design context. No network, credentials or database.
+// Browser persistence with server-backed administrative publication sessions.
 export async function designRequest(path:string,options:RequestInit={}){
  const body=options.body?JSON.parse(String(options.body)):{};
- if(path==='admin/test-as-student'&&options.method==='POST'){
-  const admin=read();if(admin?.user.role!=='admin')throw Error('Inicia sesión como administrador.');
-  const student=localAccounts().find(a=>a.user.id===body.id&&a.user.role==='student'&&(!a.user.status||a.user.status==='Activo'));
-  if(!student)throw Error('Selecciona un estudiante activo de este navegador.');
-  sessionStorage.setItem('rv360:return-admin',JSON.stringify({id:admin.user.id,version:admin.authVersion||0,returnPath:['/admin/','/admin/evaluaciones/','/admin/cursos/','/admin/usuarios/','/admin/resultados/','/admin/configuracion/','/admin/cuenta/'].includes(body.returnPath)?body.returnPath:'/admin/evaluaciones/'}));
-  sessionStorage.setItem(activeKey,student.user.id);sessionStorage.setItem('rv360:local-auth-version',String(student.authVersion||0));return {ok:true};
- }
- if(path==='local/return-admin'&&options.method==='POST'){
-  const previous=JSON.parse(sessionStorage.getItem('rv360:return-admin')||'null');
-  const admin=previous&&localAccounts().find(a=>a.user.id===previous.id&&a.user.role==='admin'&&(!a.user.status||a.user.status==='Activo')&&(a.authVersion||0)===previous.version);
-  if(!admin)throw Error('Vuelve a ingresar con tu cuenta administrativa.');
-  sessionStorage.setItem(activeKey,admin.user.id);sessionStorage.setItem('rv360:local-auth-version',String(admin.authVersion||0));sessionStorage.removeItem('rv360:return-admin');return {ok:true,returnPath:['/admin/','/admin/evaluaciones/','/admin/cursos/','/admin/usuarios/','/admin/resultados/','/admin/configuracion/','/admin/cuenta/'].includes(previous.returnPath)?previous.returnPath:'/admin/evaluaciones/'};
- }
- if(path==='auth/local-status')return {adminExists:localAccounts().some(a=>a.user.role==='admin')};
+ if(['admin/test-as-student','local/return-admin'].includes(path))throw Error('Esta operacion no esta disponible.');
+ if(path==='auth/local-status')return {adminExists:cloudAdmin()||localAccounts().some(a=>a.user.role==='admin')};
  if((path==='auth/register'||path==='auth/local-admin')&&options.method==='POST'){
   sessionStorage.removeItem('rv360:return-admin');
-  const admin=path==='auth/local-admin';
+  const admin=path==='auth/local-admin';if(admin&&cloudAdmin())throw Error('Inicia sesion con tu cuenta administrativa.');
   if(!admin&&workspace()['rv360:admin-settings']?.selfRegistration==='no')throw Error('Los registros están cerrados. Contacta con administración para crear tu cuenta.');
   if(admin&&localAccounts().some(a=>a.user.role==='admin'))throw Error('La cuenta administrativa ya está configurada.');
   if(!body.name?.trim()||!/^\S+@\S+\.\S+$/.test(body.email||'')||typeof body.password!=='string'||body.password.length<8||body.password.length>128)throw Error('Revisa nombre, correo y contraseña (8 a 128 caracteres).');
@@ -57,6 +46,13 @@ export async function designRequest(path:string,options:RequestInit={}){
   write({user,salt,verifier:await verifier(password,salt),values:{'rv360:profile':{...profile,name:user.name,email:user.email}}});sessionStorage.setItem(activeKey,user.id);sessionStorage.setItem('rv360:local-auth-version','0');return {user};
  }
  if(path==='auth/login'&&options.method==='POST'){
+  if(body.admin&&cloudAdmin()){
+   const user=await adminLogin(String(body.email).trim().toLowerCase(),body.password);
+   const prior=localAccounts().find(a=>a.user.id===user.id||a.user.email===user.email);
+   const salt=crypto.randomUUID();write({user,salt,verifier:await verifier(body.password,salt),values:prior?.values||{'rv360:profile':{name:user.name,email:user.email}}});
+   sessionStorage.setItem(activeKey,user.id);sessionStorage.setItem('rv360:local-auth-version','0');return {user};
+  }
+
   sessionStorage.removeItem('rv360:return-admin');
   const account=localAccounts().find(a=>a.user.email===String(body.email).trim().toLowerCase()&&(body.admin?a.user.role==='admin':['student','orientador'].includes(a.user.role)));
   if(!account||(account.user.status&&account.user.status!=='Activo')||typeof body.password!=='string'||account.verifier!==await verifier(body.password,account.salt))throw Error('Correo o contraseña incorrectos. Usa una cuenta creada en este navegador.');
@@ -84,7 +80,7 @@ export async function designRequest(path:string,options:RequestInit={}){
   if(prior&&prior.user.role!==user.role)account.authVersion=(account.authVersion||0)+1;account.user=user;account.values['rv360:profile']={...account.values['rv360:profile'],name:user.name,email:user.email,group:user.group,stage:u.stage||'',institution:u.institution||''};write(account);return {ok:true};
  }
  if(path==='account/password'&&options.method==='POST'){
-  const a=read();if(!a)throw Error('Inicia sesión para continuar.');if(typeof body.currentPassword!=='string'||await verifier(body.currentPassword,a.salt)!==a.verifier)throw Error('La contraseña actual es incorrecta.');if(typeof body.password!=='string'||body.password.length<8||body.password.length>128||body.password!==body.confirm)throw Error('Revisa la nueva contraseña y su confirmación.');a.salt=crypto.randomUUID();a.verifier=await verifier(body.password,a.salt);a.authVersion=(a.authVersion||0)+1;write(a);sessionStorage.setItem('rv360:local-auth-version',String(a.authVersion));return {ok:true};
+  const a=read();if(!a)throw Error('Inicia sesión para continuar.');if(typeof body.currentPassword!=='string'||await verifier(body.currentPassword,a.salt)!==a.verifier)throw Error('La contraseña actual es incorrecta.');if(typeof body.password!=='string'||body.password.length<8||body.password.length>128||body.password!==body.confirm)throw Error('Revisa la nueva contraseña y su confirmación.');if(a.user.role==='admin'&&cloudAdmin())await adminPassword(body);a.salt=crypto.randomUUID();a.verifier=await verifier(body.password,a.salt);a.authVersion=(a.authVersion||0)+1;write(a);sessionStorage.setItem('rv360:local-auth-version',String(a.authVersion));return {ok:true};
  }
  if(path==='account/photo'){
   designUser();if(options.method==='DELETE'){writeValues({...currentValues(),'rv360:profile':{...currentValues()['rv360:profile'],photo:''}});return {ok:true};}
@@ -140,7 +136,7 @@ export async function designRequest(path:string,options:RequestInit={}){
   const account=read(),admin=account?.user.role==='admin';
   let connection=null;
   if(account){let workspaceId=localStorage.getItem('rv360:workspace-id-v1');if(!workspaceId){workspaceId=crypto.randomUUID();localStorage.setItem('rv360:workspace-id-v1',workspaceId);}const tests=workspace()['rv360:custom-tests']||[];connection={workspaceId,published:tests.filter((t:any)=>t.status==='Publicado').length,drafts:tests.filter((t:any)=>t.status==='Borrador').length,assigned:published(account.user).length,originals:availableOriginals(account.user).length};}
-  const values={...currentValues(),'rv360:local-connection':connection,'rv360:testing-as':!admin&&!!sessionStorage.getItem('rv360:return-admin'),'rv360:admin-settings':workspace()['rv360:admin-settings']||currentValues()['rv360:admin-settings'],'rv360:admin-original-status':originalStatuses(),'rv360:available-originals':availableOriginals().map(t=>t.id),...(admin?{'rv360:submissions':localAccounts().filter(a=>a.user.role==='student').flatMap(a=>a.values['rv360:submissions']||[])}:{}),'rv360:custom-tests':admin?(workspace()['rv360:custom-tests']||[]):studentTests(),'rv360:admin-users':admin?localAccounts().filter(a=>a.user.role!=='admin').map(a=>({...a.values['rv360:profile'],...a.user,role:a.user.role==='orientador'?'Orientador':'Estudiante',status:a.user.status||'Activo'})):[]};
+  const values={...currentValues(),'rv360:local-connection':connection,'rv360:admin-settings':workspace()['rv360:admin-settings']||currentValues()['rv360:admin-settings'],'rv360:admin-original-status':originalStatuses(),'rv360:available-originals':availableOriginals().map(t=>t.id),...(admin?{'rv360:submissions':localAccounts().filter(a=>a.user.role==='student').flatMap(a=>a.values['rv360:submissions']||[])}:{}),'rv360:custom-tests':admin?(workspace()['rv360:custom-tests']||[]):studentTests(),'rv360:admin-users':admin?localAccounts().filter(a=>a.user.role!=='admin').map(a=>({...a.values['rv360:profile'],...a.user,role:a.user.role==='orientador'?'Orientador':'Estudiante',status:a.user.status||'Activo'})):[]};
   values['rv360:submissions']=(values['rv360:submissions']||[]).map((s:any)=>visibleSubmission(s,admin));
   return {user:account?.user||null,values,revisions:{},mailConfigured:false,serviceAvailable:true};
  }

@@ -147,7 +147,7 @@ export function Settings() {
           <small className="muted">Los cambios se aplican al guardar.</small>
         </div>
       </form>
-      <div style={{marginTop:24}}><AuditLog/></div>
+      <div className="stack" style={{marginTop:24}}><AuditLog/></div>
     </>
   );
 }

@@ -1,24 +1,18 @@
-# Publicaciones compartidas en Vercel, sin base de datos
+# Publicaciones y acceso administrativo en Vercel
 
-El sitio estático utiliza una función `/api/design-publications` y un único JSON privado en Vercel Blob. Los navegadores reciben los tests y simuladores publicados automáticamente al entrar, recuperar el foco o cada 15 segundos mientras la página está visible. Las cuentas, respuestas e intentos de esta versión de diseño siguen guardados en cada navegador.
+El administrador publica con su correo y contrasena habituales, sin claves adicionales ni paneles de conexion. El servidor verifica la cuenta y emite una cookie HttpOnly, Secure y SameSite=Strict, valida por un dia.
 
-## Activación (una vez)
+La pesta?a administrativa que ya estaba conectada migra automaticamente su autorizacion anterior y elimina la antigua clave de la pesta?a. No se permite registrar administradores anonimamente. El verificador de contrasena se guarda en un JSON privado separado del catalogo.
 
-1. En el proyecto de Vercel, abre **Storage → Create Database/Store → Blob** y selecciona acceso **Private**. Conecta el almacén al proyecto y al entorno **Production**. Aunque la pantalla de Vercel agrupe los almacenes bajo Storage/Database, esta integración guarda un archivo JSON, no utiliza una base de datos.
-2. Comprueba que el proyecto recibe `BLOB_READ_WRITE_TOKEN` (o la configuración OIDC `BLOB_STORE_ID` y el token administrado por Vercel).
-3. En **Settings → Environment Variables**, añade `DESIGN_PUBLISH_KEY`: una clave aleatoria de al menos 32 caracteres. Debe ser secreta y no llevar prefijo `NEXT_PUBLIC_`. No la guardes en Git ni la compartas con estudiantes.
-4. Haz **Redeploy** para aplicar las variables.
-5. En el navegador del administrador que contiene los tests existentes, abre **Evaluaciones → Publicación en línea**, introduce esa clave y pulsa **Conectar y publicar**. Esto sube las publicaciones existentes. Las siguientes publicaciones y archivos se sincronizan al guardarse; la clave se recuerda solo en la pestaña actual.
-6. En otro navegador, inicia sesión como estudiante. Si hay tres tests originales y uno nuevo publicado para todos, deben aparecer cuatro en Inicio y Mis tests. Los simuladores aparecen en las carreras recomendadas correspondientes.
+## Variables internas
 
-No hay que trasladar archivos al estudiante. Un borrador no se publica. Si falta configuración o falla la escritura, la aplicación muestra el error y no confirma una publicación fallida. El JSON admite hasta 4 MB de catálogo para estas pruebas.
+- BLOB_READ_WRITE_TOKEN: acceso al almacen privado de Vercel Blob.
+- DESIGN_PUBLISH_KEY: secreto interno de firma de sesiones y migracion de la version anterior. Nunca se muestra en la interfaz.
 
-## Verificación
+Los tests y simuladores publicados se comparten automaticamente. Las cuentas de estudiantes, respuestas e intentos siguen guardados en cada navegador; su migracion centralizada es un trabajo separado.
 
-`GET /api/design-publications` debe devolver `configured: true`. Nunca devuelve la clave. `PUT` exige `X-Publish-Key`. Las escrituras usan ETag para no sobrescribir cambios simultáneos y las lecturas privadas evitan la caché del CDN.
+## Verificacion
 
-Pruebas: `node scripts/test-cloud-publications.cjs`, `node scripts/test-shared-design-server.cjs` y `npm run build:design`.
+npm run build:design genera el sitio y las funciones CommonJS de api/ desde lib/server/.
 
-`api/design-publications.js` es el artefacto CommonJS generado para la función independiente de Vercel. Se regenera con `npm run build:cloud-api` (también durante `build:design`); el código fuente está en `lib/server/design-publications-handler.ts` y `lib/server/design-publications.ts`.
-
-Documentación oficial: https://vercel.com/docs/vercel-blob/private-storage y https://vercel.com/docs/vercel-blob/using-blob-sdk.
+Pruebas: scripts/test-publisher-auth.cjs, scripts/test-cloud-publications.cjs y scripts/test-local-panel-switch.cjs. Los datos de verificacion se mantienen aislados de produccion.

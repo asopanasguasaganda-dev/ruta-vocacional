@@ -11,6 +11,8 @@ const packet=source=>({format:'rv360-test-publication',version:2,source,createdA
 (async()=>{
  const missing=createPublicationService(storage,{});assert.equal((await missing('GET')).body.configured,false);assert.equal((await missing('PUT',packet('a'),secret)).status,503);
  const api=createPublicationService(storage,env);
+ assert.equal((await api('POST',{},'wrong')).status,401);
+ assert.equal((await api('POST',{},secret)).status,200);assert.equal(revision,0);
  assert.equal((await api('PUT',packet('a'),'wrong')).status,401);assert.equal(revision,0);
  assert.equal((await api('PUT',{...packet('a'),tests:[{}]},secret)).status,400);
  const results=await Promise.all(['a','b','c'].map(source=>api('PUT',packet(source),secret)));assert(results.every(r=>r.status===200));assert.equal(data.publications.length,3);

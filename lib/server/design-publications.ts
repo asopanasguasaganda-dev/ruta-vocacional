@@ -14,12 +14,13 @@ export const blobCatalog={
 export function createPublicationService(storage=blobCatalog,env:NodeJS.ProcessEnv=process.env){
  return async(method:string,body:any,key:string)=>{
  const configured=!!(env.BLOB_READ_WRITE_TOKEN||(env.BLOB_STORE_ID&&env.VERCEL_OIDC_TOKEN))&&!!env.DESIGN_PUBLISH_KEY&&env.DESIGN_PUBLISH_KEY.length>=32;
- const metadata={format:'rv360-shared-catalog',configured,requiresPublishKey:true};
- if(!['GET','PUT'].includes(method))return {status:405,body:{error:'Método no admitido.'}};
+ const metadata={format:'rv360-shared-catalog',configured,requiresAdminSession:true};
+ if(!['GET','PUT','POST'].includes(method))return {status:405,body:{error:'Método no admitido.'}};
  if(!configured)return {status:method==='GET'?200:503,body:{...metadata,publications:[],error:'Falta configurar el almacén privado Vercel Blob y DESIGN_PUBLISH_KEY en Vercel.'}};
- if(method==='PUT'){
+ if(method!=='GET'){
  const hash=(s:string)=>createHash('sha256').update(s).digest();
  if(!key||!timingSafeEqual(hash(key),hash(env.DESIGN_PUBLISH_KEY!)))return {status:401,body:{error:'Introduce la clave de publicación del administrador.'}};
+ if(method==='POST')return {status:200,body:{ok:true}};
  if(Buffer.byteLength(JSON.stringify(body)??'')>4*1024*1024)return {status:413,body:{error:'La publicación supera 4 MB.'}};
  try{validateTestPublication(body);}catch(e){return {status:400,body:{error:(e as Error).message}};}
  }
