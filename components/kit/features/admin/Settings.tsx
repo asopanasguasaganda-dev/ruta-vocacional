@@ -24,7 +24,7 @@ export function Settings() {
       email: "",
       year: "2026–2027",
       timezone: "America/Guayaquil",
-      selfRegistration: "no",
+      selfRegistration: "yes",
       reviewRequired: "yes",
     },
     isStringRecord,
@@ -129,7 +129,7 @@ export function Settings() {
                 <h3>Roles y acceso</h3>
               </div>
               <p className="muted small">
-                El servidor comprueba la sesión y los permisos en cada operación. Cada estudiante accede a su propia información. Administración gestiona las cuentas, evaluaciones y resultados de la plataforma.
+                {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Administración gestiona las cuentas de este navegador. Los estudiantes conservan sus respuestas y avances por separado.':'El servidor comprueba la sesión y los permisos en cada operación. Cada estudiante accede a su propia información.'}
               </p>
               <div className="row">
                 <Badge>Estudiante</Badge>
@@ -144,7 +144,7 @@ export function Settings() {
           <Button type="submit" icon={<Save size={17} />}>
             Guardar configuración
           </Button>
-          <small className="muted">Configuración guardada para la plataforma.</small>
+          <small className="muted">Los cambios se aplican al guardar.</small>
         </div>
       </form>
       <div style={{marginTop:24}}><AuditLog/></div>

@@ -1,4 +1,5 @@
 import {simulatorCareerIds} from './simulator-careers';
+import {localAssignedTestIds} from './design-preview';
 import {localGuidance} from './local-guidance';
 import catalog from '../data/design-careers.json';
 import { designUser, localAccounts } from './design-preview';
@@ -48,7 +49,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
   if(!route&&method==='GET'){
     const all=user.role==='admin';
     const courses=data.courses.filter((c:any)=>all||c.status==='published'&&(c.access!=='selected'||c.studentIds.includes(user.id))&&!data.courses.some((next:any)=>next.id===c.id&&next.status==='published'&&next.version>c.version));
-    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[]);
+    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[],localAssignedTestIds(user));
     const recommendations=report?.analysis.recommendations.map(r=>({...r,reportVersion:report.version,mappingVersion:report.mappingVersion}))||[];
     const selected=recommendations.map(r=>r.careerId);
     save(data);
@@ -111,7 +112,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
   }else if(route==='/simulator/start'){
     const s=data.simulators.filter((s:any)=>s.id===b.simulatorId&&s.status==='published').sort((a:any,b:any)=>b.version-a.version)[0];
     if(!s||!s.modes.includes(b.mode))throw Error('Simulador no disponible.');
-    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[]);
+    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[],localAssignedTestIds(user));
     if(!report?.analysis.recommendations.some(r=>simulatorCareerIds(s,data.courses).includes(r.careerId)))throw Error('Este simulador no corresponde a tus carreras recomendadas.');
     const problems=simulatorProblems(s);if(problems.length)throw Error('El simulador necesita revisión antes de iniciar: '+problems[0]);
     const prior=data.attempts.filter((a:any)=>a.user_id===user.id&&a.simulator.id===s.id&&a.mode===b.mode);

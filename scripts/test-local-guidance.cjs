@@ -9,3 +9,10 @@ const differentiated=submission(q=>q.dimension==='I'?5:q.dimension==='R'?4:2);co
 assert.equal(localGuidance(user,[submission(()=>3)]).analysis.recommendations.length,0);assert.equal(localGuidance(user,[submission(()=>1)]).analysis.recommendations.length,0);assert.equal(localGuidance(user,[{...differentiated,resultReleased:false}]),null);assert.equal(localGuidance(user,[]),null);
 console.log('PASS guidance: actual catalog, saved scores, Gemini provenance, linked offers, ties, low interests, withheld and empty results.');
 if(process.argv.includes('--fixture'))fs.writeFileSync('.qa-tools/guidance-fixture.json',JSON.stringify({user,report,submission:differentiated,instrument:t}));
+
+const custom={...differentiated,id:'custom-result',instrument_id:'custom-test',snapshot:JSON.stringify({...t,id:'custom-test'})};
+assert.deepEqual(localGuidance(user,[custom],['custom-test']).progress,{submitted:1,total:1});
+assert.equal(localGuidance(user,[custom],['custom-test']).partial,false);
+assert.deepEqual(localGuidance(user,[custom],['custom-test','pending-test']).progress,{submitted:1,total:2});
+assert.deepEqual(localGuidance(user,[custom,custom],['custom-test']).progress,{submitted:1,total:1});
+console.log('PASS custom tests count toward report progress, pending assignments and duplicate submissions.');
