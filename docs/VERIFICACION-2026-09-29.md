@@ -53,3 +53,9 @@ Para otros perfiles o equipos:
 El formato v2 contiene tests y simuladores; admite publicaciones antiguas v1 de solo tests. No transporta cuentas, contraseñas, respuestas de estudiantes ni notas. Solo exporta tests asignados a todos; los asignados a usuarios locales concretos se prueban en su propio perfil. Compartir publicaciones incluye las claves necesarias para la autocalificación local: es un entorno de pruebas, no un examen seguro.
 
 Verificación: scripts/test-shared-publication.cjs prueba perfiles aislados, catálogo de carreras, autocalificación, actualizaciones, retirada e historial; prueba de Chrome completa con importación, publicación, descarga, carga en otro contexto, respuesta del test, carrera recomendada, simulador con 100/100, recarga y diseño móvil. Compilación estática de 35 rutas y comprobación TypeScript correctas.
+
+## Recorrido conectado para diseñar sin base de datos
+
+El acceso «Probar como estudiante» está disponible en toda la administración, incluido el editor de tests. Permite escoger un estudiante local y abrir Inicio, Mis tests o Autopreparación. Por defecto abre el dashboard /mi-ruta/. «Volver a administración» recupera la cuenta y el apartado de origen, validado contra una lista de rutas internas.
+
+Prueba completa en Chrome: importar/publicar un test y un simulador, crear un estudiante desde Usuarios, cambiar al dashboard, comprobar el test después de recargar, responderlo, obtener la carrera vinculada, realizar su simulador, obtener 100/100 y conservar la nota al recargar. Regreso al apartado administrativo original y comprobación móvil a 390 px correctos. No se transfieren archivos para este recorrido. Se conserva la separación entre respuestas de estudiantes y el catálogo local compartido.

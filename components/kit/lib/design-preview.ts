@@ -35,14 +35,14 @@ export async function designRequest(path:string,options:RequestInit={}){
   const admin=read();if(admin?.user.role!=='admin')throw Error('Inicia sesión como administrador.');
   const student=localAccounts().find(a=>a.user.id===body.id&&a.user.role==='student'&&(!a.user.status||a.user.status==='Activo'));
   if(!student)throw Error('Selecciona un estudiante activo de este navegador.');
-  sessionStorage.setItem('rv360:return-admin',JSON.stringify({id:admin.user.id,version:admin.authVersion||0}));
+  sessionStorage.setItem('rv360:return-admin',JSON.stringify({id:admin.user.id,version:admin.authVersion||0,returnPath:['/admin/','/admin/evaluaciones/','/admin/cursos/','/admin/usuarios/','/admin/resultados/','/admin/configuracion/','/admin/cuenta/'].includes(body.returnPath)?body.returnPath:'/admin/evaluaciones/'}));
   sessionStorage.setItem(activeKey,student.user.id);sessionStorage.setItem('rv360:local-auth-version',String(student.authVersion||0));return {ok:true};
  }
  if(path==='local/return-admin'&&options.method==='POST'){
   const previous=JSON.parse(sessionStorage.getItem('rv360:return-admin')||'null');
   const admin=previous&&localAccounts().find(a=>a.user.id===previous.id&&a.user.role==='admin'&&(!a.user.status||a.user.status==='Activo')&&(a.authVersion||0)===previous.version);
   if(!admin)throw Error('Vuelve a ingresar con tu cuenta administrativa.');
-  sessionStorage.setItem(activeKey,admin.user.id);sessionStorage.setItem('rv360:local-auth-version',String(admin.authVersion||0));sessionStorage.removeItem('rv360:return-admin');return {ok:true};
+  sessionStorage.setItem(activeKey,admin.user.id);sessionStorage.setItem('rv360:local-auth-version',String(admin.authVersion||0));sessionStorage.removeItem('rv360:return-admin');return {ok:true,returnPath:['/admin/','/admin/evaluaciones/','/admin/cursos/','/admin/usuarios/','/admin/resultados/','/admin/configuracion/','/admin/cuenta/'].includes(previous.returnPath)?previous.returnPath:'/admin/evaluaciones/'};
  }
  if(path==='auth/local-status')return {adminExists:localAccounts().some(a=>a.user.role==='admin')};
  if((path==='auth/register'||path==='auth/local-admin')&&options.method==='POST'){
