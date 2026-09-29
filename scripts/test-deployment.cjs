@@ -2,7 +2,9 @@ const assert = require('node:assert/strict');
 const { spawnSync } = require('node:child_process');
 const { DatabaseSync } = require('node:sqlite');
 const { randomUUID, randomBytes } = require('node:crypto');
-const { mkdirSync } = require('node:fs');
+const { mkdirSync, readFileSync } = require('node:fs');
+const { runInNewContext } = require('node:vm');
+const ts = require('typescript');
 
 (async () => {
   const { trustedMutationOrigin } = await import('../lib/server/request-origin.ts');
@@ -17,11 +19,30 @@ const { mkdirSync } = require('node:fs');
   if (prior === undefined) delete process.env.APP_URL; else process.env.APP_URL = prior;
 
   const checkConfig = env => spawnSync(process.execPath, ['--input-type=module', '-e', "const {default:config}=await import('./next.config.mjs'); console.log(JSON.stringify(await config.rewrites()));"], { env: { ...process.env, ...env }, encoding: 'utf8' });
-  assert.notEqual(checkConfig({ VERCEL: '1', API_ORIGIN: '' }).status, 0);
+  const disconnected = checkConfig({ VERCEL: '1', API_ORIGIN: '' });
+  assert.equal(disconnected.status, 0, 'El diseño debe poder desplegarse sin backend');
+  assert.deepEqual(JSON.parse(disconnected.stdout.trim()).beforeFiles, []);
   assert.notEqual(checkConfig({ VERCEL: '1', API_ORIGIN: 'http://backend.example' }).status, 0);
   const proxy = checkConfig({ VERCEL: '1', API_ORIGIN: 'https://backend.example' });
   assert.equal(proxy.status, 0);
   assert.deepEqual(JSON.parse(proxy.stdout.trim()).beforeFiles, [{ source: '/api/:path*', destination: 'https://backend.example/api/:path*' }]);
+
+  const moduleExports = {};
+  const testEnv = { VERCEL: '1' };
+  const compiled = ts.transpileModule(readFileSync('proxy.ts', 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
+  runInNewContext(compiled, { exports: moduleExports, require, process: { env: testEnv } });
+  const { NextRequest } = require('next/server');
+  const session = moduleExports.proxy(new NextRequest('https://frontend.example/api/session'));
+  assert.equal(session.status, 200);
+  assert.equal((await session.json()).serviceAvailable, false);
+  for (const path of ['auth/login', 'auth/register', 'training/entity', 'health']) {
+    const response = moduleExports.proxy(new NextRequest(`https://frontend.example/api/${path}`, { method: path === 'health' ? 'GET' : 'POST' }));
+    assert.equal(response.status, 503);
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+    assert.equal((await response.json()).code, 'SERVICE_UNAVAILABLE');
+  }
+  testEnv.API_ORIGIN = 'https://backend.example';
+  assert.equal(moduleExports.proxy(new NextRequest('https://frontend.example/api/session')).headers.get('x-middleware-next'), '1');
 
   mkdirSync('.qa-tools', { recursive: true });
   const path = `.qa-tools/bootstrap-${randomUUID()}.sqlite`;
@@ -34,5 +55,5 @@ const { mkdirSync } = require('node:fs');
   assert.notEqual(spawnSync(process.execPath, ['scripts/create-admin.mjs'], { env, encoding: 'utf8' }).status, 0);
   assert.equal(db.prepare('SELECT COUNT(*) n FROM users').get().n, 1);
   db.close();
-  console.log('Origen público autorizado, CSRF rechazado, proxy configurado, Vercel sin backend bloqueado e inicialización de administrador/registro: OK');
+  console.log('Origen público autorizado, CSRF rechazado, proxy configurado, build Vercel sin backend permitido e inicialización de administrador/registro: OK');
 })().catch(error => { console.error(error.message); process.exitCode = 1; });

@@ -8,6 +8,10 @@ El servidor usa Node 24, SQLite, archivos privados e importaciones en procesos s
 
 Se incluye un `Dockerfile` para un VPS o un servicio Docker con volumen persistente (por ejemplo Render). No se ha contratado ni creado ningún servicio externo.
 
+## Publicar ahora el diseño actualizado
+
+Hacer push a `main` dispara el despliegue Next.js configurado en `vercel.json`. No se requiere `API_ORIGIN` para publicar páginas e imágenes. Comprobar que `/media/students-campus.webp` devuelve 200 y que `/ingresar` muestra la fotografía nueva sin la nota de prueba. El despliegue del diseño y la conexión de usuarios/cursos son verificaciones separadas.
+
 ## 1. Servidor persistente
 
 - Construir el contenedor desde el repositorio, o ejecutar Node 24 con `npm ci`, `npm run build` y `npm start`.
@@ -37,7 +41,7 @@ Acceso administrativo: `/admin/login`. Acceso de estudiantes: `/ingresar`. Las c
 1. Configurar `API_ORIGIN` con el origen HTTPS del servidor (sin `/api` ni rutas).
 2. Eliminar `NEXT_PUBLIC_DESIGN_PREVIEW` de las variables del proyecto si existe.
 3. Usar el preset Next.js, Node 24, `npm run build` y salida `.next`, conforme a `vercel.json`.
-4. Volver a desplegar. Sin `API_ORIGIN`, la compilación en Vercel falla con instrucciones explícitas para evitar publicar una aplicación sin persistencia.
+4. Volver a desplegar. La interfaz se publica aunque `API_ORIGIN` no esté configurado. En ese caso, el acceso informa que el servicio no está disponible y las operaciones API devuelven 503; no se crean cuentas temporales ni se escribe SQLite en Vercel. Al conectar el servidor y volver a desplegar se habilita el acceso real.
 5. Abrir `/api/health` en el dominio público: debe devolver JSON con `ok: true`, `mode: "server"` y `registrationReady: true`.
 6. Probar registro, ingreso, recarga y cierre de sesión; publicar un curso desde administración e inscribirse con otro usuario.
 

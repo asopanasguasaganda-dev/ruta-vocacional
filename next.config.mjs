@@ -6,9 +6,6 @@ if (apiOrigin) {
   }
   if (process.env.VERCEL && url.protocol !== 'https:') throw new Error('API_ORIGIN debe usar HTTPS en Vercel.');
 }
-if (process.env.VERCEL && !apiOrigin) {
-  throw new Error('Configura API_ORIGIN con un servidor persistente antes de desplegar en Vercel. SQLite no puede guardarse en funciones efímeras. Consulta docs/DESPLIEGUE.md.');
-}
 const nextConfig = {
   devIndicators: false,
   serverExternalPackages: ['pdfjs-dist','mammoth','tesseract.js','@napi-rs/canvas'],

@@ -18,7 +18,7 @@
 - Registro y acceso con cuentas de prueba de administrador y estudiante, sesión tras recargar, contraseña incorrecta y origen no autorizado.
 - Administrador, estudiante y editor a 360, 390, 768, 1024 y 1366 píxeles, más reflujo equivalente a 200 %, sin desbordamiento horizontal.
 - Capturas del acceso revisadas a 360 y 1366 píxeles.
-- Configuración del proxy y bloqueo de despliegue Vercel sin backend; inicialización administrativa en una base aislada.
+- Configuración del proxy y publicación del diseño sin backend (API protegida con 503); inicialización administrativa en una base aislada.
 
 Las pruebas usan `.qa-tools/constructor-qa.sqlite`. Las capturas y resultados quedan en `evidencia/cursos`, excluido de Git. Se actualizaron dos pruebas antiguas que todavía esperaban el título anterior y que los cursos de admisión no se recomendaran sin una convocatoria elegida; el comportamiento vigente recomienda por carrera y respeta la convocatoria cuando se elige.
 
@@ -33,3 +33,7 @@ El arranque local adicional de producción (`npm start`) para verificar persiste
 Archivo: `public/media/students-campus.webp`. Generada con la herramienta integrada ImageGen, inspeccionada y optimizada con Sharp.
 
 Prompt: fotografía editorial realista de tres estudiantes universitarios latinoamericanos adultos de 20–24 años, dos mujeres y un hombre, colaborando con computadora y cuadernos en una biblioteca universitaria; ropa cotidiana crema, denim y lavanda, luz natural cálida, tonos azul oscuro y violeta, composición horizontal 3:2 con rostros dentro del área central, sin textos, logos ni marcas de agua.
+
+## Corrección del despliegue posterior
+
+El commit fc88323 falló en Vercel y el dominio siguió mostrando la exportación anterior. Se retiró la condición que detenía la compilación sin `API_ORIGIN`. El proxy ahora permite publicar las páginas e imágenes y responde de forma controlada cuando falta el servicio persistente. La inicialización SQLite se omite en Vercel. No se habilita el modo de prueba ni un almacenamiento efímero.

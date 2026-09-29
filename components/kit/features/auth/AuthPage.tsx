@@ -1,13 +1,15 @@
 import '../admin/admin-design.css';
-import { previewAction, refreshSession } from '../../lib/session';
+import { previewAction, refreshSession, useSession } from '../../lib/session';
 import { ArrowLeft, ShieldCheck, Compass, CheckCircle2 } from 'lucide-react';
 import type { Navigate } from '../../types';
 import { AuthForm, type AuthMode } from '../../components/domain/AuthForm';
 import { Brand } from '../../components/layout/Brand';
 import { useToast } from '../../components/ui/Toast';
+import { Notice, Button } from '../../components/ui/primitives';
 
 export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigate }) {
   const toast = useToast();
+  const session = useSession();
   const register = mode === 'register', admin = mode === 'admin', reset = mode === 'reset';
   const form = <AuthForm key={mode} mode={mode}
     onNavigate={next => navigate(next === 'login' ? 'ingresar' : next === 'reset' ? 'recuperar' : next === 'admin' ? 'admin-ingresar' : 'registro')}
@@ -47,7 +49,11 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
             <h1 id="auth-title">{admin ? 'Acceso a administración' : register ? 'Crea tu cuenta' : reset ? 'Recupera tu acceso' : 'Te damos la bienvenida'}</h1>
             <p>{admin ? 'Ingresa con tus credenciales de administración.' : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? 'Te enviaremos instrucciones a tu correo.' : 'Ingresa y retoma donde lo dejaste.'}</p>
           </div>
-          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&!admin&&<p className="auth-test-note">Prueba de diseño: usa datos ficticios. Tu cuenta se conserva solo en esta pestaña; no se crea una cuenta en el servidor.</p>}{form}
+          {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&!admin&&<p className="auth-test-note">Prueba de diseño: usa datos ficticios. Tu cuenta se conserva solo en esta pestaña; no se crea una cuenta en el servidor.</p>}
+          {session.serviceAvailable === false ? <div className="stack-sm" role="status">
+            <Notice tone="warning">El acceso está temporalmente fuera de servicio. Vuelve a intentarlo más tarde.</Notice>
+            <Button variant="secondary" onClick={() => void refreshSession()}>Comprobar disponibilidad</Button>
+          </div> : form}
           {!admin && !reset && <p className="auth-alternative">{register ? '¿Ya tienes una cuenta?' : '¿Aún no tienes una cuenta?'}{' '}
             <a href={register ? '/ingresar' : '/registro'}>{register ? 'Ingresar' : 'Crear cuenta'}</a>
           </p>}
