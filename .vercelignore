@@ -9,3 +9,5 @@ node_modules/
 .next/
 *.log
 *.tsbuildinfo
+pnpm-lock.yaml
+pnpm-workspace.yaml
