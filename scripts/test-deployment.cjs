@@ -44,6 +44,32 @@ const ts = require('typescript');
   testEnv.API_ORIGIN = 'https://backend.example';
   assert.equal(moduleExports.proxy(new NextRequest('https://frontend.example/api/session')).headers.get('x-middleware-next'), '1');
 
+  const pageExports = {}, pageEnv = { VERCEL: '1' };
+  let localDatabaseOpened = false, forwardedSession = false;
+  const compiledPage = ts.transpileModule(readFileSync('lib/server/page-session.ts', 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
+  runInNewContext(compiledPage, {
+    exports: pageExports, process: { env: pageEnv }, AbortSignal,
+    require: name => {
+      if (name === 'server-only') return {};
+      if (name === 'next/headers') return { cookies: async () => ({ get: () => ({ value: 'test-session' }) }) };
+      if (name === './store') { localDatabaseOpened = true; throw Error('No abrir SQLite en Vercel'); }
+      return require(name);
+    },
+    fetch: async (url, options) => {
+      assert.equal(url, 'https://backend.example/api/session');
+      assert.equal(options.headers.Cookie, 'rv360_session=test-session');
+      assert.equal(options.cache, 'no-store');
+      forwardedSession = true;
+      return { ok: true, json: async () => ({ user: { id: 'qa', role: 'student' } }) };
+    },
+  });
+  assert.equal(await pageExports.currentPageUser(), null);
+  assert.equal(localDatabaseOpened, false);
+  pageEnv.API_ORIGIN = 'https://backend.example';
+  assert.equal((await pageExports.currentPageUser()).id, 'qa');
+  assert(forwardedSession);
+  assert.equal(localDatabaseOpened, false);
+
   mkdirSync('.qa-tools', { recursive: true });
   const path = `.qa-tools/bootstrap-${randomUUID()}.sqlite`;
   const db = new DatabaseSync(path);

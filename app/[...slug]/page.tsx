@@ -1,5 +1,5 @@
 import { notFound,redirect } from 'next/navigation';
-import { currentUser } from '@/lib/server/store';
+import { currentPageUser as currentUser } from '@/lib/server/page-session';
 import { KitRoot } from '@/components/kit/Root';
 import { routes } from '@/components/kit/routes';
 export default async function Page({ params }: { params: Promise<{ slug:string[] }> }) {
