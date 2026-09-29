@@ -152,3 +152,15 @@
   .rv-video-shade { background: #070e22d9; }
 }
 .site-cinematic .site-institution-features{gap:12px}
+
+/* Keep the scene inside its own paint area, including during viewport changes. */
+.site-page.site-cinematic{width:100%;min-width:0;overflow-x:clip}
+.site-cinematic .site-container>*{min-width:0}
+.site-cinematic .site-header .brand-button{min-width:0;flex-shrink:1}
+.site-cinematic .site-header .brand{min-width:0}
+.site-cinematic .site-header .brand strong{overflow-wrap:anywhere}
+@media(max-width:767px){
+ .site-cinematic .site-container{max-width:100%}
+ .site-cinematic .rv-hero-copy{overflow-wrap:anywhere}
+ .site-cinematic .rv-hero-actions{flex-wrap:wrap}
+}
