@@ -8,7 +8,7 @@ function source(){let id=localStorage.getItem(sourceKey);if(!id){id=crypto.rando
 const trainingKey='rv360:local-training-v1';
 const simulatorKeys=['id','version','revision','title','careerIds','instrument','purpose','modes','durationMinutes','practiceDurationMinutes','maxAttempts','gradePolicy','feedback','selection','quotas','areaWeights','questions','shuffleOptions','questionOrderFixedIds'];
 const pickSimulator=(s:any)=>Object.fromEntries(simulatorKeys.filter(k=>s[k]!==undefined).map(k=>[k,s[k]]));
-const keys=['id','stableId','schemaVersion','title','description','version','questions','options','dimensions','scoring','aggregation','source','purpose','careerLinks','ranges','minimumCoverage','availableFrom','due','durationMinutes','maxAttempts','resultPublication','releaseAt'];
+const keys=['id','stableId','schemaVersion','presentation','title','description','version','questions','options','dimensions','scoring','aggregation','source','purpose','careerLinks','ranges','minimumCoverage','availableFrom','due','durationMinutes','maxAttempts','resultPublication','releaseAt'];
 export function exportTestPublication(){
  const tests=(workspace()['rv360:custom-tests']||[]).filter((t:any)=>t.status==='Publicado'&&t.audience!=='selected'&&!t.studentId&&!t.publicationSource).map((t:any)=>Object.fromEntries(keys.filter(k=>t[k]!==undefined).map(k=>[k,t[k]])));
  const training=JSON.parse(localStorage.getItem(trainingKey)||'{}');

@@ -84,6 +84,7 @@ export interface Question {
   options?: Option[];
 }
 export interface Instrument {
+  presentation?: {title:string;summary:string};
   audience?: 'all'|'selected';
   careerLinks?: {id:string;dimensionId:string;careerId:string;min:number;max:number;reason:string;source:string;careerName?:string;sourceUrl?:string;offers?:{institution:string;title:string;location:string;modality:string}[]}[];
   schemaVersion?: number;

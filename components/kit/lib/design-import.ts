@@ -1,3 +1,4 @@
+import {prepareImportedPresentation} from './import-presentation';
 import {validateDocxArchive} from './docx-archive';
 import {readDocumentMarkup,proposeTests} from './import-content';
 export async function importDesignDocument(file:File){
@@ -20,11 +21,11 @@ export async function importDesignDocument(file:File){
    }
    const text=pages.join('\n');
    if(text.trim().length<30)throw Error('Este PDF no contiene texto seleccionable. Aplica reconocimiento de texto (OCR) o importa el Word o HTML original.');
-   return {text,tests:proposeTests(text,[],file.name),warnings:['PDF extraído como texto. Revisa el orden de las preguntas, las opciones y la clave antes de publicar.'],id:crypto.randomUUID(),status:'Completado',progress:100};
+   return prepareImportedPresentation({text,tests:proposeTests(text,[],file.name),warnings:['PDF extraído como texto. Revisa el orden de las preguntas, las opciones y la clave antes de publicar.'],id:crypto.randomUUID(),status:'Completado',progress:100});
   }finally{await task.destroy();}
  }
  else throw Error('Selecciona un archivo PDF con texto, Word (.docx) o HTML.');
  const parsed=readDocumentMarkup(new DOMParser().parseFromString(html,'text/html'));
  if(parsed.text.length>1000000)throw Error('Divide el documento en archivos más pequeños.');
- return {...parsed,tests:proposeTests(parsed.text,parsed.embedded,file.name),id:crypto.randomUUID(),status:'Completado',progress:100};
+ return prepareImportedPresentation({...parsed,tests:proposeTests(parsed.text,parsed.embedded,file.name),id:crypto.randomUUID(),status:'Completado',progress:100});
 }

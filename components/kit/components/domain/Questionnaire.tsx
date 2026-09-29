@@ -1,3 +1,5 @@
+import {instrumentPresentation} from '../../lib/instrument-presentation';
+import {InstrumentIntroduction} from './InstrumentIntroduction';
 import {TestResult} from '../../features/student/TestResult';
 import {visibleQuestions} from '../../lib/test-engine';
 import {TestQuestion,answerText} from './TestQuestion';
@@ -86,7 +88,7 @@ export function Questionnaire({
     if(rect&&(rect.top<headerBottom+16||rect.bottom>window.innerHeight-40))window.scrollBy({top:rect.top-headerBottom-20,behavior:'instant'});
   }, [index, finished]);
   const expired=!!(attempt&&instrument.durationMinutes&&Date.now()>Date.parse(attempt.started_at)+instrument.durationMinutes*60000);
-  if(instrument.schemaVersion===2&&(!attempt||expired)&&!finished)return <Card className="stack"><h1>{instrument.title}</h1><p>{instrument.description}</p><p>{instrument.questions.filter(q=>q.type!=='info').length} preguntas · {instrument.maxAttempts?'Máximo '+instrument.maxAttempts+' intentos':'Sin límite de intentos'}</p><Notice>{expired?'El tiempo del intento anterior terminó. Puedes iniciar otro si quedan intentos disponibles.':'El intento comienza al confirmar. Puedes guardar y continuar con esta versión del test.'}</Notice>{submitError&&<Notice tone="danger">{submitError}</Notice>}<Button loading={starting} onClick={async()=>{setStarting(true);setSubmitError('');try{await previewAction('assessments/start',{method:'POST',body:JSON.stringify({instrumentId:instrument.id})});}catch(e){setSubmitError((e as Error).message);}finally{setStarting(false);}}}>Confirmar e iniciar intento</Button></Card>;
+  if(instrument.schemaVersion===2&&(!attempt||expired)&&!finished)return <Card className="stack"><InstrumentIntroduction instrument={instrument} heading/><p>{instrument.questions.filter(q=>q.type!=='info').length} preguntas · {instrument.maxAttempts?'Máximo '+instrument.maxAttempts+' intentos':'Sin límite de intentos'}</p><Notice>{expired?'El tiempo del intento anterior terminó. Puedes iniciar otro si quedan intentos disponibles.':'El intento comienza al confirmar. Puedes guardar y continuar con esta versión del test.'}</Notice>{submitError&&<Notice tone="danger">{submitError}</Notice>}<Button loading={starting} onClick={async()=>{setStarting(true);setSubmitError('');try{await previewAction('assessments/start',{method:'POST',body:JSON.stringify({instrumentId:instrument.id})});}catch(e){setSubmitError((e as Error).message);}finally{setStarting(false);}}}>Confirmar e iniciar intento</Button></Card>;
   const submitted=(session.values['rv360:submissions']||[]).find((s:any)=>s.instrument_id===instrument.id&&s.version===instrument.version);
   if(!q)return <Notice>Este test no contiene preguntas disponibles. Solicita al administrador que revise su publicación.</Notice>;
   if (finished)
@@ -119,13 +121,13 @@ export function Questionnaire({
       <div className="row between">
         <div>
           <p className="eyebrow">CONÓCETE A TU RITMO</p>
-          <h2>{instrument.title}</h2>
+          <h2>{instrumentPresentation(instrument).title}</h2>
         </div>
         <Badge tone="primary">
           {index + 1} de {total}
         </Badge>
       </div>
-      {instrument.description.length>280?<details className="question-instructions"><summary>Instrucciones y contexto del instrumento</summary><p className="muted small" style={{whiteSpace:'pre-line'}}>{instrument.description}</p></details>:<p className="muted small" style={{margin:'12px 0 24px'}}>{instrument.description}</p>}
+      <InstrumentIntroduction instrument={instrument}/>
       <Progress
         value={answered}
         total={total}

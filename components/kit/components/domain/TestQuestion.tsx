@@ -1,9 +1,10 @@
 import type {Instrument,Question} from '../../types';
+import {readableText} from '../../lib/instrument-presentation';
 import {Field,TextareaField} from '../ui/primitives';
 export {answerText} from '../../lib/test-answer-text';
 function QuestionInput({instrument:t,question:q,value,onChange}:{instrument:Instrument;question:Question;value:any;onChange:(value:any)=>void}){
  const options=q.options||t.options;
- const selections=(v:any,change:(n:any)=>void,multiple:boolean,name:string)=><div className="preview-options">{options.map(o=>{const checked=multiple?Array.isArray(v)&&v.includes(o.value):v===o.value;return <label key={o.id||o.value} className={checked?'selected':''}><input type={multiple?'checkbox':'radio'} name={name} checked={checked} onChange={()=>change(multiple?(checked?v.filter((n:number)=>n!==o.value):o.value===q.exclusiveValue?[o.value]:[...(Array.isArray(v)?v.filter(n=>n!==q.exclusiveValue):[]),o.value]):o.value)}/><span>{o.label}</span></label>;})}</div>;
+ const selections=(v:any,change:(n:any)=>void,multiple:boolean,name:string)=><div className="preview-options">{options.map(o=>{const checked=multiple?Array.isArray(v)&&v.includes(o.value):v===o.value;return <label key={o.id||o.value} className={checked?'selected':''}><input type={multiple?'checkbox':'radio'} name={name} checked={checked} disabled={multiple&&!checked&&!!q.maxSelections&&Array.isArray(v)&&v.length>=q.maxSelections&&!v.includes(q.exclusiveValue)&&o.value!==q.exclusiveValue} onChange={()=>change(multiple?(checked?v.filter((n:number)=>n!==o.value):o.value===q.exclusiveValue?[o.value]:[...(Array.isArray(v)?v.filter(n=>n!==q.exclusiveValue):[]),o.value]):o.value)}/><span>{readableText(o.label)}</span></label>;})}</div>;
  if(q.type==='info')return <p>{q.help||'Continúa cuando hayas leído esta información.'}</p>;
  if(q.type==='number')return <Field label={'Tu respuesta'+(q.unit?' ('+q.unit+')':'')} type="number" min={q.min} max={q.max} step={q.step||'any'} value={value??''} onChange={e=>onChange(e.target.value===''?'':Number(e.target.value))}/>;
  if(q.type==='short')return <Field label="Tu respuesta" maxLength={q.maxLength||10000} value={value||''} onChange={e=>onChange(e.target.value)}/>;

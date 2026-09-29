@@ -16,3 +16,16 @@ assert.equal(localGuidance(user,[custom],['custom-test']).partial,false);
 assert.deepEqual(localGuidance(user,[custom],['custom-test','pending-test']).progress,{submitted:1,total:2});
 assert.deepEqual(localGuidance(user,[custom,custom],['custom-test']).progress,{submitted:1,total:1});
 console.log('PASS custom tests count toward report progress, pending assignments and duplicate submissions.');
+
+const social={...submission(q=>q.dimension==='S'?5:q.dimension==='A'?4:1),id:'social-result',instrument_id:'social',snapshot:JSON.stringify({...t,id:'social'}),created_at:'2026-09-29T13:00:00Z'};
+const blended=localGuidance(user,[differentiated,social]);
+assert.notDeepEqual(blended.analysis.recommendations,report.analysis.recommendations);
+assert.deepEqual(blended.analysis.recommendations,localGuidance(user,[social,differentiated]).analysis.recommendations);
+assert(blended.analysis.recommendations.every(r=>r.evidence.some(e=>e.startsWith('social:'))&&r.evidence.some(e=>e.startsWith('intereses:'))));
+const latest={...social,instrument_id:t.id};
+assert.deepEqual(localGuidance(user,[differentiated,latest]).analysis.recommendations,localGuidance(user,[latest]).analysis.recommendations);
+const descriptive={...social,instrument_id:'descriptive',scores:'[]',snapshot:JSON.stringify({...t,scoring:'manual'})};
+assert.deepEqual(localGuidance(user,[differentiated,descriptive]).analysis.recommendations,report.analysis.recommendations);
+const pending={...social,evaluation:{...social.evaluation,state:'pending-review'}};
+assert.deepEqual(localGuidance(user,[differentiated,pending]).analysis.recommendations,report.analysis.recommendations);
+console.log('PASS multiple interest profiles, order independence, latest attempt, descriptive and pending exclusions.');

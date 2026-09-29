@@ -27,6 +27,7 @@ export function instrumentProblems(t:Instrument){
  const errors:{questionId?:string;step:number;message:string}[]=[];
  const add=(message:string,step=2,questionId?:string)=>errors.push({message,step,questionId});
  if(!t.title?.trim())add('Escribe un nombre para el test.',0);
+ if(t.presentation&&(typeof t.presentation.title!=='string'||typeof t.presentation.summary!=='string'||t.presentation.title.length>100||t.presentation.summary.length>280))add('Revisa el título breve (100 caracteres) y la introducción (280 caracteres).',0);
  if(t.audience==='selected'&&!t.studentIds?.length)add('Selecciona al menos un estudiante o cambia a todos los estudiantes.',3);
  if(!t.questions?.length||t.questions.length>500)add('Añade entre 1 y 500 preguntas.',1);
  if(!['manual','total','dimensions','objective','rubric','mixed',undefined].includes(t.scoring))add('Selecciona un método de evaluación admitido.');

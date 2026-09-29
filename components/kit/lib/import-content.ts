@@ -32,6 +32,21 @@ export function proposeTests(text:string,embedded:any[],name:string){
  const base=(title:string)=>({schemaVersion:2,id:'test-'+globalThis.crypto.randomUUID(),version:'1',title,description:'Instrumento importado. Revisa su contenido antes de publicar.',source:name,status:'Borrador',group:'Todos los estudiantes',due:'',scoring:'manual',aggregation:'sum',resultRelease:'immediate',options:[],questions:[] as any[]});
  if(embedded.some(e=>!Array.isArray(e.items)||e.items.length>500))throw Error('El límite es de 500 preguntas por instrumento.');
  if(embedded.length)return embedded.map(e=>importedInstrument(e,base(e.name),name));
- const items:any[]=[];let q:any;for(const raw of text.split(/\r?\n/)){const line=raw.trim(),question=line.match(/^(?:pregunta\s*)?\d{1,3}[.)\-:]\s+(.+)/i),option=line.match(/^(?:[a-h][.)\-:]|[○◯□☐])\s*(.+)/i);if(question){q={text:question[1],options:[]};items.push(q);}else if(option&&q)q.options.push(option[1]);else if(q&&/^(respuesta correcta|clave)\s*:/i.test(line)){const match=line.match(/:\s*([a-h])/i);if(match)q.correctValues=[match[1].toLowerCase().charCodeAt(0)-96];}}
- if(!items.length)throw Error('No se detectaron preguntas. Usa listas numeradas, tablas con columnas N.° y Enunciado, o campos HTML con legend y label.');return proposeTests('',[{name:name.replace(/\.[^.]+$/,''),items}],name);
+ const items:any[]=[];let q:any,lastOption:any,section='';const intro:string[]=[];
+ for(const raw of text.split(/\r?\n/)){
+  const line=raw.trim();if(!line)continue;
+  if(/^secci[oó]n\s/i.test(line)){section=line;q=null;lastOption=null;continue;}
+  if(/^(instrucciones|propósito|dirigido a|título de la investigación)\s*:/i.test(line)){intro.push(line);q=null;lastOption=null;continue;}
+  const question=line.match(/^(?:pregunta\s*)?\d{1,3}[.)\-:]\s+(.+)/i),option=line.match(/^(?:[a-z][.)\-:]|[○◯□☐])\s*(.+)/i);
+  if(question){q={text:question[1],options:[],section};items.push(q);lastOption=null;}
+  else if(option&&q){lastOption={label:option[1],value:q.options.length+1};q.options.push(lastOption);}
+  else if(q&&/^(respuesta correcta|clave)\s*:/i.test(line)){const match=line.match(/:\s*([a-z])/i);if(match)q.correctValues=[match[1].toLowerCase().charCodeAt(0)-96];lastOption=null;}
+  else if(!/^(?:página\s*)?\d+\s*(?:de\s*\d+)?$/i.test(line)){
+   if(lastOption)lastOption.label+=' '+line;
+   else if(q&&!q.correctValues)q.text+=' '+line;
+   else if(!q)intro.push(line);
+  }
+ }
+ for(const item of items){const limit=item.text.match(/(?:hasta|máximo)\s+(tres|dos|cuatro|cinco|\d+)\s+opciones/i);if(limit){item.type='multiple';item.maxSelections=Number(limit[1])||({tres:3,dos:2,cuatro:4,cinco:5} as any)[limit[1].toLowerCase()];}}
+ if(!items.length)throw Error('No se detectaron preguntas. Usa listas numeradas, tablas con columnas N.° y Enunciado, o campos HTML con legend y label.');return proposeTests('',[{name:name.replace(/\.[^.]+$/,''),description:intro.join('\n'),items}],name);
 }

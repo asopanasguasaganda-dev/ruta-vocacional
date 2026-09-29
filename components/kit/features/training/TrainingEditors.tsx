@@ -1,4 +1,5 @@
 "use client";
+import {PresentationEditor} from '../../components/domain/PresentationEditor';
 import {suggestSimulatorCareers} from "../../lib/simulator-careers";
 import { AcademicQuestionSettings } from "./AcademicQuestionSettings";
 import { useState } from "react";
@@ -589,7 +590,7 @@ export function SimulatorEditor({
       patch({
         title: s.title || tests[0].title,
         careerIds: [...new Set([...(s.careerIds||[]),...detected])],
-        instrument: { ...s.instrument, source: file.name },
+        instrument: { ...s.instrument, source: file.name, ...(s.questions.length?{}:{description:tests[0].description,presentation:tests[0].presentation}) },
         questions: [
           ...s.questions,
           ...tests.flatMap((x: any) =>
@@ -640,6 +641,7 @@ export function SimulatorEditor({
           <ChoiceList label="Carreras del simulador" items={d.careers} value={s.careerIds||[]} onChange={careerIds=>patch({careerIds})}/>
           <Button variant="secondary" onClick={()=>{const ids=suggestSimulatorCareers(s.title+' '+s.instrument.description,d.careers);patch({careerIds:[...new Set([...(s.careerIds||[]),...ids])]});setError(ids.length?'Carreras sugeridas por coincidencias explícitas. Confirma la selección antes de publicar.':'No hay una carrera explícita en el título. Búscala y selecciónala abajo.');}}>Detectar carreras del título</Button>
           <p className="small muted">Al importar se preseleccionan nombres de carreras detectados. Puedes añadir o quitar carreras; cada una recibirá este simulador al publicarlo.</p>
+          <PresentationEditor instrument={{...s.instrument,title:s.title}} onChange={presentation=>patch({instrument:{...s.instrument,presentation}})}/>
           <TextareaField
             label="Instrucciones"
             value={s.instrument.description}
