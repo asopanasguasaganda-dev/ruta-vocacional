@@ -1,31 +1,50 @@
-# Vercel: vista de diseño sin base de datos
+# Publicación con acceso y cursos reales
 
-El módulo de cursos y simuladores ya tiene persistencia en la ejecución con servidor. Su arquitectura, requisitos y pruebas están en [CURSOS-Y-SIMULADORES.md](CURSOS-Y-SIMULADORES.md). La configuración estática descrita aquí no ejecuta ese backend.
+La configuración anterior ejecutaba `build:design`: una exportación sin API, usuarios reales ni cursos persistentes. `vercel.json` ahora ejecuta la aplicación Next.js normal. El modo de prueba se conserva únicamente con `npm run build:design` para revisión local.
 
-Esta entrega publica exclusivamente el diseño navegable, según el alcance actual. No conecta usuarios reales, credenciales, Gemini, informes personales ni almacenamiento. El backend original permanece en el código para la etapa siguiente.
+## Arquitectura
 
-## Desplegar
+El servidor usa Node 24, SQLite, archivos privados e importaciones en procesos secundarios. Necesita un único proceso Node con un disco persistente. No alojar SQLite en funciones Vercel ni en `/tmp`. La interfaz puede mantenerse en Vercel: `API_ORIGIN` reenvía `/api/*` al servidor persistente, conservando las cookies del dominio público.
 
-1. Importar `asopanasguasaganda-dev/ruta-vocacional` en Vercel, rama `main`, raíz `.`.
-2. Framework Preset: **Other**. `vercel.json` define `npm ci`, `npm run build:design` y `.design-preview/out`.
-3. Usar Node 24. No añadir claves, base de datos ni variables de entorno para esta vista previa.
-4. Desplegar. Accesos de revisión: `/`, `/mi-ruta/` y `/admin/`, sin credenciales reales. No se muestra una barra de navegación de demostración.
+Se incluye un `Dockerfile` para un VPS o un servicio Docker con volumen persistente (por ejemplo Render). No se ha contratado ni creado ningún servicio externo.
 
-## Qué incluye
+## 1. Servidor persistente
 
-- Páginas públicas, formularios, dashboard de estudiante y administración navegables.
-- Estados vacíos explícitos; identidad de muestra, sin estadísticas inventadas.
-- Registro, ingreso y edición del perfil pueden ensayarse con una cuenta de prueba por pestaña. Usa datos ficticios: no se crea una cuenta en el servidor. Al cerrar la pestaña, los datos de prueba dejan de estar disponibles.
-- Los borradores de preguntas se conservan durante la sesión de prueba; no se emite un reporte real.
-- La autenticación de producción, publicación, importación, seguridad de cuenta e IA requieren conectar el backend.
-- No se exportan rutas API ni código del servidor en el sitio estático.
+- Construir el contenedor desde el repositorio, o ejecutar Node 24 con `npm ci`, `npm run build` y `npm start`.
+- Montar un volumen persistente en `/app/storage` si se usa el contenedor. El usuario `node` (UID 1000) necesita permiso de escritura.
+- Configurar `DATABASE_PATH=/app/storage/ruta.sqlite`, `PROFILE_PHOTO_PATH=/app/storage/profile-photos`, `IMPORT_PATH=/app/storage/imports` y `ACADEMIC_CONTENT_PATH=/app/storage/academic-content.json`.
+- Configurar `APP_URL=https://ruta-vocacional-gold.vercel.app` (o el dominio público definitivo) y `COOKIE_SECURE=true`.
+- No configurar `API_ORIGIN` en este servidor: ejecuta la API directamente.
+- Exponer el servicio mediante HTTPS. `/api/health` comprueba la base de datos; `registrationReady` indica si se inicializó la institución.
+- SMTP es necesario para recuperar contraseñas. Gemini es opcional para los análisis de IA; no es necesario para ingresar o administrar cursos.
 
-## Pruebas locales
+## 2. Inicialización y cuentas
 
-`npm ci` y `npm run build:design`. Servir `.design-preview/out` con un servidor estático; cada ruta tiene `index.html`. La compilación normal `npm run build` y `npm start` conserva el sistema local con servidor y controles de acceso.
+Si ya hay datos reales, respaldar SQLite y los archivos privados con el proceso detenido y migrarlos al volumen. No reemplazarlos por una base de prueba.
 
-## Siguiente etapa
+Para una instalación nueva, iniciar primero la aplicación para crear las tablas. En una consola privada del servidor configurar `ADMIN_EMAIL`, `ADMIN_PASSWORD` (mínimo 12 caracteres), `ADMIN_NAME`, `INSTITUTION_NAME` e `INSTITUTION_CODE`, y ejecutar:
 
-Conectar persistencia, autenticación e IA antes de recibir usuarios reales. SQLite local, archivos privados y procesos de importación requieren un servidor persistente o una migración para Vercel; no usar `/tmp` como base permanente. Referencia: https://vercel.com/kb/guide/is-sqlite-supported-in-vercel.
+```sh
+node scripts/create-admin.mjs
+```
 
-Evidencias, copias de bases, contraseñas, `.env.local` y archivos personales están excluidos de Git.
+El script crea el administrador y configura la institución para el registro, en una transacción. Conserva una institución de plataforma ya configurada. No restablece contraseñas ni sobrescribe usuarios existentes. Retirar las variables del administrador después de la operación.
+
+Acceso administrativo: `/admin/login`. Acceso de estudiantes: `/ingresar`. Las cuentas de la antigua vista de diseño eran temporales en cada pestaña y no se convierten automáticamente en cuentas reales.
+
+## 3. Vercel
+
+1. Configurar `API_ORIGIN` con el origen HTTPS del servidor (sin `/api` ni rutas).
+2. Eliminar `NEXT_PUBLIC_DESIGN_PREVIEW` de las variables del proyecto si existe.
+3. Usar el preset Next.js, Node 24, `npm run build` y salida `.next`, conforme a `vercel.json`.
+4. Volver a desplegar. Sin `API_ORIGIN`, la compilación en Vercel falla con instrucciones explícitas para evitar publicar una aplicación sin persistencia.
+5. Abrir `/api/health` en el dominio público: debe devolver JSON con `ok: true`, `mode: "server"` y `registrationReady: true`.
+6. Probar registro, ingreso, recarga y cierre de sesión; publicar un curso desde administración e inscribirse con otro usuario.
+
+Solo se admite el origen público configurado en `APP_URL`, además del origen propio de la API, para las mutaciones. No usar comodines de CORS ni habilitar cookies de terceros.
+
+## Verificación local
+
+`npm run build` y `npx tsc --noEmit`. Las pruebas de cursos están en `scripts/qa-training/`; utilizar únicamente la base aislada indicada por esos scripts. Los detalles del módulo están en [CURSOS-Y-SIMULADORES.md](CURSOS-Y-SIMULADORES.md).
+
+Referencias: [rewrites externas de Vercel](https://vercel.com/docs/routing/rewrites), [discos persistentes de Render](https://render.com/docs/disks).

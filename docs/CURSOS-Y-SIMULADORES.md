@@ -73,7 +73,7 @@ Referencias para revisión humana: [consulta y manual CES](https://appcmi.ces.go
 
 El módulo necesita Node 24, `npm ci`, `npm run build` y `npm start`, con `DATABASE_PATH` en un volumen persistente y `APP_URL` correspondiente al servidor. Configurar `COOKIE_SECURE=true` bajo HTTPS. Mantener un proceso Node persistente para la recuperación de plazos. SQLite y los documentos privados no deben almacenarse en `/tmp` ni en el filesystem efímero de una función.
 
-**La configuración actual de Vercel sigue publicando la vista estática de diseño.** Esa compilación no incluye API, base de datos ni tareas de vencimiento. El módulo informa que necesita servidor; no simula guardados. Publicar el código no conecta automáticamente un backend. Véase `DESPLIEGUE.md`.
+**Vercel publica ahora la aplicación Next.js y requiere `API_ORIGIN` hacia un servidor persistente.** El servidor conserva SQLite, documentos y tareas de vencimiento. Publicar el código no crea automáticamente ese servidor. La compilación de diseño queda como herramienta local. Véase [DESPLIEGUE.md](DESPLIEGUE.md).
 
 Regresiones de cálculo:
 

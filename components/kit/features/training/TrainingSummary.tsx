@@ -1,10 +1,16 @@
 "use client";
+import "./training.css";
 import Link from "next/link";
-import { useTraining } from "./shared";
+import { useTraining, TrainingError } from "./shared";
 import { Card } from "../../components/ui/primitives";
 export function TrainingSummary() {
-  const { data, error } = useTraining();
-  if (!data || error) return null;
+  const { data, error, refresh } = useTraining();
+  if (!data) return <Card className="stack-sm">
+    <span className="eyebrow">TU PREPARACIÓN</span>
+    <h2>Cursos y simuladores</h2>
+    {error ? <TrainingError error={error} retry={refresh} /> : <p role="status">Cargando tus cursos…</p>}
+    <Link className="button button--secondary" href="/mi-ruta/cursos">Ver cursos</Link>
+  </Card>;
   const next = data.enrollments.find((e: any) => e.next),
     career = data.careers.find((c: any) => data.goal.careerIds.includes(c.id));
   return (

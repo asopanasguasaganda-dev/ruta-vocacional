@@ -89,3 +89,15 @@ input::file-selector-button{background:#403368;color:#eee8ff;border:1px solid #9
 .search-select-popup.search-select-popup{background:#14213c;border-color:var(--border)}
 .search-select-popup.search-select-popup button{color:#edf3ff}.search-select-popup.search-select-popup button:hover,.search-select-popup.search-select-popup button[data-active=true]{background:#403368;color:#f0eaff}
 .search-select-popup.search-select-popup :is(small,p){color:#c2cfe4;border-color:var(--border)}
+
+/* A clear, naturally cropped student photograph on the sign-in screen. */
+.auth-shell .auth-photo { height: auto; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 14px; border: 1px solid var(--border); }
+.auth-shell .auth-photo img { display: block; object-position: center; filter: none; border: 0; border-radius: 0; }
+.auth-shell .auth-photo > span { position: absolute; bottom: 10px; left: 10px; right: 10px; font-size: 13px; background: #0c1730ed; }
+.auth-shell .auth-story { gap: 24px; justify-content: space-between; }
+.auth-shell .auth-alternative { display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; }
+@media (min-width: 701px) and (max-height: 800px) {
+  .auth-shell .auth-stage { padding-block: 20px; }
+  .auth-shell .auth-story, .auth-shell .auth-card--login .auth-main { padding: 24px; }
+  .auth-shell .auth-story h2 { font-size: 30px; }
+}

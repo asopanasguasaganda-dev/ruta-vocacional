@@ -284,6 +284,7 @@ export function StudentCourses() {
                       >
                         Ir a mis tests
                       </Link>
+                      <Button variant="ghost" onClick={() => setTab("Explorar")}>Explorar cursos disponibles</Button>
                     </div>
                   ) : (
                     <div className="training-grid">

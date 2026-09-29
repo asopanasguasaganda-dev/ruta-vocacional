@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { readApiResponse } from "../../lib/api-response";
 import { Button, Notice } from "../../components/ui/primitives";
 export async function trainingApi(path = "", body?: any, method = "POST") {
@@ -7,24 +7,34 @@ export async function trainingApi(path = "", body?: any, method = "POST") {
     throw Error(
       "Cursos necesita el servidor y una base de datos persistente. Esta publicación contiene solo el diseño.",
     );
-  return readApiResponse(
+  try { return await readApiResponse(
     await fetch("/api/training" + path, {
       method: body === undefined ? "GET" : method,
       headers: body === undefined ? {} : { "Content-Type": "application/json" },
       body: body === undefined ? undefined : JSON.stringify(body),
       cache: "no-store",
+      signal: AbortSignal.timeout(30000),
     }),
-  );
+  ); } catch (error) {
+    if (error instanceof Error && error.name === "TimeoutError") throw new Error("La carga tardó demasiado. Revisa tu conexión y vuelve a intentarlo.");
+    if (error instanceof TypeError) throw new Error("No pudimos conectar con los cursos. Revisa tu conexión y vuelve a intentarlo.");
+    throw error;
+  }
 }
 export function useTraining() {
   const [data, setData] = useState<any>(null),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
+  const requestId = useRef(0);
   const refresh = useCallback(async () => {
+    const id = ++requestId.current;
     try {
-      setData(await trainingApi());
+      const next = await trainingApi();
+      if (id !== requestId.current) return;
+      setData(next);
       setError("");
     } catch (e) {
+      if (id !== requestId.current) return;
       setError((e as Error).message);
     }
   }, []);
@@ -34,6 +44,7 @@ export function useTraining() {
     window.addEventListener("focus", focus);
     const timer = setInterval(focus, 30000);
     return () => {
+      requestId.current++;
       window.removeEventListener("focus", focus);
       clearInterval(timer);
     };
@@ -62,12 +73,13 @@ export function TrainingError({
   retry: () => void;
 }) {
   return error ? (
-    <Notice tone="danger">
-      {error}{" "}
+    <div className="training-error" role="alert"><Notice tone="danger">
+      <div className="training-error-content"><span>{error}</span>
       <Button variant="ghost" onClick={retry}>
         Reintentar
       </Button>
-    </Notice>
+      </div>
+    </Notice></div>
   ) : null;
 }
 export function ChoiceList({

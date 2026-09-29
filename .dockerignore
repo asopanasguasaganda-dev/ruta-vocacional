@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.vercel
+.design-preview
+.qa-tools
+.local
+storage
+evidencia
+references
+.env*
+*.sqlite*
+*.log
+*.tsbuildinfo

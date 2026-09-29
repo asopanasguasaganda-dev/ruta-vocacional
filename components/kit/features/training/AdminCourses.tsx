@@ -63,7 +63,7 @@ export function AdminCourses() {
     <div className="training">
       <PageHeader
         title="Cursos"
-        description="Crea cursos de autopreparación para carreras y universidades de Ecuador. Añade material de estudio y simuladores con puntaje; los estudiantes encontrarán los cursos relacionados con las carreras de su informe."
+        description="Organiza cursos, publica actividades y acompaña la preparación de tus estudiantes."
       />
       <TrainingError error={error} retry={refresh} />
       {!d && !error && <p role="status">Cargando administración de cursos…</p>}
@@ -82,6 +82,10 @@ export function AdminCourses() {
               void refresh();
             }}
           />
+          {tab !== "Seguimiento" && !versions(tab === "Cursos" ? d.courses : tab === "Simuladores y preguntas" ? d.simulators : d.profiles).length && <div className="training-empty">
+            <h2>{query ? "No encontramos resultados" : tab === "Cursos" ? "Crea tu primer curso" : tab === "Simuladores y preguntas" ? "Prepara tu primer simulador" : "Organiza una convocatoria"}</h2>
+            <p>{query ? "Prueba otro nombre o borra la búsqueda." : "Empieza con un borrador, revisa el contenido y publícalo cuando esté listo para tus estudiantes."}</p>
+          </div>}
           <div className="training-toolbar">
             <Field
               label="Buscar"
@@ -347,6 +351,7 @@ export function AdminCourses() {
       )}
       <Dialog
         open={!!editing}
+        wide
         title={
           kind === "course"
             ? "Editor de curso"

@@ -275,3 +275,29 @@
     font-size: 12px;
   }
 }
+
+.training .page-header { margin-bottom: 0; }
+.training .page-header p { max-width: 68ch; }
+.training-error .notice { align-items: flex-start; }
+.training-error .notice > div { flex: 1; min-width: 0; }
+.training-error-content { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.training-error-content > span { flex: 1 1 260px; overflow-wrap: anywhere; }
+.training-error-content .button { flex-shrink: 0; }
+.training-tabs { padding: 6px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.training-tabs button { cursor: pointer; font-weight: 600; }
+.training-tabs button:hover { color: var(--ink); background: var(--primary-soft); }
+.training-grid > .card { display: flex; flex-direction: column; gap: 14px; }
+.training-grid > .card > .training-actions { margin-top: auto; padding-top: 6px; }
+.training-toolbar { padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+.training-toolbar .field { margin: 0; flex: 1 1 240px; max-width: 480px; }
+.training-empty { background: linear-gradient(120deg,#a68aff12,transparent); display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.training-empty h2, .training-empty p { flex-basis: 100%; }
+.training-summary > div { flex: 1 1 150px; border: 1px solid var(--border); background: var(--surface); border-radius: 14px; padding: 20px; }
+.training-editor .training-actions { padding-top: 12px; }
+@media (max-width: 700px) {
+  .training-toolbar { align-items: stretch; }
+  .training-toolbar .field { max-width: none; }
+  .training-toolbar > .button { width: 100%; }
+  .training-error-content > span { flex-basis: 100%; }
+  .training-error-content .button { width: 100%; }
+}
