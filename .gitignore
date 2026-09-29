@@ -36,3 +36,5 @@ references/
 /pnpm-lock.yaml
 /pnpm-workspace.yaml
 .design-preview/
+
+/public/vendor/pdf.worker.min.mjs

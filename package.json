@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:design": "node scripts/build-design-preview.mjs"
+    "build:design": "node scripts/build-design-preview.mjs",
+    "postinstall": "node scripts/prepare-browser-assets.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

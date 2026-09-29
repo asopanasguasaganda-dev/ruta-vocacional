@@ -1,4 +1,5 @@
 "use client";
+import {PagedList} from "../../components/ui/PagedList";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
@@ -287,7 +288,7 @@ export function StudentCourses() {
                       <Button variant="ghost" onClick={() => setTab("Explorar")}>Explorar cursos disponibles</Button>
                     </div>
                   ) : (
-                    <div className="training-grid">
+                    <PagedList className="training-grid" label="cursos y carreras" resetKey={tab+query+career+area+institution+type}>
                       {d.recommendations.map((r: any) => {
                         const c = d.careers.find(
                           (c: any) => c.id === r.careerId,
@@ -331,7 +332,7 @@ export function StudentCourses() {
                           </Card>
                         );
                       })}
-                    </div>
+                    </PagedList>
                   )}
                   <h2>Preparación relacionada con tus objetivos</h2>
                   {d.courses.filter((c: any) => c.recommended).length === 0 && (
@@ -344,7 +345,7 @@ export function StudentCourses() {
               )}
               {tab === "Mis cursos" ? (
                 d.enrollments.length ? (
-                  <div className="training-grid">
+                  <PagedList className="training-grid" label="cursos y carreras" resetKey={tab+query+career+area+institution+type}>
                     {d.enrollments.map((e: any) => (
                       <Card key={e.id}>
                         <small>Curso · Versión {e.course_version}</small>
@@ -375,7 +376,7 @@ export function StudentCourses() {
                         </Button>
                       </Card>
                     ))}
-                  </div>
+                  </PagedList>
                 ) : (
                   <p className="training-empty">
                     Todavía no has iniciado un curso. Explora la preparación
@@ -443,7 +444,7 @@ export function StudentCourses() {
                       </div>
                     </>
                   )}
-                  <div className="training-grid">
+                  <PagedList className="training-grid" label="cursos y carreras" resetKey={tab+query+career+area+institution+type}>
                     {(tab === "Para ti"
                       ? d.courses.filter((c: any) => c.recommended)
                       : courses
@@ -483,7 +484,7 @@ export function StudentCourses() {
                         </Button>
                       </Card>
                     ))}
-                  </div>
+                  </PagedList>
                   {tab === "Explorar" && !courses.length && (
                     <p className="training-empty">
                       No hay cursos publicados con estos filtros. Las carreras

@@ -1,4 +1,5 @@
 "use client";
+import {PagedList} from "../../components/ui/PagedList";
 import { CatalogUpdate } from "./CatalogUpdate";
 import { TrainingAnalytics } from "./TrainingAnalytics";
 import { useState } from "react";
@@ -35,6 +36,7 @@ export function AdminCourses() {
     [kind, setKind] = useState("course"),
     [editing, setEditing] = useState<any>(null),
     [query, setQuery] = useState(""),
+    [statusFilter,setStatusFilter]=useState(""),
     [preview, setPreview] = useState<any>(null),
     [review, setReview] = useState<any>(null),
     [reviews, setReviews] = useState<any>({}),
@@ -49,7 +51,7 @@ export function AdminCourses() {
   };
   const versions = (list: any[]) =>
     list.filter((x: any) =>
-      x.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
+      x.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())&&(!statusFilter||x.status===statusFilter),
     );
   const save = (publish = false) =>
     perform(async () => {
@@ -82,16 +84,13 @@ export function AdminCourses() {
               void refresh();
             }}
           />
-          {tab !== "Seguimiento" && !versions(tab === "Cursos" ? d.courses : tab === "Simuladores y preguntas" ? d.simulators : d.profiles).length && <div className="training-empty">
-            <h2>{query ? "No encontramos resultados" : tab === "Cursos" ? "Crea tu primer curso" : tab === "Simuladores y preguntas" ? "Prepara tu primer simulador" : "Organiza una convocatoria"}</h2>
-            <p>{query ? "Prueba otro nombre o borra la búsqueda." : "Empieza con un borrador, revisa el contenido y publícalo cuando esté listo para tus estudiantes."}</p>
-          </div>}
           <div className="training-toolbar">
             <Field
               label="Buscar"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
+            {tab !== "Seguimiento" && <SelectField label="Estado" value={statusFilter} onChange={e=>setStatusFilter(e.target.value)}><option value="">Todos los estados</option><option value="draft">Borradores</option><option value="published">Publicados</option><option value="archived">Archivados</option></SelectField>}
             {tab !== "Seguimiento" && (
               <Button
                 onClick={() =>
@@ -118,11 +117,15 @@ export function AdminCourses() {
               </Button>
             )}
           </div>
+          {tab !== "Seguimiento" && !versions(tab === "Cursos" ? d.courses : tab === "Simuladores y preguntas" ? d.simulators : d.profiles).length && <div className="training-empty">
+            <h2>{query ? "No encontramos resultados" : tab === "Cursos" ? "Crea tu primer curso" : tab === "Simuladores y preguntas" ? "Prepara tu primer simulador" : "Organiza una convocatoria"}</h2>
+            <p>{query ? "Prueba otro nombre o borra la búsqueda." : "Empieza con un borrador, revisa el contenido y publícalo cuando esté listo para tus estudiantes."}</p>
+          </div>}
           {tab === "Carreras y convocatorias" && (
             <>
               <Notice>
                 {d.source.careerCount} carreras con {d.source.offerCount}{" "}
-                ofertas de grado en el catálogo consultado. No acredita cupos
+                ofertas de tercer nivel en el catálogo consultado. No acredita cupos
                 abiertos.
               </Notice>
               <CatalogUpdate refresh={refresh} />
@@ -157,7 +160,7 @@ export function AdminCourses() {
             </>
           )}
           {tab !== "Seguimiento" ? (
-            <div className="training-grid">
+            <PagedList className="training-grid" label={tab.toLowerCase()} resetKey={tab+query+statusFilter}>
               {versions(
                 tab === "Cursos"
                   ? d.courses
@@ -244,7 +247,7 @@ export function AdminCourses() {
                   </Card>
                 );
               })}
-            </div>
+            </PagedList>
           ) : (
             <>
               <div className="training-summary">
@@ -281,7 +284,7 @@ export function AdminCourses() {
               </div>
               <TrainingAnalytics attempts={d.attempts} />
               <h2>Inscripciones e itinerarios</h2>
-              <div className="training-grid">
+              <PagedList className="training-grid" label="inscripciones" resetKey={query}>
                 {d.enrollments
                   .filter((e: any) =>
                     e.name.toLowerCase().includes(query.toLowerCase()),
@@ -300,10 +303,10 @@ export function AdminCourses() {
                       <small>{e.created_at}</small>
                     </Card>
                   ))}
-              </div>
+              </PagedList>
               <h2>Intentos y revisión</h2>
               {!d.attempts.length && <p>No hay intentos registrados.</p>}
-              {d.attempts
+              <PagedList className="stack" label="intentos" resetKey={query}>{d.attempts
                 .filter((a: any) =>
                   a.name?.toLowerCase().includes(query.toLowerCase()),
                 )
@@ -337,7 +340,7 @@ export function AdminCourses() {
                     )}
                   </details>
                 ))}
-              <details>
+              </PagedList><details>
                 <summary>Auditoría</summary>
                 {d.audit.map((a: any) => (
                   <p key={a.id}>

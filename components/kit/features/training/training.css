@@ -301,3 +301,5 @@
   .training-error-content > span { flex-basis: 100%; }
   .training-error-content .button { width: 100%; }
 }
+
+.training-toolbar{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}.training-toolbar>.field:first-child{flex:1;min-width:220px}.training-toolbar>.field{min-width:180px}.training-empty{padding:24px!important;margin:16px 0!important}.training-empty h2{font-size:20px}.training-empty p{max-width:700px;margin-bottom:0}.training .paged-list{margin-top:20px}@media(max-width:600px){.training-toolbar>.field{width:100%;min-width:0}.training-toolbar>.button{width:100%}}

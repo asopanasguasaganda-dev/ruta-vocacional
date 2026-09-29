@@ -596,7 +596,7 @@ export function SimulatorEditor({
                 id: crypto.randomUUID(),
                 options: q.options || x.options,
                 source: file.name,
-                policy: "objective",
+                policy: q.policy||(["open","short"].includes(q.type)?"rubric":"objective"),
                 reviewed: false,
               })),
           ),
