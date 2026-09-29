@@ -24,7 +24,7 @@ function ConnectedApp(){
 
  useEffect(()=>{const warn=(event:BeforeUnloadEvent)=>{if(session.pending||session.error){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);},[session.pending,session.error]);
  const navigate=useCallback((next:View)=>{router.push(routes[next]);},[router]);
- useEffect(()=>{const refresh=()=>void refreshSession();window.addEventListener('pageshow',refresh);window.addEventListener('focus',refresh);return()=>{window.removeEventListener('pageshow',refresh);window.removeEventListener('focus',refresh);};},[]);
+ useEffect(()=>{const refresh=()=>void refreshSession();const changed=(event:StorageEvent)=>{if(event.key?.startsWith('rv360:'))refresh();};const visible=()=>{if(document.visibilityState==='visible')refresh();};window.addEventListener('pageshow',refresh);window.addEventListener('focus',refresh);window.addEventListener('storage',changed);document.addEventListener('visibilitychange',visible);return()=>{window.removeEventListener('pageshow',refresh);window.removeEventListener('focus',refresh);window.removeEventListener('storage',changed);document.removeEventListener('visibilitychange',visible);};},[]);
  useEffect(()=>{if(session.ready&&protectedView&&(!session.user||(admin?session.user.role!=='admin':session.user.role==='admin')))router.replace(admin?'/admin/login':'/ingresar');},[session.ready,session.user,protectedView,admin,router]);
  if(path==='/restablecer')return <ResetPassword />;
  if((!session.ready||!session.user||(admin?session.user.role!=='admin':session.user.role==='admin'))&&protectedView)return <Loading />;

@@ -52,3 +52,11 @@ El estudiante ve únicamente sus carreras recomendadas. «Autopreparación» abr
 Las asociaciones anteriores se recuperan desde los cursos existentes para los simuladores que aún no tienen carreras explícitas. Los intentos conservan sus versiones y resultados; archivar no borra el historial. La versión publicada se protege: se crea otra versión para modificarla.
 
 Validación adicional: `node scripts/test-direct-simulators.cjs`. Se probó en navegador la detección de carrera en PDF/DOCX/HTML, revisión, publicación directa, selección de carrera recomendada, guardado automático, nota, progreso, recarga y móvil.
+
+## Tests publicados y sincronización local
+
+Los cambios se actualizan mediante eventos de almacenamiento entre pestañas del mismo perfil del navegador. Los errores de guardado/publicación se propagan y no se confirman como guardados. «Editar test» crea una nueva versión; al publicarla se archiva la anterior para nuevos intentos. «Duplicar» crea un instrumento independiente. «Eliminar test» retira su publicación conservando entregas e intentos; puede recuperarse con el filtro Eliminado. Los borradores se eliminan directamente.
+
+Los perfiles y equipos distintos no comparten localStorage. En esta etapa sin base de datos, administración puede abrir «Publicar tests en otro perfil o equipo» y descargar una publicación JSON. En Mis tests, el estudiante abre «Cargar tests publicados por administración», elige el archivo y confirma la carga. Se incluyen únicamente tests publicados para todos; se excluyen cuentas, contraseñas, respuestas y asignaciones personales.
+
+Cada nueva publicación del mismo origen actualiza su catálogo importado, retira las versiones que ya no están publicadas y conserva las entregas previas. Esta transferencia por archivo no es sincronización automática entre equipos; para ello hace falta almacenamiento compartido. Prueba: `node scripts/test-test-publication.cjs`.
