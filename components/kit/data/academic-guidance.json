@@ -1,88 +1,88 @@
 {
-  "id": "dc2009b70e0e76e7cea9b3a8999db261424a05054d9c30d2bb0353c12f811ad2",
+  "id": "6c3a5f4abc3ebcfcf1f15bc079eb1ca26970576e3c2e257f0362df94fc608766",
   "version": "public-academic-1",
   "source": "gemini",
   "model": "gemini-3.1-flash-lite",
-  "createdAt": "2026-09-27T06:51:32.693Z",
+  "createdAt": "2026-09-29T20:15:03.151Z",
   "categories": [
     {
       "id": "salud",
-      "explanation": "Estudia el funcionamiento del cuerpo humano, la prevención de enfermedades y el cuidado integral de la salud mediante la aplicación de conocimientos científicos en entornos clínicos o comunitarios.",
+      "explanation": "Se enfoca en el estudio de los procesos biológicos, la prevención de enfermedades y la atención directa a personas para mejorar su bienestar físico y mental.",
       "questions": [
-        "¿Prefiero trabajar en la atención directa a pacientes o en la investigación de procesos biológicos?",
-        "¿Me motiva más el diagnóstico clínico o la promoción de hábitos saludables en la población?"
+        "¿Prefiero trabajar en un entorno clínico de atención directa o en un laboratorio de investigación biomédica?",
+        "¿Me motiva más el diagnóstico de patologías o el acompañamiento integral en la recuperación de los pacientes?"
       ]
     },
     {
       "id": "ciencias",
-      "explanation": "Se enfoca en el estudio de los fenómenos naturales, químicos y físicos a través de la observación, la experimentación y el análisis de datos para comprender el mundo.",
+      "explanation": "Comprende el estudio de los fenómenos naturales y los principios fundamentales de la materia mediante la observación, la experimentación y el análisis de datos.",
       "questions": [
-        "¿Disfruto más realizando experimentos en laboratorios controlados o recolectando muestras en campo?",
-        "¿Me interesa profundizar en la teoría científica o aplicar el conocimiento para resolver problemas específicos?"
+        "¿Me interesa más la investigación teórica y el descubrimiento de nuevos principios o la aplicación práctica de la ciencia en el campo?",
+        "¿Disfruto más del trabajo de campo en ecosistemas naturales o del análisis riguroso en entornos de laboratorio?"
       ]
     },
     {
       "id": "tecnologia",
-      "explanation": "Analiza el desarrollo, implementación y gestión de sistemas informáticos, redes y soluciones digitales para optimizar procesos y proteger información.",
+      "explanation": "Estudia el desarrollo, implementación y gestión de sistemas informáticos, redes y soluciones digitales para optimizar procesos en diversos sectores.",
       "questions": [
-        "¿Me atrae más el desarrollo de software y programación o la gestión estratégica de sistemas tecnológicos?",
-        "¿Prefiero enfocarme en la seguridad de la información o en la arquitectura de nuevas plataformas digitales?"
+        "¿Me inclino más hacia la creación de software y algoritmos o hacia la gestión estratégica de la infraestructura tecnológica?",
+        "¿Prefiero resolver problemas técnicos de seguridad informática o diseñar soluciones de planificación para organizaciones?"
       ]
     },
     {
       "id": "ingenieria",
-      "explanation": "Aplica principios matemáticos y físicos para diseñar, construir y mantener infraestructuras, maquinaria y sistemas de producción eficientes.",
+      "explanation": "Aplica conocimientos científicos y matemáticos para diseñar, construir y mantener infraestructuras, maquinaria y procesos de producción eficientes.",
       "questions": [
-        "¿Me interesa más el diseño de sistemas físicos y mecánicos o la optimización de procesos industriales?",
-        "¿Prefiero trabajar en la planificación de proyectos de infraestructura o en la supervisión de operaciones técnicas?"
+        "¿Me atrae más el diseño de sistemas eléctricos y energéticos o la optimización de procesos industriales y de producción?",
+        "¿Prefiero trabajar en el diseño conceptual de proyectos o en la supervisión técnica de su ejecución física?"
       ]
     },
     {
       "id": "ambiente",
-      "explanation": "Examina la relación entre los seres vivos y su entorno, buscando soluciones para la gestión sostenible de recursos naturales y la conservación de ecosistemas.",
+      "explanation": "Analiza la interacción entre los sistemas naturales y las actividades humanas, buscando la sostenibilidad y el manejo responsable de los recursos.",
       "questions": [
-        "¿Me inclino más por la producción agropecuaria sostenible o por la conservación de la biodiversidad?",
-        "¿Prefiero trabajar en la gestión de recursos hídricos o en el desarrollo de técnicas de cultivo ecológico?"
+        "¿Me interesa más la gestión técnica de la producción agropecuaria o la conservación y restauración de ecosistemas?",
+        "¿Prefiero enfocarme en la administración de recursos naturales o en la investigación científica sobre el impacto ambiental?"
       ]
     },
     {
       "id": "educacion",
-      "explanation": "Estudia los procesos de enseñanza-aprendizaje, el desarrollo humano y las metodologías para transmitir conocimientos en diversos contextos sociales.",
+      "explanation": "Estudia los procesos de enseñanza-aprendizaje, el desarrollo humano y las metodologías para facilitar la adquisición de conocimientos en diversos contextos.",
       "questions": [
-        "¿Me motiva más la enseñanza directa en el aula o el diseño de políticas y materiales educativos?",
-        "¿Prefiero trabajar con grupos de niños en educación básica o con jóvenes y adultos en entornos especializados?"
+        "¿Me motiva más la docencia directa en el aula con estudiantes o la investigación sobre políticas y sistemas educativos?",
+        "¿Prefiero especializarme en la educación básica y formativa o en la intervención pedagógica en contextos interculturales?"
       ]
     },
     {
       "id": "arte",
-      "explanation": "Explora la expresión creativa, el diseño visual y la comunicación a través de diversos medios digitales, audiovisuales y estéticos.",
+      "explanation": "Explora la expresión creativa, la comunicación visual y la producción de contenidos digitales mediante el uso de herramientas tecnológicas y estéticas.",
       "questions": [
-        "¿Me interesa más la creación de contenido visual y animaciones o la producción técnica de medios audiovisuales?",
-        "¿Prefiero enfocar mi creatividad en el diseño de videojuegos o en la comunicación artística tradicional?"
+        "¿Me inclino más hacia la creación artística y conceptual o hacia la producción técnica de medios audiovisuales y digitales?",
+        "¿Prefiero trabajar en el diseño de experiencias interactivas como videojuegos o en la producción de contenidos para medios tradicionales?"
       ]
     },
     {
       "id": "humanidades",
-      "explanation": "Analiza el comportamiento humano, las estructuras sociales, la historia y el pensamiento crítico para comprender la complejidad de la sociedad.",
+      "explanation": "Analiza el comportamiento humano, la cultura, la historia y las estructuras sociales a través de la reflexión crítica y la investigación cualitativa.",
       "questions": [
-        "¿Me atrae más el análisis de fenómenos sociales y culturales o la participación activa en la gestión pública?",
-        "¿Prefiero investigar la historia y el pensamiento humano o aplicar teorías sociales para resolver conflictos actuales?"
+        "¿Me interesa más el análisis de las estructuras políticas y sociales o el estudio profundo de la diversidad cultural y humana?",
+        "¿Prefiero aplicar el conocimiento humanístico en el servicio público o en la investigación académica y teórica?"
       ]
     },
     {
       "id": "negocios",
-      "explanation": "Se centra en la gestión de recursos, la administración de organizaciones, el análisis financiero y las estrategias para el crecimiento empresarial.",
+      "explanation": "Se dedica al estudio de la gestión de recursos, la administración de organizaciones, el análisis financiero y la toma de decisiones estratégicas.",
       "questions": [
-        "¿Me interesa más la gestión operativa y administrativa de una empresa o el análisis financiero y de mercados?",
-        "¿Prefiero emprender proyectos innovadores o especializarme en la optimización de procesos contables?"
+        "¿Me motiva más la gestión operativa y administrativa de una empresa o el análisis financiero y la innovación de modelos de negocio?",
+        "¿Prefiero enfocarme en el emprendimiento y la creación de nuevas organizaciones o en la optimización de procesos en empresas ya establecidas?"
       ]
     },
     {
       "id": "servicios",
-      "explanation": "Gestiona la prestación de servicios orientados al bienestar, el turismo, la hospitalidad y el desarrollo físico de las personas.",
+      "explanation": "Estudia la prestación de servicios especializados orientados a la hospitalidad, el turismo, la gastronomía y el desarrollo físico humano.",
       "questions": [
-        "¿Me motiva más la gestión de experiencias turísticas y hoteleras o el entrenamiento físico y deportivo?",
-        "¿Prefiero trabajar en la industria de la hospitalidad y gastronomía o en la promoción de la salud a través del deporte?"
+        "¿Me atrae más la gestión de servicios turísticos y hoteleros o la especialización en el entrenamiento físico y deportivo?",
+        "¿Prefiero trabajar en la creación de experiencias gastronómicas o en la administración de servicios orientados al bienestar y ocio?"
       ]
     }
   ],

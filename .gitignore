@@ -38,3 +38,4 @@ references/
 .design-preview/
 
 /public/vendor/pdf.worker.min.mjs
+.vercel
