@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "build:design": "node scripts/build-design-preview.mjs",
-    "postinstall": "node scripts/prepare-browser-assets.mjs"
+    "postinstall": "node scripts/prepare-browser-assets.mjs",
+    "design:serve": "node scripts/serve-design.cjs",
+    "design:start": "npm run build:design && npm run design:serve"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

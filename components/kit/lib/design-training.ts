@@ -40,7 +40,7 @@ function progress(data:any,e:any){
 }
 function requireAdmin(user:any){if(user.role!=='admin')throw Error('Abre la vista de administración para editar contenido.');}
 export async function designTraining(path='',body?:any,method='GET'):Promise<any>{
-  const data=read(),user=designUser(),b=body||{},route=path.split('?')[0];
+  const priorData=localStorage.getItem(KEY);const data=read(),user=designUser(),b=body||{},route=path.split('?')[0];
   data.users=localAccounts().filter(a=>a.user.role==='student').map(a=>a.user);
   if(!data.users.some((u:any)=>u.id===user.id)&&user.role==='student')data.users.push(user);
   for(const a of data.attempts)if(a.state==='in_progress'&&a.expires_at&&Date.parse(a.expires_at)<=Date.now())finish(a);
@@ -145,7 +145,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     requireAdmin(user);if(data.pendingCatalog?.id!==b.id)throw Error('Primero revisa el lote.');
     const items=data.pendingCatalog.input.careers;data.catalogCustomized=true;data.catalog.careers=[...data.catalog.careers.filter((c:any)=>!items.some((x:any)=>x.id===c.id)),...items];data.catalog.institutions=[...new Set(data.catalog.careers.flatMap((c:any)=>c.offers.map((o:any)=>o.institution)))];data.pendingCatalog=null;
   }else throw Error('Esta acción no está disponible en la configuración local.');
-  save(data);return copy(result);
+  save(data);if(['/entity','/archive','/delete-draft'].includes(route)){const {publishSharedDesign}=await import('./shared-design');try{await publishSharedDesign();}catch(error){if(priorData===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,priorData);throw error;}}return copy(result);
 }
 
 export function resetDesignTraining(){localStorage.removeItem(KEY);}

@@ -1,10 +1,11 @@
 ﻿import {useState} from 'react';
 import {Button,Notice} from '../ui/primitives';
-import {refreshSession} from '../../lib/session';
+import {refreshSession,useSession} from '../../lib/session';
 import {downloadText} from '../../lib/storage';
 export function TestPublication({admin=false}:{admin?:boolean}){
+ const session=useSession();
  const [packet,setPacket]=useState<any>(null),[error,setError]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false);
- if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true')return null;
+ if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true'||session.values['rv360:shared-publication'])return null;
  return <section className="report-method">
  <p className="small muted">Contenido local: se comparte entre cuentas y pestañas del mismo perfil del navegador. Otro perfil o equipo necesita cargar la publicación.</p>
  <details><summary>{admin?'Compartir tests y simuladores con otro perfil':'Recibir tests y simuladores de administración'}</summary>
