@@ -1,4 +1,5 @@
 "use client";
+import {autofillSimulator} from '../../lib/simulator-autofill';
 import {importSimulatorDocument} from '../../lib/import-simulator';
 import {PresentationEditor} from '../../components/domain/PresentationEditor';
 import {suggestSimulatorCareers} from "../../lib/simulator-careers";
@@ -1076,6 +1077,10 @@ export function SimulatorEditor({
       {step === 4 && (
         <>
           <h3>Revisa antes de publicar</h3>
+          <Button variant="secondary" disabled={busy||saving||!s.questions.length} onClick={async()=>{setBusy(true);setError('');try{const result=await autofillSimulator(s,d.careers);change(result.simulator);setError(result.message);}finally{setBusy(false);}}}>{busy?'Completando con IA…':'Autocompletar con IA'}</Button>
+          {s.questions.some(q=>q.aiSuggested)&&<Notice>La IA propone claves y explicaciones. Confirma su contenido antes de publicar.</Notice>}
+          {s.questions.some(q=>q.aiIssue)&&<Notice tone="warning"><ul>{s.questions.map((q,i)=>q.aiIssue&&<li key={q.id}>Pregunta {i+1}: {q.aiIssue}</li>)}</ul></Notice>}
+          <label style={{display:"flex",alignItems:"flex-start",gap:12}}><input style={{flexShrink:0,marginTop:4}} type="checkbox" checked={s.questions.length>0&&s.questions.every(q=>q.reviewed)} disabled={!s.questions.length||busy} onChange={e=>patch({questions:s.questions.map(q=>({...q,reviewed:e.target.checked}))})}/><span>He revisado las claves, explicaciones y procedencia de todas las preguntas.</span></label>
           <p>{s.title||'Simulador sin nombre'} · {s.questions.length} preguntas · {s.durationMinutes} minutos de examen</p>
           <p>Práctica y examen según las modalidades elegidas. Nota sobre 100 puntos y publicación en las carreras asignadas.</p>
           {!s.careerIds?.length&&<Notice tone="warning">Selecciona al menos una carrera en Información.</Notice>}

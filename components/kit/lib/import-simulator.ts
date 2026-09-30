@@ -1,3 +1,4 @@
+import {autofillSimulator} from './simulator-autofill';
 import type {Simulator} from './training-types';
 import {readApiResponse} from './api-response';
 import {suggestSimulatorCareers} from './simulator-careers';
@@ -19,7 +20,9 @@ export async function importSimulatorDocument(file:File,s:Simulator,careers:{id:
    }
    if (data?.status !== "Completado") throw Error("La extracción sigue en proceso. Consúltala en Evaluaciones.");
  }
- return simulatorFromDocument(data,file.name,s,careers);
+ const parsed=simulatorFromDocument(data,file.name,s,careers);
+ const result=await autofillSimulator(parsed.simulator,careers,!s.questions.length&&!data.tests?.[0]?.durationMinutes);
+ return {simulator:result.simulator,message:parsed.message+' '+result.message};
 }
 export function simulatorFromDocument(data:any,filename:string,s:Simulator,careers:{id:string;name:string}[]){
  const tests=data.tests||[];

@@ -1,0 +1,42 @@
+import type {Simulator} from './training-types';
+import {migrateAdminSession} from './admin-session';
+const clean=(v:unknown,max:number)=>typeof v==='string'?v.replace(/<[^>]*>/g,'').trim().slice(0,max):'';
+export function applySimulatorSuggestions(s:Simulator,value:any,careers:{id:string;name:string}[],allowTime=false):Simulator{
+ const allowed=new Set(careers.map(c=>c.id));
+ const title=clean(value?.title,100),summary=clean(value?.summary,280);
+ return {...s,careerIds:s.careerIds?.length?s.careerIds:[...new Set<string>((Array.isArray(value?.careerIds)?value.careerIds:[]).filter((id:any)=>allowed.has(id)))],
+  durationMinutes:allowTime&&Number.isInteger(value?.durationMinutes)&&value.durationMinutes>0&&value.durationMinutes<=480?value.durationMinutes:s.durationMinutes,
+  instrument:{...s.instrument,...(!s.instrument.presentation&&title&&summary?{presentation:{title,summary}}:{}),description:s.instrument.description||clean(value?.instructions,600)},
+  questions:s.questions.map(q=>{
+   const a=Array.isArray(value?.questions)?value.questions.find((a:any)=>a?.id===q.id):null;if(!a)return q;
+   const next={...q};let changed=false;
+   const options=q.options||s.instrument.options;
+   if(!q.correctValues?.length&&['single','multiple','yesno'].includes(q.type||'single')){
+    const keys=Array.isArray(a.correctValues)?[...new Set<number>(a.correctValues)]:[];
+    if(!a.issue&&keys.length>0&&keys.every(k=>options.some(o=>o.value===k))&&(q.type==='multiple'?keys.length>=(q.minSelections??1)&&keys.length<=(q.maxSelections??options.length):keys.length===1)){next.correctValues=keys;changed=true;}
+   }
+   if(!a.issue&&q.type==='short'&&!q.acceptedTexts?.length&&Array.isArray(a.acceptedTexts)){
+    const answers=a.acceptedTexts.map((v:any)=>clean(v,200)).filter(Boolean).slice(0,20);if(answers.length){next.acceptedTexts=answers;changed=true;}
+   }
+   if(!a.issue&&q.type==='number'&&!q.numericKey&&Number.isFinite(a.numericKey?.min)&&Number.isFinite(a.numericKey?.max)&&a.numericKey.min<=a.numericKey.max){next.numericKey={min:a.numericKey.min,max:a.numericKey.max};changed=true;}
+   if(!q.explanation&&clean(a.explanation,1500)){next.explanation=clean(a.explanation,1500);changed=true;}
+   if(!q.topic&&clean(a.topic,100))next.topic=clean(a.topic,100);
+   if(!q.difficulty&&['introductory','intermediate','advanced'].includes(a.difficulty))next.difficulty=a.difficulty;
+   if(clean(a.issue,300))next.aiIssue=clean(a.issue,300);else if(next.aiIssue)delete next.aiIssue;
+   if(changed){next.aiSuggested=true;next.reviewed=false;}
+   return next;
+  })};
+}
+export async function autofillSimulator(s:Simulator,careers:{id:string;name:string}[],allowTime=false){
+ let simulator=s,completed=0;const messages:string[]=[];
+ try{
+  await migrateAdminSession();
+  for(let i=0;i<s.questions.length;i+=20){
+   const response=await fetch('/api/import-presentation/',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(55000),body:JSON.stringify({operation:'simulator',title:s.title.slice(0,500),description:s.instrument.description.slice(0,12000),careers:careers.map(({id,name})=>({id,name})),questions:s.questions.slice(i,i+20).map(q=>({...q,options:q.options||s.instrument.options}))})});
+   if(!response.ok)throw Error('La IA no pudo completar todos los campos. Conservamos lo importado; puedes reintentar con «Autocompletar con IA».');
+   const data=await response.json();simulator=applySimulatorSuggestions(simulator,data.suggestions,careers,allowTime&&i===0);completed+=Math.min(20,s.questions.length-i);
+  }
+ }catch(e){messages.push((e as Error).message);}
+ if(completed)messages.unshift('IA aplicada a '+completed+' preguntas. Revisa las claves y explicaciones propuestas antes de publicar.');
+ return {simulator,message:messages.join(' ')};
+}

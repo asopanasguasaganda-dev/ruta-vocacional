@@ -1,5 +1,6 @@
 import type {IncomingMessage,ServerResponse} from 'node:http';
 import {publisherAuth} from './publisher-auth';
+import {suggestSimulatorFields} from './simulator-autofill';
 import {summarizeInstrument} from './import-presentation';
 const auth=publisherAuth();
 export default async function handler(req:IncomingMessage&{body?:any},res:ServerResponse){
@@ -10,7 +11,11 @@ export default async function handler(req:IncomingMessage&{body?:any},res:Server
  try{
   if(!await auth.authenticated(req.headers.cookie||''))return send(401,{error:'Inicia sesión como administrador.'});
   let body=req.body;
-  if(typeof body==='string'){if(body.length>14000)return send(413,{error:'Texto demasiado extenso.'});body=JSON.parse(body);}
+  if(typeof body==='string'){if(body.length>300000)return send(413,{error:'Texto demasiado extenso.'});body=JSON.parse(body);}
+  if(body?.operation==='simulator'){
+   if(JSON.stringify(body).length>300000||!Array.isArray(body.questions)||!body.questions.length||body.questions.length>20||!Array.isArray(body.careers)||body.careers.length>2500||typeof body.title!=='string'||body.title.length>500)return send(400,{error:'Contenido del simulador no válido.'});
+   return send(200,{suggestions:await suggestSimulatorFields(body)});
+  }
   if(!body||typeof body.title!=='string'||typeof body.description!=='string'||body.title.length>500||body.description.length>12000)return send(400,{error:'Contenido no válido.'});
   return send(200,{presentation:await summarizeInstrument({title:body.title,description:body.description})});
  }catch{return send(503,{error:'La IA no está disponible. Puedes continuar con el contenido original.'});}

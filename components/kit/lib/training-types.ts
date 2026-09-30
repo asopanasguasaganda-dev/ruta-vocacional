@@ -53,6 +53,8 @@ export type BankQuestion = Question & {
   bankId?: string;
   bankVersion?: number;
   reviewed?: boolean;
+  aiSuggested?: boolean;
+  aiIssue?: string;
   topic?: string;
   difficulty?: "introductory" | "intermediate" | "advanced";
 };
