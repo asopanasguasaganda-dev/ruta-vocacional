@@ -77,6 +77,9 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     const index=list.findIndex((x:any)=>x.id===e.id&&x.version===e.version);
     if(index>=0)list[index]=e;else list.push(e);
     result=e;
+  }else if(route==='/delete-simulator'){
+    requireAdmin(user);const e=data.simulators.find((x:any)=>x.id===b.id&&x.version===b.version);if(!e||e.revision!==b.revision)throw Error('El simulador cambió. Actualiza el catálogo e inténtalo de nuevo.');
+    data.simulators=data.simulators.filter((x:any)=>x.id!==b.id);
   }else if(route==='/archive'||route==='/delete-draft'){
     requireAdmin(user);const key=b.kind==='course'?'courses':b.kind==='simulator'?'simulators':'profiles';
     const e=data[key].find((x:any)=>x.id===b.id&&x.version===b.version);if(!e)throw Error('Contenido no encontrado.');
@@ -145,7 +148,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     requireAdmin(user);if(data.pendingCatalog?.id!==b.id)throw Error('Primero revisa el lote.');
     const items=data.pendingCatalog.input.careers;data.catalogCustomized=true;data.catalog.careers=[...data.catalog.careers.filter((c:any)=>!items.some((x:any)=>x.id===c.id)),...items];data.catalog.institutions=[...new Set(data.catalog.careers.flatMap((c:any)=>c.offers.map((o:any)=>o.institution)))];data.pendingCatalog=null;
   }else throw Error('Esta acción no está disponible en la configuración local.');
-  save(data);if(['/entity','/archive','/delete-draft'].includes(route)){const {publishSharedDesign}=await import('./shared-design');try{await publishSharedDesign();}catch(error){if(priorData===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,priorData);throw error;}}return copy(result);
+  save(data);if(['/entity','/archive','/delete-draft','/delete-simulator'].includes(route)){const {publishSharedDesign}=await import('./shared-design');try{await publishSharedDesign();}catch(error){if(priorData===null)localStorage.removeItem(KEY);else localStorage.setItem(KEY,priorData);throw error;}}return copy(result);
 }
 
 export function resetDesignTraining(){localStorage.removeItem(KEY);}

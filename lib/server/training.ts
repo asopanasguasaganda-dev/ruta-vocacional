@@ -1133,6 +1133,9 @@ export function trainingAction(
   if (path === "training" && method === "GET") return trainingState(u);
   if (path === "training/entity" && method === "POST")
     return saveTraining(u, b.kind, b.entity);
+  if(path==='training/delete-simulator'&&method==='POST'){
+    admin(u);return tx(()=>{const e=entity(u,'simulator',b.id,b.version);if(e.revision!==b.revision)fail('El simulador cambió. Actualiza el catálogo.',409);db.prepare("DELETE FROM training_entities WHERE id=? AND kind='simulator'").run(e.id);db.prepare("DELETE FROM training_mutations WHERE json_extract(result,'$.id')=?").run(e.id);audit(u,'Eliminar simulador',e.id,{version:e.version});return {ok:true};});
+  }
   if(path==='training/delete-draft'&&method==='POST'){
     admin(u);return tx(()=>{const e=entity(u,b.kind,b.id,b.version);if(e.status!=='draft'||e.revision!==b.revision)fail('Solo se puede descartar un borrador sin cambios de otra sesión.',409);db.prepare('DELETE FROM training_entities WHERE id=? AND version=?').run(e.id,e.version);db.prepare("DELETE FROM training_mutations WHERE json_extract(result,'$.id')=? AND json_extract(result,'$.version')=?").run(e.id,e.version);audit(u,'Descartar borrador',e.id,{version:e.version});return {ok:true};});
   }

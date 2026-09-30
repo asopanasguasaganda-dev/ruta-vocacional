@@ -321,6 +321,7 @@ export function TrainingResult({ attempt: a }: { attempt: any }) {
         ))}
       </details>
       <div className="training-actions">
+        <a className="button button--primary" href={pdfSource||undefined} download={"resultado-simulador-"+a.id+".pdf"}>Descargar PDF</a>
         <Button variant="secondary" onClick={() => setPdf(!pdf)}>
           {pdf ? "Cerrar PDF" : "Vista previa del PDF"}
         </Button>
