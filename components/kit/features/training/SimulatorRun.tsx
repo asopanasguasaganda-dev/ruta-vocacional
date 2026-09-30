@@ -1,4 +1,6 @@
 "use client";
+import {PdfViewer} from '../../components/ui/PdfViewer';
+
 import {simulatorClock,clockLabel} from '../../lib/simulator-clock';
 import {Dialog} from "../../components/ui/Dialog";
 import {absent} from "../../lib/test-engine";
@@ -335,10 +337,7 @@ export function TrainingResult({ attempt: a }: { attempt: any }) {
         </a>
       </div>
       {pdf && (
-        <iframe
-          title={"Resultado de " + a.instrument.title}
-          src={pdfSource||undefined}
-        />
+        <PdfViewer title={"Resultado de " + a.instrument.title} src={pdfSource||undefined}/>
       )}
     </Card>
   );
