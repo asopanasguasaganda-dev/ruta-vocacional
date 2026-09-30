@@ -1,4 +1,5 @@
 "use client";
+import {simulatorClock,clockLabel} from '../../lib/simulator-clock';
 import {Dialog} from "../../components/ui/Dialog";
 import {absent} from "../../lib/test-engine";
 import { answerText } from "../../lib/test-answer-text";
@@ -29,12 +30,11 @@ export function SimulatorRun({
   useEffect(()=>{if(!dirty||a.state!=='in_progress')return;const timer=setTimeout(()=>void act(async()=>{await save();}),600);return()=>clearTimeout(timer);},[answers,flags,dirty,a.state]);
   const q = a.instrument.questions[index];
   const answered=a.instrument.questions.filter((q:any)=>!absent(answers[q.id])).length;
-  const remaining = a.expires_at
-    ? Math.max(0, Math.ceil((Date.parse(a.expires_at) - clock - offset) / 1000))
-    : null;
+  const {remaining,elapsed}=simulatorClock(a.started_at,a.expires_at,clock,offset);
   useEffect(() => {
     const timer = setInterval(() => setClock(Date.now()), 1000);
-    return () => clearInterval(timer);
+    const sync=()=>setClock(Date.now());window.addEventListener('focus',sync);document.addEventListener('visibilitychange',sync);
+    return () => {clearInterval(timer);window.removeEventListener('focus',sync);document.removeEventListener('visibilitychange',sync);};
   }, []);
   useEffect(() => {
     const warn = (e: BeforeUnloadEvent) => {
@@ -90,13 +90,13 @@ export function SimulatorRun({
           </small>
           <h2>{a.instrument.title}</h2>
         </div>
-        <span role="timer">
-          {remaining === null
-            ? "Sin límite de tiempo"
-            : Math.floor(remaining / 60) +
-              ":" +
-              String(remaining % 60).padStart(2, "0")}
-        </span>
+      </div>
+      <div className="exam-statusbar">
+       <div className="exam-time" data-urgent={remaining!==null&&remaining<=60}><small>{remaining===null?'Tiempo transcurrido':'Tiempo restante'}</small><strong role="timer" aria-label={remaining===null?'Tiempo transcurrido':'Tiempo restante'}>{clockLabel(remaining??elapsed)}</strong></div>
+       <div><small>Respondidas</small><strong>{answered} / {a.instrument.questions.length}</strong></div>
+       <div><small>Pendientes</small><strong>{a.instrument.questions.length-answered}</strong></div>
+       <div><small>Marcadas</small><strong>{flags.length}</strong></div>
+       <Button size="sm" disabled={busy} onClick={()=>setConfirmFinish(true)}>Entregar simulador</Button>
       </div>
       <Notice>
         Preparación propia. Las omisiones cuentan como cero y permanecen en el
@@ -124,7 +124,7 @@ export function SimulatorRun({
           </Button>
         </Notice>
       )}
-      <div className="exam-workspace"><aside className="exam-sidebar"><h3>Navegación del examen</h3><p>{answered} de {a.instrument.questions.length} respondidas</p><progress max={a.instrument.questions.length} value={answered} aria-label="Progreso de respuestas"/><nav
+      <div className="exam-workspace"><aside className="exam-sidebar"><h3>Preguntas del simulador</h3><p>{answered} de {a.instrument.questions.length} respondidas</p><progress max={a.instrument.questions.length} value={answered} aria-label="Progreso de respuestas"/><nav
         className="training-question-nav"
         aria-label="Preguntas del simulador"
       >
@@ -144,7 +144,7 @@ export function SimulatorRun({
           </button>
         ))}
       </nav><p className="small">✓ Respondida · ★ Marcada para volver</p><p className="small">Puedes cambiar tus respuestas antes de entregar.</p></aside>
-      <Card className="exam-question">
+      <Card className="exam-question" id="simulator-question">
         <p className="eyebrow">
           Pregunta {index + 1} de {a.instrument.questions.length}
         </p>
@@ -216,7 +216,7 @@ export function SimulatorRun({
           variant="secondary"
           onClick={()=>setConfirmFinish(true)}
         >
-          Entregar simulador
+          Revisar y entregar
         </Button>
         <Button
           disabled={busy}
