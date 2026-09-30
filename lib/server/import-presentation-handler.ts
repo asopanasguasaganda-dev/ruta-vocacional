@@ -18,5 +18,5 @@ export default async function handler(req:IncomingMessage&{body?:any},res:Server
   }
   if(!body||typeof body.title!=='string'||typeof body.description!=='string'||body.title.length>500||body.description.length>12000)return send(400,{error:'Contenido no válido.'});
   return send(200,{presentation:await summarizeInstrument({title:body.title,description:body.description})});
- }catch{return send(503,{error:'La IA no está disponible. Puedes continuar con el contenido original.'});}
+ }catch(e:any){const code=typeof e?.code==='string'&&e.code.startsWith('AI_')?e.code:e?.name==='TimeoutError'?'AI_TIMEOUT':'AI_RESPONSE';console.warn('import-ai-failure',code);return send(e?.status===429?429:503,{code,error:code==='AI_LIMIT'?'La IA alcanzó su límite temporal. Reintenta en unos minutos.':code==='AI_CONFIG'?'El servicio de IA necesita configuración.':'No se pudo completar este bloque. Puedes reintentar sin perder lo preparado.'});}
 }

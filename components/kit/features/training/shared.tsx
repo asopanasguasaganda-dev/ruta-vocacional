@@ -101,6 +101,7 @@ export function ChoiceList({
   return (
     <fieldset className="training-choices">
       <legend>{label}</legend>
+      {value.length>0&&<p className="small">Seleccionadas: {items.filter(item=>value.includes(item.id)).map(item=>item.name).join(', ')}</p>}
       <input
         aria-label={"Buscar " + label.toLowerCase()}
         value={q}
@@ -108,7 +109,7 @@ export function ChoiceList({
         placeholder="Buscar por nombre"
       />
       <div>
-        {items
+        {[...items].sort((a,b)=>Number(value.includes(b.id))-Number(value.includes(a.id)))
           .filter((i) =>
             i.name.toLocaleLowerCase().includes(q.toLocaleLowerCase()),
           )

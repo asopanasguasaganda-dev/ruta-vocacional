@@ -8,3 +8,14 @@ assert.equal(applySimulatorSuggestions(base,suggestion,[],true).durationMinutes,
 for(const q of [{id:'a',correctValues:[999]},{id:'a',correctValues:[10,20]},{id:'a',correctValues:[10],issue:'Ambiguous'}])assert.equal(applySimulatorSuggestions(base,{questions:[q]},[]).questions[0].correctValues,undefined);
 assert.deepEqual(applySimulatorSuggestions(base,{questions:[]},[]).questions,base.questions);
 console.log('PASS AI merge: preserves source/keys/weights, validates options and careers, retains review, handles uncertainty.');
+
+(async()=>{
+ const {autofillSimulator}=require('../components/kit/lib/simulator-autofill.ts');const original=global.fetch;let calls=0;const progress=[];
+ try{
+  global.fetch=async()=>{calls++;if(calls===1)return new Response(JSON.stringify({error:'Temporary'}),{status:503});return new Response(JSON.stringify({suggestions:suggestion}),{status:200});};
+  const done=await autofillSimulator(base,[],false,m=>progress.push(m));assert.equal(calls,2);assert.deepEqual(done.simulator.questions[0].correctValues,[10]);assert(progress.some(p=>p.includes('Reintentando')));
+  calls=0;global.fetch=async()=>{calls++;return new Response('{}',{status:401});};const expired=await autofillSimulator(base,[]);assert.equal(calls,1);assert(expired.message.includes('sesión'));assert.deepEqual(expired.simulator,base);
+  calls=0;global.fetch=async()=>{calls++;throw Error('Should not request');};const ready=await autofillSimulator({...done.simulator,careerIds:['software']},[]);assert.equal(calls,0);
+  console.log('PASS transient retry, progress, expired session and no regeneration of complete questions.');
+ }finally{global.fetch=original;}
+})().catch(e=>{console.error(e);process.exitCode=1});

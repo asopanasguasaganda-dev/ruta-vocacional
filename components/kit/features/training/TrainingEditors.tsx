@@ -1,4 +1,5 @@
 "use client";
+import {instrumentProblems} from '../../lib/test-engine';
 import {autofillSimulator} from '../../lib/simulator-autofill';
 import {importSimulatorDocument} from '../../lib/import-simulator';
 import {PresentationEditor} from '../../components/domain/PresentationEditor';
@@ -541,7 +542,8 @@ export function SimulatorEditor({
   onChange: (v: Simulator) => void;
   data: any;
 }) {
-  const [step, setStep] = useState(0),
+  const [aiProgress,setAiProgress]=useState(""),
+    [step, setStep] = useState(0),
     [qi, setQi] = useState(0),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
@@ -566,6 +568,12 @@ export function SimulatorEditor({
           : x,
       ),
     });
+  const questionIssues=instrumentProblems(t);
+  const pendingQuestions=s.questions.map((question,index)=>({question,index,messages:[...questionIssues.filter(p=>p.questionId===question.id).map(p=>p.message),...(!question.explanation?.trim()?['Falta explicación.']:[]),...(!question.source?.trim()?['Falta procedencia.']:[])]})).filter(item=>item.messages.length);
+  async function completeWithAI(){
+   setBusy(true);setError('');setAiProgress('Preparando el simulador…');
+   try{const result=await autofillSimulator(s,d.careers,false,setAiProgress);change(result.simulator);setError(result.message);setStep(4);}finally{setBusy(false);setAiProgress('');}
+  }
   async function upload(file: File) {
     setBusy(true);
     setError("");
@@ -582,6 +590,12 @@ export function SimulatorEditor({
   }
   return (
     <div className="training-editor te-editor te-editor-page">
+      <div className="card stack" aria-busy={busy}>
+       <div><h3>Asistente del simulador</h3><p className="small muted">Completa los campos pendientes con IA y revisa el resultado en un solo lugar.</p></div>
+       <Button disabled={busy||saving||!s.questions.length} onClick={completeWithAI}>{busy?'Preparando simulador…':'Autocompletar con IA'}</Button>
+       {aiProgress&&<p role="status">{aiProgress}</p>}
+       {error&&<Notice>{error}</Notice>}
+      </div>
       <nav className="te-steps" aria-label="Editor de simulador">
         {["Información", "Preguntas", "Puntuación", "Aplicación", "Revisar y publicar"].map(
           (label, i) => (
@@ -596,7 +610,7 @@ export function SimulatorEditor({
         )}
       </nav>
       <section className="te-body stack">
-      {error && <Notice tone="warning">{error}</Notice>}
+
       {step === 0 && (
         <>
           <Field
@@ -605,7 +619,7 @@ export function SimulatorEditor({
             onChange={(e) => patch({ title: e.target.value })}
           />
           <ChoiceList label="Carreras del simulador" items={d.careers} value={s.careerIds||[]} onChange={careerIds=>patch({careerIds})}/>
-          <Button variant="secondary" onClick={()=>{const ids=suggestSimulatorCareers(s.title+' '+s.instrument.description,d.careers);patch({careerIds:[...new Set([...(s.careerIds||[]),...ids])]});setError(ids.length?'Carreras sugeridas por coincidencias explícitas. Confirma la selección antes de publicar.':'No hay una carrera explícita en el título. Búscala y selecciónala abajo.');}}>Detectar carreras del título</Button>
+
           <p className="small muted">Al importar se preseleccionan nombres de carreras detectados. Puedes añadir o quitar carreras; cada una recibirá este simulador al publicarlo.</p>
           <PresentationEditor instrument={{...s.instrument,title:s.title}} onChange={presentation=>patch({instrument:{...s.instrument,presentation}})}/>
           <TextareaField
@@ -1077,14 +1091,16 @@ export function SimulatorEditor({
       {step === 4 && (
         <>
           <h3>Revisa antes de publicar</h3>
-          <Button variant="secondary" disabled={busy||saving||!s.questions.length} onClick={async()=>{setBusy(true);setError('');try{const result=await autofillSimulator(s,d.careers);change(result.simulator);setError(result.message);}finally{setBusy(false);}}}>{busy?'Completando con IA…':'Autocompletar con IA'}</Button>
+
           {s.questions.some(q=>q.aiSuggested)&&<Notice>La IA propone claves y explicaciones. Confirma su contenido antes de publicar.</Notice>}
           {s.questions.some(q=>q.aiIssue)&&<Notice tone="warning"><ul>{s.questions.map((q,i)=>q.aiIssue&&<li key={q.id}>Pregunta {i+1}: {q.aiIssue}</li>)}</ul></Notice>}
           <label style={{display:"flex",alignItems:"flex-start",gap:12}}><input style={{flexShrink:0,marginTop:4}} type="checkbox" checked={s.questions.length>0&&s.questions.every(q=>q.reviewed)} disabled={!s.questions.length||busy} onChange={e=>patch({questions:s.questions.map(q=>({...q,reviewed:e.target.checked}))})}/><span>He revisado las claves, explicaciones y procedencia de todas las preguntas.</span></label>
           <p>{s.title||'Simulador sin nombre'} · {s.questions.length} preguntas · {s.durationMinutes} minutos de examen</p>
           <p>Práctica y examen según las modalidades elegidas. Nota sobre 100 puntos y publicación en las carreras asignadas.</p>
           {!s.careerIds?.length&&<Notice tone="warning">Selecciona al menos una carrera en Información.</Notice>}
-          {simulatorProblems(s).length>0&&<Notice tone="warning"><b>Falta completar:</b><ul>{[...new Set(simulatorProblems(s))].map(message=><li key={message}>{message}</li>)}</ul></Notice>}
+          <p><strong>{s.questions.length-pendingQuestions.length} de {s.questions.length}</strong> preguntas con clave, explicación y procedencia completas.</p>
+          {pendingQuestions.length>0&&<Notice tone="warning"><b>Preguntas pendientes</b><ul>{pendingQuestions.map(({question,index,messages})=><li key={question.id}><button type="button" onClick={()=>{setQi(index);setStep(2);}}>Pregunta {index+1}: {messages.join(' ')} → Revisar</button></li>)}</ul></Notice>}
+          {simulatorProblems(s).length>0&&<details><summary>Ver requisitos de publicación</summary><ul>{[...new Set(simulatorProblems(s))].map(message=><li key={message}>{message}</li>)}</ul></details>}
           {onPublish&&<Button disabled={saving||busy||simulatorProblems(s).length>0||!s.careerIds?.length} onClick={onPublish}>Publicar simulador</Button>}
           <Button
             variant="secondary"
