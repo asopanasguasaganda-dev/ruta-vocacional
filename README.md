@@ -9,7 +9,7 @@ Las secciones siguientes describen el backend local existente, que no se ejecuta
 La orientación distingue Bachillerato (8.º, 9.º y 10.º de EGB hacia BGU) y
 Universidad (BGU hacia educación superior). El registro no obliga a elegir
 modalidad. Administración permite crear e importar tests para una ruta o ambas,
-y publicar simuladores de Ciencias y Técnico con sus plantillas editables.
+y publicar simuladores de Ciencias y Técnico.
 El catálogo técnico recoge las 34 figuras del Acuerdo 2024-00065-A; su disponibilidad
 debe confirmarse con cada colegio. `npm run test:school` verifica las plantillas,
 la separación de resultados y la publicación compartida.
