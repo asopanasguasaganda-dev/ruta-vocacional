@@ -69,9 +69,10 @@ export async function runGuidanceVisual({base,password,folder}){
   await page.locator('.pdf-viewer-viewport[aria-busy="false"]').waitFor();
   const pdf=await page.getByRole('link',{name:'Descargar PDF',exact:true}).getAttribute('href');assert(pdf.startsWith('blob:'));
   const downloadPromise=page.waitForEvent('download');await page.getByRole('link',{name:'Descargar PDF',exact:true}).click();const download=await downloadPromise;await download.saveAs(resolve(folder,'informe-descargado.pdf'));
-  await page.getByRole('button',{name:'Bachillerato y universidad',exact:true}).click();
-  const school=page.getByRole('region',{name:'Orientación de bachillerato'});
-  const link=school.locator('button').first();await link.click();await page.getByRole('dialog').waitFor();await shot(page,'carrera-dialogo');await page.keyboard.press('Escape');
+  await page.getByRole('button',{name:'Bachillerato',exact:true}).click();
+  assert.equal(await page.locator('.rd-recommended').count(),0,'University cards belong in Universidad');
+  await page.getByRole('button',{name:'Universidad',exact:true}).click();
+  const link=page.getByRole('button',{name:'Conocer la carrera',exact:true}).first();await link.click();await page.getByRole('dialog').waitFor();await shot(page,'carrera-dialogo');await page.keyboard.press('Escape');
   for(const width of [390,768,1280]){
    await page.setViewportSize({width,height:900});
    await page.goto(base+'/mi-ruta/resultados');await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();
@@ -88,7 +89,7 @@ export async function runGuidanceVisual({base,password,folder}){
   await choose(page,'¿Qué te gustaría priorizar al aprender?','Profundizar en asignaturas, investigar y argumentar');
   await page.getByRole('button',{name:'Guardar cambios',exact:true}).click();await page.getByText('Tus datos se guardaron.',{exact:true}).waitFor();
   await page.goto(base+'/mi-ruta/resultados');await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();await shot(page,'ciencias-1280');
-  await page.getByRole('button',{name:'Ver las 8 carreras y universidades',exact:true}).click();
+  await page.getByRole('button',{name:'Universidad',exact:true}).click();
   assert.equal(await page.locator('.rd-recommended').count(),8);
   await page.locator('.rd-offer-details summary').first().click();await page.locator('.career-offers').first().waitFor();await shot(page,'universidades');
   const admin=await browser.newContext({viewport:{width:1440,height:1000}}),ap=await admin.newPage();ap.on('pageerror',error=>failures.push({name:'Admin JavaScript',message:error.message}));
@@ -98,9 +99,18 @@ export async function runGuidanceVisual({base,password,folder}){
   await ap.getByRole('button',{name:'Actualizar orientación de bachillerato y universidad'}).click();
   assert.equal((await refreshed).status(),200);
   await ap.waitForFunction(()=>[...document.querySelectorAll('button')].some(b=>b.textContent.includes('Actualizar orientación de bachillerato y universidad')&&!b.disabled));
+  await ap.getByRole('button',{name:'Bachillerato',exact:true}).click();
   await ap.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();
+  await ap.getByRole('button',{name:'Universidad',exact:true}).click();
+  assert.equal(await ap.locator('.rd-recommended').count(),8);
+  await shot(ap,'admin-universidad');await overflow(ap,'admin-universidad');
+  assert.equal(await ap.getByRole('button',{name:'Autopreparaci?n',exact:true}).count(),0);
+  await ap.getByRole('button',{name:'Conocer la carrera',exact:true}).first().click();await ap.getByRole('dialog').waitFor();await ap.keyboard.press('Escape');
+  await ap.getByRole('button',{name:'Recomendaciones',exact:true}).click();await ap.getByRole('heading',{name:'Recomendaciones para el estudiante',exact:true}).waitFor();
+  await ap.getByRole('button',{name:'Bachillerato',exact:true}).click();
   await shot(ap,'admin-escritorio');await overflow(ap,'admin-escritorio');
   await ap.setViewportSize({width:390,height:844});await shot(ap,'admin-movil');await overflow(ap,'admin-movil');
+  await ap.getByRole('button',{name:'Universidad',exact:true}).click();await shot(ap,'admin-universidad-movil');await overflow(ap,'admin-universidad-movil');
   checks.push({name:'Flujo',passed:'Acceso por formularios, perfil persistido, orientación independiente de la modalidad declarada, conexión de carrera, descarga PDF y actualización administrativa.'});
  }catch(error){
   failures.push({name:'Workflow',message:error.message});
