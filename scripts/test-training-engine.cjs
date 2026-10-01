@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),ts=require('typescript'),vm=require('node:vm');
 function load(file,deps={}){const m={exports:{}};vm.runInNewContext(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,{exports:m.exports,module:m,require:id=>deps[id]||require(id),console});return m.exports;}
-const universal=load('components/kit/lib/test-engine.ts'),{academicResult,simulatorProblems,selectQuestions,principalGrade,courseProgress}=load('components/kit/lib/training-engine.ts',{'./test-engine':universal});
+const universal=load('components/kit/lib/test-engine.ts'),{academicResult,simulatorProblems,selectQuestions,principalGrade,courseProgress}=load('components/kit/lib/training-engine.ts',{'../data/school-training':{schoolTarget:id=>typeof id==='string'&&id.startsWith('bachillerato:')},'./test-engine':universal});
 const {matchesCourseProfile,courseUniversityProblem}=load('components/kit/lib/course-links.ts');
 const admission={type:'admission',profileId:'university-period',profileVersion:1};
 assert.equal(matchesCourseProfile(admission,{}),true,'La carrera sugerida ofrece preparación sin exigir elegir convocatoria');

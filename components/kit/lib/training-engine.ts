@@ -1,4 +1,5 @@
 import type { Simulator, BankQuestion } from "./training-types";
+import {schoolTarget} from '../data/school-training';
 import {
   calculateTest,
   instrumentProblems,
@@ -34,9 +35,14 @@ export function simulatorProblems(s: Simulator) {
     !Array.isArray(s.quotas)
   )
     return ["Estructura del simulador inválida."];
-  const errors = instrumentProblems(academicInstrument(s)).map(
+    if(s.careerIds!==undefined&&!Array.isArray(s.careerIds))return ['Revisa las opciones de estudio.'];
+    const errors = instrumentProblems(academicInstrument(s)).map(
     (p) => p.message,
-  );
+    );
+    if(s.careerIds?.some(schoolTarget)&&s.careerIds.some(id=>!schoolTarget(id)))errors.push('Separa los simuladores de Bachillerato y Universidad.');
+    if(s.educationLevel!==undefined&&!['bachillerato','universidad'].includes(s.educationLevel))errors.push('Revisa el nivel de preparación.');
+    if(s.careerIds?.length&&s.educationLevel&&s.careerIds.some(id=>schoolTarget(id)!==(s.educationLevel==='bachillerato')))errors.push('El nivel debe coincidir con las opciones de estudio asignadas.');
+    if(s.careerIds?.some(schoolTarget)&&s.purpose==='admission')errors.push('La exploración de bachillerato no es un examen de admisión universitaria.');
   if (
     s.practiceDurationMinutes !== undefined &&
     (!Number.isInteger(s.practiceDurationMinutes) ||

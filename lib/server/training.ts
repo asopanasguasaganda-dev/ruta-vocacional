@@ -30,6 +30,7 @@ import type {
 } from "@/components/kit/lib/training-types";
 import { asyncSome } from "@/lib/server/async-collections";
 import { simulatorCareerIds } from "@/components/kit/lib/simulator-careers";
+import {schoolTrainingTargets,schoolPreparationRecommendations,schoolTarget} from '@/components/kit/data/school-training';
 
 // Additive migration. Published content and enrolled itineraries are immutable snapshots.
 type User = {
@@ -104,7 +105,7 @@ export function trainingCatalog() {
     .map((c) => ({ ...c, offers: (offers[c.id] || []).filter(degreeOffer) }))
     .filter((c) => c.offers.length);
   return {
-    careers,
+    careers: [...careers,...schoolTrainingTargets],
     source: {
       ...catalogSource,
       careerCount: careers.length,
@@ -158,12 +159,15 @@ async function validate(u: User, kind: string, e: any) {
   )
     fail("Estructura del perfil inválida.");
   if (e.status !== "published") return;
+  if (e.careerIds !== undefined && !Array.isArray(e.careerIds)) fail('Revisa las opciones de estudio.');
+  if (e.educationLevel !== undefined && !['bachillerato','universidad'].includes(e.educationLevel)) fail('Revisa el nivel de preparación.');
+  if((kind==='profile'||e.purpose==='admission'||e.type==='admission')&&e.careerIds?.some(schoolTarget))fail('Los perfiles de admisión universitaria no se aplican al ingreso a BGU.');
   if (!e.title.trim()) fail("Escribe un título.");
   const catalog = trainingCatalog();
   if (kind === "simulator") {
     if (e.careerIds !== undefined && (!Array.isArray(e.careerIds) ||
       e.careerIds.some((id: string) => !catalog.careers.some((c) => c.id === id))))
-      fail("Selecciona carreras reales del catálogo de grado.");
+      fail("Selecciona opciones válidas de Bachillerato o Universidad.");
     const errors = simulatorProblems(e);
     if (errors.length) fail(errors.join(" "));
     if (e.purpose === "admission") {
@@ -519,6 +523,7 @@ async function recommendations(u: User) {
         })),
       );
   }
+  recs.push(...schoolPreparationRecommendations(report));
   return recs.filter(
     (r, i) => recs.findIndex((x) => x.careerId === r.careerId) === i,
   );

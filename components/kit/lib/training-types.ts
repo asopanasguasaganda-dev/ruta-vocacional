@@ -59,6 +59,7 @@ export type BankQuestion = Question & {
   difficulty?: "introductory" | "intermediate" | "advanced";
 };
 export type Simulator = Versioned & {
+  educationLevel?: "bachillerato" | "universidad";
   careerIds?: string[];
   instrument: Instrument;
   purpose: "general" | "admission";

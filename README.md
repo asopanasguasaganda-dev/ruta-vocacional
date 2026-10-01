@@ -5,6 +5,29 @@ sesiones, respuestas, resultados, simuladores e indicadores se consultan en el s
 Se retiraron el modo de cuentas del navegador y la publicación estática de Vercel.
 Trabaja y despliega desde esta misma carpeta; no se necesita generar otro proyecto ni un ZIP.
 
+## Orientación de Bachillerato y Universidad
+
+La orientación distingue dos rutas: EGB Superior hacia BGU (Bachillerato) y BGU hacia
+educación superior (Universidad). El registro pide la etapa educativa sin obligar a
+elegir modalidad. Los tests pueden dirigirse a una ruta o a ambas; sus resultados se
+integran únicamente en la ruta configurada. Las respuestas anteriores se conservan.
+
+En Administración → Evaluaciones, «Test de Bachillerato» prepara un cuestionario
+interno de intereses editable. En Cursos → Bachillerato se pueden crear o importar
+simuladores y partir de las plantillas de Ciencias y Técnico. Revisa las preguntas,
+claves y asignaciones antes de publicar. Las notas de práctica no determinan la
+modalidad recomendada: la orientación usa los intereses entregados.
+
+El catálogo técnico recoge las 34 figuras y 11 familias del Acuerdo
+[MINEDUC-MINEDUC-2024-00065-A](https://educacion.gob.ec/wp-content/plugins/download-monitor/download.php?force=1&id=22029).
+Su implementación es progresiva; no afirma que todos los colegios ofrezcan todas
+las figuras. Las relaciones con intereses y las actividades de exploración son
+reglas internas del sistema, no baremos acreditados por el Ministerio.
+
+`npm run test:school` verifica catálogo, etapas, separación de resultados y las dos
+plantillas. `npm run test:guidance:visual` prueba registro, publicación administrativa,
+práctica del estudiante, notas y vistas de escritorio/móvil en una instalación aislada.
+
 ## Requisitos
 
 - Node.js 24 y MySQL 8.

@@ -1,3 +1,4 @@
+import {defaultPreparationLevel} from '../../data/school-training';
 import {SchoolRouteStart} from './SchoolRouteStart';
 import { instrumentPresentation } from "../../lib/instrument-presentation";
 import { PagedList } from "../../components/ui/PagedList";
@@ -85,10 +86,14 @@ function TestRows({
 }: {
   rows: ReturnType<typeof useAssignedTests>["all"];
 }) {
+  const profile=useSession().values["rv360:profile"];
+  const [level,setLevel]=useState<string>(defaultPreparationLevel(profile));
+  useEffect(()=>setLevel(defaultPreparationLevel(profile)),[profile?.stage]);
   const [query, setQuery] = useState(""),
     [status, setStatus] = useState("");
   const filtered = rows.filter(
     (r) =>
+      (!r.test.educationLevel||r.test.educationLevel==='ambos'||r.test.educationLevel===level)&&
       (
         r.test.title +
         " " +
@@ -106,7 +111,7 @@ function TestRows({
             : !r.submission && !r.count)),
   );
   return (
-    <div className="sw-library">
+    <div className="sw-library"><nav className="ar-tabs" aria-label="Ruta de los tests"><button className="button button--secondary" aria-pressed={level==='bachillerato'} onClick={()=>setLevel('bachillerato')}>Bachillerato</button><button className="button button--secondary" aria-pressed={level==='universidad'} onClick={()=>setLevel('universidad')}>Universidad</button></nav><p className="muted small">{level==='bachillerato'?'Para 8.º, 9.º y 10.º de EGB: conoce tus intereses y compara Ciencias y Técnico antes de entrar a BGU.':'Para tu paso de BGU a educación superior: intereses, carreras y opciones universitarias.'}</p>
       <div className="sw-library-filters">
         <Field
           label="Buscar evaluación"
@@ -258,13 +263,15 @@ function TestRows({
 }
 export function CompactDashboard() {
   const s = useSession(),
-    { battery } = useAssignedTests(),
+    { battery: assignedBattery } = useAssignedTests(),
     [reports, setReports] = useState<any[]>([]);
   useEffect(() => {
     previewAction("reports/guidance")
       .then((r) => setReports(r.items))
       .catch(() => {});
   }, [s.values['rv360:profile'],s.values['rv360:submissions']]);
+  const level=defaultPreparationLevel(s.values['rv360:profile']);
+  const battery=assignedBattery.filter(r=>!r.test.educationLevel||r.test.educationLevel==='ambos'||r.test.educationLevel===level);
   const complete = battery.filter((r) => r.submission).length,
     next = battery.find((r) => !r.submission && !availability(r.test)),
     last = reports.find((r) => r.status === "available");

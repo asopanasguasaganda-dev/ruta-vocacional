@@ -12,8 +12,8 @@ if(process.env.DB_DRIVER==='mysql'&&(!process.env.DB_NAME?.endsWith('_test')||![
 process.env.DATABASE_PATH=resolve(folder,'guidance_test.sqlite');
 process.env.ACADEMIC_CONTENT_PATH=resolve(folder,'academic_test.json');
 const outfile=resolve(folder,'server.cjs');
-await build({stdin:{contents:`export * from './lib/server/guidance'; export {db,put,passwordHash} from './lib/server/store'; export {educationProfile} from './lib/server/education'; export {instruments} from './components/kit/data/instruments'; export {calculateTest} from './components/kit/lib/test-engine'; export {professionalReport} from './components/kit/lib/professional-report';`,resolveDir:process.cwd(),loader:'ts'},bundle:true,platform:'node',format:'cjs',packages:'external',outfile,plugins:[{name:'server-marker',setup(build){build.onResolve({filter:/^server-only$/},()=>({path:'server-only',namespace:'empty'}));build.onLoad({filter:/.*/,namespace:'empty'},()=>({contents:''}));}}]});
-const {db,put,passwordHash,ensureGuidance,analyzeGuidance,listGuidance,educationProfile,instruments,calculateTest,professionalReport}=createRequire(import.meta.url)(outfile);
+await build({stdin:{contents:`export {schoolOrientationTemplate,schoolPracticeTemplate} from './components/kit/data/school-templates'; export * from './lib/server/guidance'; export {db,put,passwordHash} from './lib/server/store'; export {educationProfile} from './lib/server/education'; export {instruments} from './components/kit/data/instruments'; export {calculateTest} from './components/kit/lib/test-engine'; export {professionalReport} from './components/kit/lib/professional-report';`,resolveDir:process.cwd(),loader:'ts'},bundle:true,platform:'node',format:'cjs',packages:'external',outfile,plugins:[{name:'server-marker',setup(build){build.onResolve({filter:/^server-only$/},()=>({path:'server-only',namespace:'empty'}));build.onLoad({filter:/.*/,namespace:'empty'},()=>({contents:''}));}}]});
+const {schoolOrientationTemplate,schoolPracticeTemplate,db,put,passwordHash,ensureGuidance,analyzeGuidance,listGuidance,educationProfile,instruments,calculateTest,professionalReport}=createRequire(import.meta.url)(outfile);
 const user={id:'student_test',name:'Estudiante de prueba',role:'student',institutionId:'org_test',group:'A'};
 const t={...instruments.find(t=>t.id==='intereses'),scoring:'dimensions',aggregation:'sum'};
 const answers=Object.fromEntries(t.questions.map(q=>[q.id,q.dimension==='I'?5:q.dimension==='R'?3:q.dimension==='S'?4:2]));
@@ -122,6 +122,8 @@ try{
     const {spawnSync}=await import('node:child_process');const security=spawnSync(process.execPath,['scripts/test-security-http.mjs'],{env:{...process.env,APP_URL:base},stdio:'inherit',windowsHide:true});assert.equal(security.status,0,'Real MySQL HTTP security validation');
    }
    console.log('PASS HTTP: student/admin login, persisted profile, invalid values rejected, current report ordering and authorized admin regeneration.');
+   const {runSchoolTrainingHttp}=await import('./test-school-training-http.mjs');
+   await runSchoolTrainingHttp({base,password,adminCookie,schoolOrientationTemplate,schoolPracticeTemplate});
    if(process.argv.includes('--visual')){
     const {runGuidanceVisual}=await import('./test-guidance-visual.mjs');
     await runGuidanceVisual({base,password,folder});

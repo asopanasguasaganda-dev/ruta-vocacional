@@ -1,4 +1,6 @@
 const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:1,target:9,esModuleInterop:true}}).outputText,f);
+// Isolate autofill retries from browser-only session renewal, which has separate HTTP tests.
+require.cache[require.resolve('../components/kit/lib/admin-session.ts')]={exports:{adminFetch:(url,options)=>fetch(url,options)}};
 const {applySimulatorSuggestions}=require('../components/kit/lib/simulator-autofill.ts');
 const base={title:'Original',durationMinutes:30,instrument:{description:'Original instructions',options:[]},careerIds:[],questions:[{id:'a',type:'single',text:'2+2',options:[{value:10,label:'4'},{value:20,label:'5'}],source:'document.pdf',weight:3},{id:'b',type:'single',correctValues:[20],explanation:'Source explanation',reviewed:true,options:[{value:20,label:'Yes'}]}]};
 const suggestion={title:'Brief',summary:'Summary',durationMinutes:45,careerIds:['software','fake'],questions:[{id:'a',correctValues:[10],explanation:'Two plus two is four',topic:'Math',difficulty:'introductory'},{id:'b',correctValues:[999],explanation:'Replace me'}]};

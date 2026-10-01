@@ -1,5 +1,7 @@
-export const pathwayVersion = 'bachillerato-universidad-2';
-export const educationStages = ['Estoy eligiendo mi bachillerato', 'Estudiante de bachillerato', 'Me gradué del colegio', 'Busco mi primera carrera universitaria'];
+import {currentTechnicalOptions,technicalCatalogSource} from './technical-figures';
+export const pathwayVersion = 'bachillerato-universidad-3';
+export const educationStages = ['Estoy en 10.º de EGB y pasaré a 1.º de BGU', 'Estudiante de EGB Superior (8.º o 9.º)', 'Estoy eligiendo mi bachillerato', 'Estudiante de bachillerato', 'Me gradué del colegio', 'Busco mi primera carrera universitaria'];
+export const isChoosingBaccalaureate=(stage='')=>/EGB|eligiendo mi bachillerato/i.test(stage);
 export const baccalaureateTypes = [
   { id: 'por-definir', name: 'Todavía no lo he elegido' },
   { id: 'ciencias', name: 'Bachillerato en Ciencias' },
@@ -13,7 +15,7 @@ export const learningPreferences = [
   { id: 'ambas', name: 'Me interesan ambas formas de aprendizaje' },
 ];
 export type SchoolProfile = { baccalaureate?: string; specialty?: string; learningPreference?: string; stage?: string };
-export type SchoolOption = { id: string; name: string; dimensions: string[]; areas: string[]; subjects: string; activity: string };
+export type SchoolOption = { family?:string; id: string; name: string; dimensions: string[]; areas: string[]; subjects: string; activity: string };
 // Thematic exploration within Ciencias, not official degrees or specializations.
 export const scienceOptions: SchoolOption[] = [
   { id: 'ciencias-naturales', name: 'Ciencias naturales y salud', dimensions: ['I','S'], areas: ['ciencias','salud','ambiente'], subjects: 'Biología, Química y Matemática', activity: 'Investiga una pregunta sobre salud o ambiente y explica tus hallazgos con fuentes.' },
@@ -22,7 +24,7 @@ export const scienceOptions: SchoolOption[] = [
   { id: 'ciencias-economia', name: 'Economía y organización', dimensions: ['E','C'], areas: ['negocios','servicios'], subjects: 'Matemática, Emprendimiento y Gestión, Lengua', activity: 'Compara dos propuestas de emprendimiento: propósito, presupuesto y necesidades de las personas.' },
 ];
 // Representative figures documented by MinEdec, not a complete list or school-level availability.
-export const technicalOptions: SchoolOption[] = [
+export const legacyTechnicalOptions: SchoolOption[] = [
   { id: 'diseno-multimedia', name: 'Diseño gráfico y multimedia', dimensions: ['A','I'], areas: ['arte','tecnologia'], subjects: 'Composición visual, ilustración y herramientas digitales', activity: 'Diseña una pieza visual para comunicar una idea y pide opiniones sobre su claridad.' },
   { id: 'informatica', name: 'Informática', dimensions: ['I','R'], areas: ['tecnologia','ingenieria'], subjects: 'Matemática, lógica y proyectos informáticos', activity: 'Crea una página sencilla o diagnostica un problema informático con supervisión.' },
   { id: 'contabilidad', name: 'Contabilidad', dimensions: ['C','E'], areas: ['negocios'], subjects: 'Matemática, registro contable y organización', activity: 'Organiza los ingresos y gastos de un proyecto y explica su balance.' },
@@ -35,7 +37,10 @@ export const technicalOptions: SchoolOption[] = [
   { id: 'hoteleria', name: 'Servicios hoteleros', dimensions: ['S','E'], areas: ['servicios','negocios'], subjects: 'Idiomas, organización y atención a personas', activity: 'Diseña la experiencia de bienvenida y atención para un visitante.' },
   { id: 'turismo', name: 'Ventas e información turística', dimensions: ['S','E','A'], areas: ['servicios','humanidades'], subjects: 'Idiomas, cultura y comunicación', activity: 'Prepara una ruta cultural local y presenta su historia a otra persona.' },
 ];
+export const technicalOptions = currentTechnicalOptions;
 export const schoolSources = [
+  technicalCatalogSource,
+  {title:'MinEduc · Orientación vocacional en 8.º, 9.º y 10.º de EGB',url:'https://recursos.educacion.gob.ec/red/lineamientos-para-el-periodo-pedagogico-de-orientacion-vocacional-y-profesional/'},
   { title: 'MinEdec · Currículo de Diseño gráfico y multimedia, 2025', url: 'https://educacion.gob.ec/wp-content/uploads/downloads/2025/10/curriculo-FIP-dmu.pdf' },
   { title: 'MinEduc · Oferta formativa de Bachillerato', url: 'https://educacion.gob.ec/wp-content/uploads/downloads/2021/08/Oferta-Formativa-Bachillerato-2021.pdf' },
   { title: 'MinEdec · Figuras profesionales reportadas por el Distrito 13D03, 2025–2026', url: 'https://educacion.gob.ec/wp-content/uploads/downloads/2026/03/13D03.pdf' },

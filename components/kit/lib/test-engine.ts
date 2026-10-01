@@ -26,6 +26,7 @@ export function answerProblem(t:Instrument,q:Question,v:unknown,partial=false):s
 export function instrumentProblems(t:Instrument){
  const errors:{questionId?:string;step:number;message:string}[]=[];
  const add=(message:string,step=2,questionId?:string)=>errors.push({message,step,questionId});
+ if(t.educationLevel!==undefined&&!['bachillerato','universidad','ambos'].includes(t.educationLevel))add('Selecciona Bachillerato, Universidad o ambas rutas.',3);
  if(!t.title?.trim())add('Escribe un nombre para el test.',0);
  if(t.presentation&&(typeof t.presentation.title!=='string'||typeof t.presentation.summary!=='string'||t.presentation.title.length>100||t.presentation.summary.length>280))add('Revisa el título breve (100 caracteres) y la introducción (280 caracteres).',0);
  if(t.audience==='selected'&&!t.studentIds?.length)add('Selecciona al menos un estudiante o cambia a todos los estudiantes.',3);

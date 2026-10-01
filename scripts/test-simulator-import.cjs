@@ -5,3 +5,9 @@ const document={tests:[{title:'Software',description:'Instrucciones',durationMin
 const {simulator}=simulatorFromDocument(document,'archivo.html',base,[{id:'software',name:'Software'}]);assert.equal(simulator.durationMinutes,75);assert.equal(simulator.maxAttempts,5);assert.deepEqual(simulator.careerIds,['software']);assert.equal(simulator.questions[0].type,'single');assert.deepEqual(simulator.questions[0].correctValues,[2]);assert.equal(simulator.questions[0].weight,3);assert.equal(simulator.questions[0].reviewed,false);assert.notEqual(simulator.questions[0].id,'q1');
 const append=simulatorFromDocument(document,'otro.html',simulator,[]).simulator;assert.equal(append.questions.length,2);assert.equal(new Set(append.questions.map(q=>q.id)).size,2);assert.equal(append.durationMinutes,75);assert.equal(document.tests[0].questions[0].id,'q1');
 assert.throws(()=>simulatorFromDocument({tests:[]},'vacio.pdf',base,[]));console.log('PASS simulator import: explicit time, attempts, careers, answer keys, weights, fresh IDs and preserved source.');
+const {schoolTrainingTargets}=require('../components/kit/data/school-training.ts');
+const school=simulatorFromDocument({...document,tests:[{...document.tests[0],title:'Bachillerato en Ciencias',careerLinks:[]}]},'ciencias.html',base,schoolTrainingTargets);
+assert.deepEqual(school.simulator.careerIds,['bachillerato:ciencias']);
+assert(school.message.includes('opciones de bachillerato preseleccionadas'));
+assert.equal(school.simulator.questions[0].reviewed,false,'Imported keys require administrative review');
+console.log('PASS school document import: scoped target selection, explicit keys retained and review required.');

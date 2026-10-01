@@ -23,7 +23,8 @@
     "check:production": "node scripts/production-config.mjs",
     "verify:deployment": "node scripts/verify-deployment.mjs",
     "check:client-secrets": "node scripts/check-client-secrets.mjs",
-    "test:security": "node scripts/test-security-boundaries.mjs && node scripts/test-production-config.mjs"
+    "test:security": "node scripts/test-security-boundaries.mjs && node scripts/test-production-config.mjs",
+    "test:school": "node scripts/test-school-training.cjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
