@@ -1,3 +1,4 @@
+import {schoolProfile} from '../data/baccalaureate';
 import {cloudAdmin,adminLogin,adminPassword} from './admin-session';
 import nationalCatalog from '../data/design-careers.json';
 import {localGuidance} from './local-guidance';
@@ -43,7 +44,7 @@ export async function designRequest(path:string,options:RequestInit={}){
   if(localAccounts().some(a=>a.user.email===body.email.trim().toLowerCase()))throw Error('Este correo ya está registrado en este navegador.');
   const salt=crypto.randomUUID(),user={id:crypto.randomUUID(),name:body.name.trim(),email:body.email.trim().toLowerCase(),role:admin?'admin':'student',institutionId:'local',group:''};
   const {password,admin:ignored,...profile}=body;
-  write({user,salt,verifier:await verifier(password,salt),values:{'rv360:profile':{...profile,name:user.name,email:user.email}}});sessionStorage.setItem(activeKey,user.id);sessionStorage.setItem('rv360:local-auth-version','0');return {user};
+  write({user,salt,verifier:await verifier(password,salt),values:{'rv360:profile':{...profile,...schoolProfile(profile),name:user.name,email:user.email}}});sessionStorage.setItem(activeKey,user.id);sessionStorage.setItem('rv360:local-auth-version','0');return {user};
  }
  if(path==='auth/login'&&options.method==='POST'){
   if(body.admin&&cloudAdmin()){
@@ -91,7 +92,7 @@ export async function designRequest(path:string,options:RequestInit={}){
  if(path==='account/profile'&&options.method==='PUT'){
   const account=read();if(!account)throw Error('Inicia sesión para editar tus datos.');
   if(!body.firstName?.trim()||!body.lastName?.trim())throw Error('Completa nombres y apellidos.');
-  account.user.name=body.firstName.trim()+' '+body.lastName.trim();account.values['rv360:profile']={...account.values['rv360:profile'],...body,name:account.user.name,email:account.user.email};write(account);return {ok:true};
+  account.user.name=body.firstName.trim()+' '+body.lastName.trim();account.values['rv360:profile']={...account.values['rv360:profile'],...body,...schoolProfile(body),name:account.user.name,email:account.user.email};write(account);return {ok:true};
  }
 
  if(path==='admin/tests/review'){

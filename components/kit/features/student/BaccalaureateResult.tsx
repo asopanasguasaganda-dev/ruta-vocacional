@@ -10,6 +10,7 @@ export function BaccalaureateResult({pathway,onCareer}:{pathway:SchoolGuidance;o
       {student&&<a className="text-link" href="/mi-ruta/perfil">Completar o actualizar mi perfil escolar</a>}
       <p className="small">La afinidad orienta tu exploración; no es un certificado de aptitud ni una decisión definitiva.</p>
     </header>
+    <aside className="bp-bridge" aria-label="Recomendaciones de bachillerato"><span className="rd-eyebrow">TUS RECOMENDACIONES</span><h3>Qué hacer con tu orientación</h3><ol>{pathway.nextSteps.slice(1,3).map(step=><li key={step}>{step}</li>)}</ol><p>Abajo encontrarás las áreas de Ciencias y las figuras técnicas relacionadas con tus intereses, con sus asignaturas, actividades y conexiones universitarias.</p></aside>
     <div className="bp-options">{([
       {id:'ciencias',title:'Bachillerato en Ciencias',subtitle:'Áreas de exploración dentro de la formación general',options:pathway.science},
       {id:'tecnico',title:'Bachillerato Técnico',subtitle:'Ejemplos de figuras profesionales para comparar',options:pathway.technical},
