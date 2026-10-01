@@ -1,19 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomBytes } from 'node:crypto';
 
-// Publish the real UI even before the persistent API has been connected.
-// Never create accounts or save data to the ephemeral Vercel filesystem.
+/** Security headers only: authorization remains in the backend. */
 export function proxy(request: NextRequest) {
-  if (!process.env.VERCEL || process.env.API_ORIGIN) return NextResponse.next();
-
-  const headers = { 'Cache-Control': 'no-store' };
-  if (request.nextUrl.pathname.replace(/\/$/, '') === '/api/session' && request.method === 'GET') {
-    return NextResponse.json({ user: null, values: {}, revisions: {}, mailConfigured: false, serviceAvailable: false }, { headers });
-  }
-  return NextResponse.json({
-    ok: false,
-    code: 'SERVICE_UNAVAILABLE',
-    error: 'El acceso y los cursos están temporalmente fuera de servicio. Vuelve a intentarlo más tarde.',
-  }, { status: 503, headers });
+  const nonce = randomBytes(24).toString('base64');
+  const dev = process.env.NODE_ENV === 'development';
+  const policy = [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob:",
+    "font-src 'self' data:",
+    `connect-src 'self'${dev ? ' ws: wss:' : ''}`,
+    "media-src 'self' blob:",
+    "worker-src 'self' blob:",
+    "frame-src 'self' blob:",
+    "object-src 'none'",
+    "base-uri 'none'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    ...(process.env.APP_URL?.startsWith('https://') ? ['upgrade-insecure-requests'] : []),
+  ].join('; ');
+  const headers = new Headers(request.headers);
+  headers.set('x-nonce', nonce);
+  headers.set('Content-Security-Policy', policy);
+  const response = NextResponse.next({request:{headers}});
+  response.headers.set('Content-Security-Policy', policy);
+  response.headers.set('Cache-Control', 'private, no-store');
+  return response;
 }
-
-export const config = { matcher: '/api/:path*' };
+export const config = {
+  matcher: ['/((?!api/|_next/static|_next/image|favicon.ico|assets/|media/|icons/|data/|vendor/).*)'],
+};

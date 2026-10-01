@@ -1,0 +1,169 @@
+{
+  "users": [
+    "id",
+    "name",
+    "email",
+    "password",
+    "role",
+    "institutionId",
+    "groupName",
+    "status"
+  ],
+  "institutions": [
+    "id",
+    "name",
+    "code"
+  ],
+  "sessions": [
+    "token",
+    "userId",
+    "expires"
+  ],
+  "documents": [
+    "owner",
+    "key",
+    "value",
+    "revision"
+  ],
+  "submissions": [
+    "id",
+    "user_id",
+    "instrument_id",
+    "version",
+    "answers",
+    "scores",
+    "snapshot",
+    "created_at"
+  ],
+  "assessment_attempts": [
+    "id",
+    "user_id",
+    "instrument_id",
+    "stable_id",
+    "snapshot",
+    "started_at",
+    "state",
+    "submission_id",
+    "answers"
+  ],
+  "assessment_results": [
+    "submission_id",
+    "revision",
+    "result",
+    "reviews",
+    "reviewer",
+    "created_at"
+  ],
+  "released_results": [
+    "submission_id",
+    "released_by",
+    "released_at"
+  ],
+  "resets": [
+    "token",
+    "userId",
+    "expires"
+  ],
+  "attempts": [
+    "key",
+    "count",
+    "until"
+  ],
+  "academic_catalog_versions": [
+    "version",
+    "content",
+    "actor",
+    "created_at"
+  ],
+  "guidance_reports": [
+    "id",
+    "user_id",
+    "institution_id",
+    "digest",
+    "version",
+    "status",
+    "created_at",
+    "updated_at",
+    "attempts",
+    "content"
+  ],
+  "orientation_reports": [
+    "id",
+    "user_id",
+    "institution_id",
+    "created_at",
+    "shared",
+    "digest",
+    "content"
+  ],
+  "training_mutations": [
+    "id",
+    "result"
+  ],
+  "training_entities": [
+    "id",
+    "version",
+    "org",
+    "kind",
+    "status",
+    "revision",
+    "content",
+    "created_at"
+  ],
+  "training_enrollments": [
+    "id",
+    "user_id",
+    "course_id",
+    "course_version",
+    "snapshot",
+    "origin",
+    "created_at"
+  ],
+  "training_completions": [
+    "enrollment_id",
+    "activity_id",
+    "evidence",
+    "completed_at"
+  ],
+  "training_attempts": [
+    "id",
+    "user_id",
+    "enrollment_id",
+    "activity_id",
+    "mode",
+    "snapshot",
+    "answers",
+    "flags",
+    "revision",
+    "state",
+    "started_at",
+    "expires_at",
+    "closed_at",
+    "error"
+  ],
+  "training_results": [
+    "attempt_id",
+    "revision",
+    "result",
+    "reviews",
+    "reason",
+    "created_at",
+    "reviewer"
+  ],
+  "training_feedback": [
+    "attempt_id",
+    "question_id",
+    "sequence",
+    "answer",
+    "created_at"
+  ],
+  "training_audit": [
+    "id",
+    "org",
+    "actor",
+    "action",
+    "entity",
+    "detail",
+    "created_at"
+  ]
+}

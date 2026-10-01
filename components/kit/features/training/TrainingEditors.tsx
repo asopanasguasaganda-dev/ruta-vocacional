@@ -1151,7 +1151,7 @@ export function SimulatorEditor({
                   }
                 }}
               >
-                {process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true" ? "Calcular resultado" : "Calcular con el servidor"}
+                {"Calcular con el servidor"}
               </Button>
               {result && (
                 <Notice>

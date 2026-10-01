@@ -1,28 +1,272 @@
-import {randomUUID} from 'node:crypto';
-import {db,fail,hash,resultIsReleased,studentInstrument} from './store';
-import {batterySubmissions} from './battery';
-import {ecuadorCareers,catalogSource,careerOffers} from './ecuador-catalog';
-import {areaFor,degreeOffer,readAcademic,MAPPING_VERSION,ACADEMIC_VERSION} from './academic-content.mjs';
-export const PROMPT_VERSION=ACADEMIC_VERSION;
-export const configured=()=>true;
-function tables(){db.exec(`CREATE TABLE IF NOT EXISTS guidance_reports(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),institution_id TEXT,digest TEXT NOT NULL,version INTEGER NOT NULL,status TEXT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,attempts INTEGER NOT NULL DEFAULT 0,content TEXT NOT NULL,UNIQUE(user_id,digest,version));`);}
-function scope(user:any){return user.role==='student'?{sql:'r.user_id=?',args:[user.id]}:{sql:'u.institutionId IS ?'+(user.role==='orientador'?' AND u.groupName=?':''),args:user.role==='orientador'?[user.institutionId,user.group]:[user.institutionId]};}
-const asReport=(row:any)=>({...JSON.parse(row.content),status:row.status,attempts:row.attempts});
-export function listGuidance(user:any){tables();const s=scope(user);return db.prepare('SELECT r.* FROM guidance_reports r JOIN users u ON u.id=r.user_id WHERE '+s.sql+' ORDER BY r.created_at DESC').all(...s.args).map(asReport);}
-export function readGuidance(user:any,id:string){const r=listGuidance(user).find((r:any)=>r.id===id);if(!r)fail('Reporte no disponible para esta cuenta.',404);return r;}
-export function ensureGuidance(user:any,_regenerate=false){
- tables();const {rows:baseRows,run,complete}=batterySubmissions(user);const seen=new Set<string>();const extras=(db.prepare('SELECT * FROM submissions WHERE user_id=? ORDER BY created_at DESC').all(user.id) as any[]).filter(r=>{const key=r.instrument_id+':'+r.version;if(run.instruments.some((t:any)=>t.id===r.instrument_id&&t.version===r.version)||seen.has(key))return false;seen.add(key);return true;});const all=[...baseRows,...extras],rows=all.filter((r:any)=>r&&resultIsReleased(r));if(!rows.length)fail('Entrega un test y espera su publicación para consultar resultados.',409);
- const content=readAcademic(),rulesVersion='adult-local-1',digest=hash(JSON.stringify({attempts:rows.map((r:any)=>r.id),catalog:catalogSource.version,content:content.id,rulesVersion,mapping:MAPPING_VERSION}));const prior=db.prepare('SELECT * FROM guidance_reports WHERE user_id=? AND digest=? ORDER BY version DESC LIMIT 1').get(user.id,digest) as any;if(prior)return asReport(prior);
- const instruments=rows.map((r:any)=>({id:r.id,instrumentId:r.instrument_id,version:r.version,createdAt:r.created_at,instrument:studentInstrument(JSON.parse(r.snapshot),true),answers:JSON.parse(r.answers),scores:JSON.parse(r.scores)}));
- const interest=instruments.find((s:any)=>s.instrumentId==='intereses'),scores=interest?.scores||[],max=Math.max(0,...scores.map((s:any)=>s.raw)),min=Math.min(...scores.map((s:any)=>s.raw)),top=scores.filter((s:any)=>s.raw===max).map((s:any)=>s.dimension),differentiated=scores.length&&max>min&&max>=15;
- const allOffers=careerOffers(ecuadorCareers.map(c=>c.id));
- const candidates=ecuadorCareers.map(c=>{const area=areaFor(c.name),offers=(allOffers[c.id]||[]).filter(degreeOffer);return {...c,area,offers,weight:area?area.dimensions.reduce((sum:number,d:string)=>sum+(scores.find((s:any)=>s.dimension===d)?.raw||0),0)/area.dimensions.length:0};}).filter(c=>c.area&&c.offers.length&&c.area.dimensions.some(d=>top.includes(d))).sort((a,b)=>b.weight-a.weight||a.name.localeCompare(b.name));
- const selected:typeof candidates=[];const used=new Set();if(differentiated){for(const c of candidates){if(used.has(c.area!.id))continue;selected.push(c);used.add(c.area!.id);if(selected.length===4)break;}}
- const label=(s:any,q:any)=>q.type==='open'?String(s.answers[q.id]||'Sin respuesta opcional'):(q.options||s.instrument.options||[]).filter((o:any)=>Array.isArray(s.answers[q.id])?s.answers[q.id].includes(o.value):o.value===s.answers[q.id]).map((o:any)=>o.label).join(', ');
- const recommendations=selected.map(c=>{const supporting=c.area!.dimensions.filter(d=>top.includes(d));const q=interest!.instrument.questions.filter((q:any)=>supporting.includes(q.dimension)).sort((a:any,b:any)=>Number(interest!.answers[b.id])-Number(interest!.answers[a.id]))[0];const general=content.categories.find((a:any)=>a.id===c.area!.id)!;return {careerId:c.id,areaId:c.area!.id,reason:`Explora esta opción por tu interés declarado en «${q.text}»: respondiste «${label(interest,q)}». La relación con ${c.area!.name.toLowerCase()} es una regla interna de orientación, no una medición de aptitud ni un ranking de carreras.`,evidence:[...supporting.map(d=>'intereses:dimension:'+d),'intereses:'+q.id],explore:general.explanation+' '+general.questions.join(' '),comparison:c.area!.contrast};});
- const analysis={summary:interest?(differentiated?'Tus respuestas muestran diferencias entre áreas de interés. Las siguientes alternativas conectan esos intereses con áreas de estudio; contrástalas con experiencias, mallas y orientación humana.':'Tus respuestas no diferencian suficientemente un área dominante, o el interés declarado es bajo. Por eso no priorizamos carreras: explora el catálogo y prueba actividades antes de volver a comparar.'):'Ya puedes consultar el resultado de tu test. Completa Intereses vocacionales para relacionar tus preferencias con áreas de estudio; no se han inferido carreras sin esa información.',highlightedDimensions:differentiated?top:[],selfReported:instruments.filter((s:any)=>s.instrumentId==='valores').flatMap((s:any)=>s.instrument.questions.map((q:any)=>({text:q.text+' — '+label(s,q),evidence:[s.instrumentId+':'+q.id]}))),recommendations,nextSteps:['Compara dos carreras: asignaturas, actividades prácticas y contextos de trabajo.','Revisa las ofertas CES y confirma malla, admisión y disponibilidad con cada institución.','Prueba una actividad introductoria de cada área y registra qué disfrutas y qué te cuesta.','Conversa con estudiantes, profesionales y un orientador antes de tomar tu decisión.'],limitations:['Intereses y frecuencias autoinformadas no son capacidades demostradas ni porcentajes de aptitud.','El cuestionario local y las relaciones internas con áreas no cuentan con validación psicométrica ecuatoriana acreditada.',content.source==='gemini'?'La IA aporta contenido general compartido; no recibe ni analiza tus respuestas individuales.':'Esta versión usa contenido local; no se envían respuestas individuales a servicios externos.','La oferta CES es una consulta fechada y puede cambiar. La selección de grado se deriva de institución y título; confirma el nivel exacto con la universidad.']};
- const id=randomUUID(),now=new Date().toISOString(),version=Number((db.prepare('SELECT MAX(version) AS v FROM guidance_reports WHERE user_id=?').get(user.id) as any)?.v||0)+1;
- const r={id,createdAt:now,student:{id:user.id,name:user.name},batteryId:run.id,version,status:'available',rulesVersion,promptVersion:PROMPT_VERSION,mappingVersion:MAPPING_VERSION,model:content.model,provider:content.source,contentId:content.id,contentSource:content.source,partial:!complete||rows.length!==all.length,progress:{submitted:rows.length,total:run.instruments.length+extras.length},instruments,catalog:ecuadorCareers,catalogSource,offers:Object.fromEntries(selected.map(c=>[c.id,c.offers])),analysis};
- db.prepare('INSERT INTO guidance_reports VALUES(?,?,?,?,?,?,?,?,?,?)').run(id,user.id,user.institutionId,digest,version,'available',now,now,0,JSON.stringify(r));return r;
+import { randomUUID } from "node:crypto";
+import { db, fail, hash, resultIsReleased, studentInstrument } from "./store";
+import { batterySubmissions } from "./battery";
+import { ecuadorCareers, catalogSource, careerOffers } from "./ecuador-catalog";
+import {
+  areaFor,
+  degreeOffer,
+  readAcademic,
+  MAPPING_VERSION,
+  ACADEMIC_VERSION,
+} from "./academic-content.mjs";
+import { asyncFilter } from "@/lib/server/async-collections";
+
+export const PROMPT_VERSION = ACADEMIC_VERSION;
+export const configured = () => true;
+function tables() {}
+function scope(user: any) {
+  return user.role === "student"
+    ? { sql: "r.user_id=?", args: [user.id] }
+    : {
+        sql:
+          "u.institutionId IS ?" +
+          (user.role === "orientador" ? " AND u.groupName=?" : ""),
+        args:
+          user.role === "orientador"
+            ? [user.institutionId, user.group]
+            : [user.institutionId],
+      };
 }
-export async function analyzeGuidance(user:any,_body:any){if(user.role!=='student')fail('Solo el estudiante puede actualizar su reporte.',403);return ensureGuidance(user);}
+const asReport = (row: any) => ({
+  ...JSON.parse(row.content),
+  status: row.status,
+  attempts: row.attempts,
+});
+export async function listGuidance(user: any) {
+  tables();
+  const s = scope(user);
+  return (
+    await db
+      .prepare(
+        "SELECT r.* FROM guidance_reports r JOIN users u ON u.id=r.user_id WHERE " +
+          s.sql +
+          " ORDER BY r.created_at DESC",
+      )
+      .all(...s.args)
+  ).map(asReport);
+}
+export async function readGuidance(user: any, id: string) {
+  const r = (await listGuidance(user)).find((r: any) => r.id === id);
+  if (!r) fail("Reporte no disponible para esta cuenta.", 404);
+  return r;
+}
+export async function ensureGuidance(user: any, _regenerate = false) {
+  tables();
+  const { rows: baseRows, run, complete } = await batterySubmissions(user);
+  const seen = new Set<string>();
+  const extras = (
+    (await db
+      .prepare(
+        "SELECT * FROM submissions WHERE user_id=? ORDER BY created_at DESC",
+      )
+      .all(user.id)) as any[]
+  ).filter((r) => {
+    const key = r.instrument_id + ":" + r.version;
+    if (
+      run.instruments.some(
+        (t: any) => t.id === r.instrument_id && t.version === r.version,
+      ) ||
+      seen.has(key)
+    )
+      return false;
+    seen.add(key);
+    return true;
+  });
+  const all = [...baseRows, ...extras],
+    rows = await asyncFilter(
+      all,
+      async (r: any) => r && (await resultIsReleased(r)),
+    );
+  if (!rows.length)
+    fail(
+      "Entrega un test y espera su publicación para consultar resultados.",
+      409,
+    );
+  const content = readAcademic(),
+    rulesVersion = "adult-local-1",
+    digest = hash(
+      JSON.stringify({
+        attempts: rows.map((r: any) => r.id),
+        catalog: catalogSource.version,
+        content: content.id,
+        rulesVersion,
+        mapping: MAPPING_VERSION,
+      }),
+    );
+  const prior = (await db
+    .prepare(
+      "SELECT * FROM guidance_reports WHERE user_id=? AND digest=? ORDER BY version DESC LIMIT 1",
+    )
+    .get(user.id, digest)) as any;
+  if (prior) return asReport(prior);
+  const instruments = rows.map((r: any) => ({
+    id: r.id,
+    instrumentId: r.instrument_id,
+    version: r.version,
+    createdAt: r.created_at,
+    instrument: studentInstrument(JSON.parse(r.snapshot), true),
+    answers: JSON.parse(r.answers),
+    scores: JSON.parse(r.scores),
+  }));
+  const interest = instruments.find((s: any) => s.instrumentId === "intereses"),
+    scores = interest?.scores || [],
+    max = Math.max(0, ...scores.map((s: any) => s.raw)),
+    min = Math.min(...scores.map((s: any) => s.raw)),
+    top = scores.filter((s: any) => s.raw === max).map((s: any) => s.dimension),
+    differentiated = scores.length && max > min && max >= 15;
+  const allOffers = careerOffers(ecuadorCareers.map((c) => c.id));
+  const candidates = ecuadorCareers
+    .map((c) => {
+      const area = areaFor(c.name),
+        offers = (allOffers[c.id] || []).filter(degreeOffer);
+      return {
+        ...c,
+        area,
+        offers,
+        weight: area
+          ? area.dimensions.reduce(
+              (sum: number, d: string) =>
+                sum + (scores.find((s: any) => s.dimension === d)?.raw || 0),
+              0,
+            ) / area.dimensions.length
+          : 0,
+      };
+    })
+    .filter(
+      (c) =>
+        c.area &&
+        c.offers.length &&
+        c.area.dimensions.some((d) => top.includes(d)),
+    )
+    .sort((a, b) => b.weight - a.weight || a.name.localeCompare(b.name));
+  const selected: typeof candidates = [];
+  const used = new Set();
+  if (differentiated) {
+    for (const c of candidates) {
+      if (used.has(c.area!.id)) continue;
+      selected.push(c);
+      used.add(c.area!.id);
+      if (selected.length === 4) break;
+    }
+  }
+  const label = (s: any, q: any) =>
+    q.type === "open"
+      ? String(s.answers[q.id] || "Sin respuesta opcional")
+      : (q.options || s.instrument.options || [])
+          .filter((o: any) =>
+            Array.isArray(s.answers[q.id])
+              ? s.answers[q.id].includes(o.value)
+              : o.value === s.answers[q.id],
+          )
+          .map((o: any) => o.label)
+          .join(", ");
+  const recommendations = selected.map((c) => {
+    const supporting = c.area!.dimensions.filter((d) => top.includes(d));
+    const q = interest!.instrument.questions
+      .filter((q: any) => supporting.includes(q.dimension))
+      .sort(
+        (a: any, b: any) =>
+          Number(interest!.answers[b.id]) - Number(interest!.answers[a.id]),
+      )[0];
+    const general = content.categories.find((a: any) => a.id === c.area!.id)!;
+    return {
+      careerId: c.id,
+      areaId: c.area!.id,
+      reason: `Explora esta opción por tu interés declarado en «${q.text}»: respondiste «${label(interest, q)}». La relación con ${c.area!.name.toLowerCase()} es una regla interna de orientación, no una medición de aptitud ni un ranking de carreras.`,
+      evidence: [
+        ...supporting.map((d) => "intereses:dimension:" + d),
+        "intereses:" + q.id,
+      ],
+      explore: general.explanation + " " + general.questions.join(" "),
+      comparison: c.area!.contrast,
+    };
+  });
+  const analysis = {
+    summary: interest
+      ? differentiated
+        ? "Tus respuestas muestran diferencias entre áreas de interés. Las siguientes alternativas conectan esos intereses con áreas de estudio; contrástalas con experiencias, mallas y orientación humana."
+        : "Tus respuestas no diferencian suficientemente un área dominante, o el interés declarado es bajo. Por eso no priorizamos carreras: explora el catálogo y prueba actividades antes de volver a comparar."
+      : "Ya puedes consultar el resultado de tu test. Completa Intereses vocacionales para relacionar tus preferencias con áreas de estudio; no se han inferido carreras sin esa información.",
+    highlightedDimensions: differentiated ? top : [],
+    selfReported: instruments
+      .filter((s: any) => s.instrumentId === "valores")
+      .flatMap((s: any) =>
+        s.instrument.questions.map((q: any) => ({
+          text: q.text + " — " + label(s, q),
+          evidence: [s.instrumentId + ":" + q.id],
+        })),
+      ),
+    recommendations,
+    nextSteps: [
+      "Compara dos carreras: asignaturas, actividades prácticas y contextos de trabajo.",
+      "Revisa las ofertas CES y confirma malla, admisión y disponibilidad con cada institución.",
+      "Prueba una actividad introductoria de cada área y registra qué disfrutas y qué te cuesta.",
+      "Conversa con estudiantes, profesionales y un orientador antes de tomar tu decisión.",
+    ],
+    limitations: [
+      "Intereses y frecuencias autoinformadas no son capacidades demostradas ni porcentajes de aptitud.",
+      "El cuestionario local y las relaciones internas con áreas no cuentan con validación psicométrica ecuatoriana acreditada.",
+      content.source === "gemini"
+        ? "La IA aporta contenido general compartido; no recibe ni analiza tus respuestas individuales."
+        : "Esta versión usa contenido local; no se envían respuestas individuales a servicios externos.",
+      "La oferta CES es una consulta fechada y puede cambiar. La selección de grado se deriva de institución y título; confirma el nivel exacto con la universidad.",
+    ],
+  };
+  const id = randomUUID(),
+    now = new Date().toISOString(),
+    version =
+      Number(
+        (
+          (await db
+            .prepare(
+              "SELECT MAX(version) AS v FROM guidance_reports WHERE user_id=?",
+            )
+            .get(user.id)) as any
+        )?.v || 0,
+      ) + 1;
+  const r = {
+    id,
+    createdAt: now,
+    student: { id: user.id, name: user.name },
+    batteryId: run.id,
+    version,
+    status: "available",
+    rulesVersion,
+    promptVersion: PROMPT_VERSION,
+    mappingVersion: MAPPING_VERSION,
+    model: content.model,
+    provider: content.source,
+    contentId: content.id,
+    contentSource: content.source,
+    partial: !complete || rows.length !== all.length,
+    progress: {
+      submitted: rows.length,
+      total: run.instruments.length + extras.length,
+    },
+    instruments,
+    catalog: ecuadorCareers,
+    catalogSource,
+    offers: Object.fromEntries(selected.map((c) => [c.id, c.offers])),
+    analysis,
+  };
+  await db
+    .prepare("INSERT INTO guidance_reports VALUES(?,?,?,?,?,?,?,?,?,?)")
+    .run(
+      id,
+      user.id,
+      user.institutionId,
+      digest,
+      version,
+      "available",
+      now,
+      now,
+      0,
+      JSON.stringify(r),
+    );
+  return r;
+}
+export async function analyzeGuidance(user: any, _body: any) {
+  if (user.role !== "student")
+    fail("Solo el estudiante puede actualizar su reporte.", 403);
+  return await ensureGuidance(user);
+}

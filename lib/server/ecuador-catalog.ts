@@ -69,9 +69,6 @@ export function careerOffers(ids: string[]) {
   );
 }
 
-db.exec(
-  "CREATE TABLE IF NOT EXISTS academic_catalog_versions(version TEXT PRIMARY KEY,content TEXT NOT NULL,actor TEXT NOT NULL,created_at TEXT NOT NULL)",
-);
 function installCatalog(next: typeof data) {
   Object.assign(data, next);
   Object.assign(catalogSource, {
@@ -94,12 +91,14 @@ function installCatalog(next: typeof data) {
     })),
   );
 }
-const stored = db
-  .prepare(
-    "SELECT content FROM academic_catalog_versions ORDER BY rowid DESC LIMIT 1",
-  )
-  .get() as { content: string } | undefined;
-if (stored) installCatalog(JSON.parse(stored.content));
+export async function loadStoredCatalog() {
+  const stored = (await db
+    .prepare(
+      "SELECT content FROM academic_catalog_versions ORDER BY rowid DESC LIMIT 1",
+    )
+    .get()) as { content: string } | undefined;
+  if (stored) installCatalog(JSON.parse(stored.content));
+}
 
 export function previewCatalog(input: any) {
   if (
@@ -183,7 +182,11 @@ export function previewCatalog(input: any) {
     note: "Las ausencias se conservan. No se fusionan carreras ni se borran ofertas automáticamente.",
   };
 }
-export function applyCatalog(input: any, baseVersion: string, actor: string) {
+export async function applyCatalog(
+  input: any,
+  baseVersion: string,
+  actor: string,
+) {
   if (baseVersion !== data.sha256)
     fail("El catálogo cambió. Genera una vista previa nueva.", 409);
   const diff = previewCatalog(input);
@@ -232,12 +235,9 @@ export function applyCatalog(input: any, baseVersion: string, actor: string) {
     sha256: createHash("sha256").update(JSON.stringify(merged)).digest("hex"),
   };
   if (next.sha256 === data.sha256) return { ...diff, version: data.sha256 };
-  db.prepare("INSERT INTO academic_catalog_versions VALUES(?,?,?,?)").run(
-    next.sha256,
-    JSON.stringify(next),
-    actor,
-    new Date().toISOString(),
-  );
+  await db
+    .prepare("INSERT INTO academic_catalog_versions VALUES(?,?,?,?)")
+    .run(next.sha256, JSON.stringify(next), actor, new Date().toISOString());
   installCatalog(next);
   return { ...diff, version: next.sha256 };
 }

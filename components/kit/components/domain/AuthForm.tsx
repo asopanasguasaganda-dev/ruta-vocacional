@@ -35,7 +35,7 @@ export function AuthForm({mode,onSubmit,onNavigate}:{mode:AuthMode;onSubmit:(pay
       if(register){
         if(name.trim().length<2)invalid.name='Escribe tus nombres.';
         if(surname.trim().length<2)invalid.surname='Escribe tus apellidos.';
-        if(password.length<8)invalid.password='Usa al menos 8 caracteres.';
+        if(password.length<15)invalid.password='Usa al menos 15 caracteres.';
       }
     }
     if(register&&step===1&&!stage)invalid.stage='Selecciona tu etapa educativa.';
@@ -60,7 +60,7 @@ export function AuthForm({mode,onSubmit,onNavigate}:{mode:AuthMode;onSubmit:(pay
     </div>}
     {(!register||step===0)&&<>
       <Field icon={<Mail size={18}/>} label={'Correo electrónico'} type="email" inputMode="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="email" autoCapitalize="none" spellCheck={false} placeholder="nombre@correo.com" error={errors.email} required/>
-      {mode!=='reset'&&<div><PasswordField label="Contraseña" value={password} onChange={setPassword} error={errors.password} autoComplete={register?'new-password':'current-password'}/>{register&&<p className="auth-field-hint">Usa al menos 8 caracteres.</p>}</div>}
+      {mode!=='reset'&&<div><PasswordField label="Contraseña" value={password} onChange={setPassword} error={errors.password} autoComplete={register?'new-password':'current-password'}/>{register&&<p className="auth-field-hint">Usa al menos 15 caracteres.</p>}</div>}
     </>}
     {register&&step===1&&<>
       <SelectField label="¿En qué etapa estás?" value={stage} onChange={e=>setStage(e.target.value)} error={errors.stage} required><option value="">Selecciona una opción</option><option>Bachillerato (18 años o más)</option><option>Me gradué del colegio</option><option>Busco mi primera carrera universitaria</option></SelectField>

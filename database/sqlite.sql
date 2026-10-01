@@ -1,0 +1,25 @@
+PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON;
+CREATE TABLE IF NOT EXISTS users(id TEXT PRIMARY KEY,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password TEXT NOT NULL,role TEXT NOT NULL,institutionId TEXT,groupName TEXT NOT NULL DEFAULT '',status TEXT NOT NULL DEFAULT 'Activo');
+CREATE TABLE IF NOT EXISTS institutions(id TEXT PRIMARY KEY,name TEXT NOT NULL,code TEXT UNIQUE NOT NULL);
+CREATE TABLE IF NOT EXISTS sessions(token TEXT PRIMARY KEY,userId TEXT NOT NULL REFERENCES users(id),expires INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS documents(owner TEXT NOT NULL,key TEXT NOT NULL,value TEXT NOT NULL,revision INTEGER NOT NULL DEFAULT 1,PRIMARY KEY(owner,key));
+CREATE TABLE IF NOT EXISTS submissions(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),instrument_id TEXT NOT NULL,version TEXT NOT NULL,answers TEXT NOT NULL,scores TEXT NOT NULL,snapshot TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS assessment_attempts(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),instrument_id TEXT NOT NULL,stable_id TEXT NOT NULL,snapshot TEXT NOT NULL,started_at TEXT NOT NULL,state TEXT NOT NULL,submission_id TEXT REFERENCES submissions(id));
+CREATE UNIQUE INDEX IF NOT EXISTS assessment_open ON assessment_attempts(user_id,instrument_id) WHERE state='in_progress';
+CREATE TABLE IF NOT EXISTS assessment_results(submission_id TEXT NOT NULL REFERENCES submissions(id),revision INTEGER NOT NULL,result TEXT NOT NULL,reviews TEXT,reviewer TEXT,created_at TEXT NOT NULL,PRIMARY KEY(submission_id,revision));
+CREATE TABLE IF NOT EXISTS released_results(submission_id TEXT PRIMARY KEY REFERENCES submissions(id),released_by TEXT NOT NULL REFERENCES users(id),released_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS resets(token TEXT PRIMARY KEY,userId TEXT NOT NULL,expires INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS attempts(key TEXT PRIMARY KEY,count INTEGER NOT NULL,until INTEGER NOT NULL);
+
+CREATE TABLE IF NOT EXISTS academic_catalog_versions(version TEXT PRIMARY KEY,content TEXT NOT NULL,actor TEXT NOT NULL,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS guidance_reports(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),institution_id TEXT,digest TEXT NOT NULL,version INTEGER NOT NULL,status TEXT NOT NULL,created_at TEXT NOT NULL,updated_at TEXT NOT NULL,attempts INTEGER NOT NULL DEFAULT 0,content TEXT NOT NULL,UNIQUE(user_id,digest,version));
+CREATE TABLE IF NOT EXISTS orientation_reports(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),institution_id TEXT,created_at TEXT NOT NULL,shared INTEGER NOT NULL,digest TEXT NOT NULL,content TEXT NOT NULL,UNIQUE(user_id,digest));
+CREATE TABLE IF NOT EXISTS training_mutations(id TEXT PRIMARY KEY,result TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS training_entities(id TEXT NOT NULL,version INTEGER NOT NULL,org TEXT NOT NULL,kind TEXT NOT NULL,status TEXT NOT NULL,revision INTEGER NOT NULL,content TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(id,version));
+CREATE TABLE IF NOT EXISTS training_enrollments(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),course_id TEXT NOT NULL,course_version INTEGER NOT NULL,snapshot TEXT NOT NULL,origin TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(user_id,course_id));
+CREATE TABLE IF NOT EXISTS training_completions(enrollment_id TEXT NOT NULL REFERENCES training_enrollments(id),activity_id TEXT NOT NULL,evidence TEXT NOT NULL,completed_at TEXT NOT NULL,PRIMARY KEY(enrollment_id,activity_id));
+CREATE TABLE IF NOT EXISTS training_attempts(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),enrollment_id TEXT NOT NULL REFERENCES training_enrollments(id),activity_id TEXT NOT NULL,mode TEXT NOT NULL,snapshot TEXT NOT NULL,answers TEXT NOT NULL DEFAULT '{}',flags TEXT NOT NULL DEFAULT '[]',revision INTEGER NOT NULL DEFAULT 0,state TEXT NOT NULL,started_at TEXT NOT NULL,expires_at TEXT,closed_at TEXT,error TEXT);
+CREATE UNIQUE INDEX IF NOT EXISTS training_one_active ON training_attempts(user_id,enrollment_id,activity_id,mode) WHERE state IN ('in_progress','recoverable');
+CREATE TABLE IF NOT EXISTS training_results(attempt_id TEXT NOT NULL REFERENCES training_attempts(id),revision INTEGER NOT NULL,result TEXT NOT NULL,reviews TEXT NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL,reviewer TEXT,PRIMARY KEY(attempt_id,revision));
+CREATE TABLE IF NOT EXISTS training_feedback(attempt_id TEXT NOT NULL REFERENCES training_attempts(id),question_id TEXT NOT NULL,sequence INTEGER NOT NULL,answer TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(attempt_id,question_id,sequence));
+CREATE TABLE IF NOT EXISTS training_audit(id TEXT PRIMARY KEY,org TEXT NOT NULL,actor TEXT NOT NULL,action TEXT NOT NULL,entity TEXT NOT NULL,detail TEXT NOT NULL,created_at TEXT NOT NULL);

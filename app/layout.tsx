@@ -5,6 +5,7 @@ import '@fontsource/plus-jakarta-sans/600.css';
 import '@fontsource/plus-jakarta-sans/700.css';
 import '@fontsource/plus-jakarta-sans/800.css';
 import "./globals.css";
+import { connection } from "next/server";
 export const metadata: Metadata = {
   title: "Ruta Vocacional 360° | Conócete. Explora. Elige tu camino.",
   description:
@@ -19,9 +20,10 @@ export const viewport: Viewport = {
   colorScheme: "light",
   themeColor: "#f5f7ff",
 };
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  await connection();
   return (
     <html lang="es" data-scroll-behavior="smooth">
       <body>{children}</body>

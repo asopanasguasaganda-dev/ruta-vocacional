@@ -129,7 +129,7 @@ export function Settings() {
                 <h3>Roles y acceso</h3>
               </div>
               <p className="muted small">
-                {process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?'Administración gestiona las cuentas de este navegador. Los estudiantes conservan sus respuestas y avances por separado.':'El servidor comprueba la sesión y los permisos en cada operación. Cada estudiante accede a su propia información.'}
+                {'El servidor comprueba la sesión y los permisos en cada operación. Cada estudiante accede a su propia información.'}
               </p>
               <div className="row">
                 <Badge>Estudiante</Badge>

@@ -3,10 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { readApiResponse } from "../../lib/api-response";
 import { Button, Notice } from "../../components/ui/primitives";
 export async function trainingApi(path = "", body?: any, method = "POST") {
-  if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true") {
-    const { designTraining } = await import('../../lib/design-training');
-    return designTraining(path, body, body === undefined ? 'GET' : method);
-  }
+
   try { return await readApiResponse(
     await fetch("/api/training" + path, {
       method: body === undefined ? "GET" : method,

@@ -6,7 +6,8 @@ import {Card} from "../../components/ui/primitives";
 export function TrainingSummary(){
  const {data,error,refresh}=useTraining();
  if(!data)return <Card className="stack-sm training-home-summary"><span className="eyebrow">TU PREPARACIÓN</span><h2>Tu autopreparación</h2>{error?<TrainingError error={error} retry={refresh}/>:<p role="status">Cargando tus avances…</p>}</Card>;
- const simulators=data.simulators||[],attempts=data.attempts||[],recommendations=data.recommendations||[];
+ const attempts=data.attempts||[],recommendations=data.recommendations||[];
+ const simulators=(data.simulators||[]).filter((s:any)=>s.careerIds?.some((id:string)=>recommendations.some((r:any)=>r.careerId===id)));
  const completed=simulators.filter((s:any)=>attempts.some((a:any)=>a.simulator.id===s.id&&a.state==='graded')).length;
  const active=attempts.find((a:any)=>a.state==='in_progress'&&simulators.some((s:any)=>s.id===a.simulator.id));
  const next=simulators.find((s:any)=>s.id===active?.simulator.id)||simulators.find((s:any)=>!attempts.some((a:any)=>a.simulator.id===s.id&&a.state==='graded'));

@@ -1,18 +1,25 @@
-const apiOrigin = process.env.API_ORIGIN?.replace(/\/$/, '');
-if (apiOrigin) {
-  const url = new URL(apiOrigin);
-  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
-    throw new Error('API_ORIGIN debe ser el origen del servidor, sin ruta ni credenciales.');
-  }
-  if (process.env.VERCEL && url.protocol !== 'https:') throw new Error('API_ORIGIN debe usar HTTPS en Vercel.');
+﻿// One backend: never redirect application requests to a browser-only service.
+if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === 'true' || process.env.API_ORIGIN) {
+  throw Error('Este proyecto utiliza el backend MySQL. Retira NEXT_PUBLIC_DESIGN_PREVIEW y API_ORIGIN.');
 }
-const nextConfig = {
-  devIndicators: false,
-  serverExternalPackages: ['pdfjs-dist','mammoth','tesseract.js','@napi-rs/canvas'],
-  images: { unoptimized: true },
-  env: { NEXT_PUBLIC_DESIGN_PREVIEW: 'false' },
-  async rewrites() {
-    return { beforeFiles: apiOrigin ? [{ source: '/api/:path*', destination: `${apiOrigin}/api/:path*` }] : [] };
+for (const key of Object.keys(process.env)) {
+  if (key.startsWith('NEXT_PUBLIC_') && /SECRET|PASSWORD|TOKEN|API_KEY|DATABASE|DB_URL|PRIVATE_KEY/i.test(key) && process.env[key])
+    throw Error('Retira el prefijo público de la variable secreta: '+key);
+}
+export default {
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+  async headers() {
+    return [{source: '/:path*', headers: [
+      {key:'X-Content-Type-Options', value:'nosniff'},
+      {key:'X-Frame-Options', value:'DENY'},
+      {key:'Referrer-Policy', value:'no-referrer'},
+      {key:'Permissions-Policy', value:'camera=(), microphone=(), geolocation=(), payment=()'},
+      ...(process.env.APP_URL?.startsWith('https://') ? [{key:'Strict-Transport-Security', value:'max-age=31536000'}] : []),
+    ]}, {source:'/api/:path*', headers:[{key:'Cache-Control',value:'private, no-store'}]}];
   },
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+  devIndicators: false,
+  serverExternalPackages: ['pdfjs-dist','mammoth','tesseract.js','@napi-rs/canvas','mysql2'],
+  images: {unoptimized:true},
 };
-export default nextConfig;

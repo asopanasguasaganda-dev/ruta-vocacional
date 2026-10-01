@@ -39,3 +39,6 @@ references/
 
 /public/vendor/pdf.worker.min.mjs
 .vercel
+
+.runtime/
+artifacts/

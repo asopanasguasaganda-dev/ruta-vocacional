@@ -18,54 +18,48 @@ import {
   principalGrade,
 } from "@/components/kit/lib/training-engine";
 import { answerProblem, absent } from "@/components/kit/lib/test-engine";
-import { matchesCourseProfile, courseUniversityProblem } from "@/components/kit/lib/course-links";
+import {
+  matchesCourseProfile,
+  courseUniversityProblem,
+} from "@/components/kit/lib/course-links";
 import type {
   Course,
   Simulator,
   AdmissionProfile,
   TrainingGoal,
 } from "@/components/kit/lib/training-types";
+import { asyncSome } from "@/lib/server/async-collections";
+import { simulatorCareerIds } from "@/components/kit/lib/simulator-careers";
 
 // Additive migration. Published content and enrolled itineraries are immutable snapshots.
-db.exec(`CREATE TABLE IF NOT EXISTS training_entities(id TEXT NOT NULL,version INTEGER NOT NULL,org TEXT NOT NULL,kind TEXT NOT NULL,status TEXT NOT NULL,revision INTEGER NOT NULL,content TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(id,version));
-CREATE TABLE IF NOT EXISTS training_enrollments(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),course_id TEXT NOT NULL,course_version INTEGER NOT NULL,snapshot TEXT NOT NULL,origin TEXT NOT NULL,created_at TEXT NOT NULL,UNIQUE(user_id,course_id));
-CREATE TABLE IF NOT EXISTS training_completions(enrollment_id TEXT NOT NULL REFERENCES training_enrollments(id),activity_id TEXT NOT NULL,evidence TEXT NOT NULL,completed_at TEXT NOT NULL,PRIMARY KEY(enrollment_id,activity_id));
-CREATE TABLE IF NOT EXISTS training_attempts(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),enrollment_id TEXT NOT NULL REFERENCES training_enrollments(id),activity_id TEXT NOT NULL,mode TEXT NOT NULL,snapshot TEXT NOT NULL,answers TEXT NOT NULL DEFAULT '{}',flags TEXT NOT NULL DEFAULT '[]',revision INTEGER NOT NULL DEFAULT 0,state TEXT NOT NULL,started_at TEXT NOT NULL,expires_at TEXT,closed_at TEXT,error TEXT);
-CREATE UNIQUE INDEX IF NOT EXISTS training_one_active ON training_attempts(user_id,enrollment_id,activity_id,mode) WHERE state IN ('in_progress','recoverable');
-CREATE TABLE IF NOT EXISTS training_results(attempt_id TEXT NOT NULL REFERENCES training_attempts(id),revision INTEGER NOT NULL,result TEXT NOT NULL,reviews TEXT NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL,reviewer TEXT,PRIMARY KEY(attempt_id,revision));
-CREATE TABLE IF NOT EXISTS training_feedback(attempt_id TEXT NOT NULL REFERENCES training_attempts(id),question_id TEXT NOT NULL,sequence INTEGER NOT NULL,answer TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(attempt_id,question_id,sequence));
-CREATE TABLE IF NOT EXISTS training_audit(id TEXT PRIMARY KEY,org TEXT NOT NULL,actor TEXT NOT NULL,action TEXT NOT NULL,entity TEXT NOT NULL,detail TEXT NOT NULL,created_at TEXT NOT NULL);`);
 type User = {
   id: string;
   role: string;
   institutionId?: string | null;
   name?: string;
 };
-db.exec(
-  "CREATE TABLE IF NOT EXISTS training_mutations(id TEXT PRIMARY KEY,result TEXT NOT NULL)",
-);
 const now = () => new Date().toISOString();
-function tx<T>(fn: () => T): T {
-  db.exec("BEGIN IMMEDIATE");
-  try {
-    const r = fn();
-    db.exec("COMMIT");
-    return r;
-  } catch (e) {
-    db.exec("ROLLBACK");
-    throw e;
-  }
+async function tx<T>(fn: () => T | Promise<T>): Promise<T> {
+  return db.transaction(async () => await fn());
 }
-function audit(u: User, action: string, entity: string, detail: any = {}) {
-  db.prepare("INSERT INTO training_audit VALUES(?,?,?,?,?,?,?)").run(
-    randomUUID(),
-    u.institutionId || "",
-    u.id,
-    action,
-    entity,
-    JSON.stringify(detail),
-    now(),
-  );
+
+async function audit(
+  u: User,
+  action: string,
+  entity: string,
+  detail: any = {},
+) {
+  await db
+    .prepare("INSERT INTO training_audit VALUES(?,?,?,?,?,?,?)")
+    .run(
+      randomUUID(),
+      u.institutionId || "",
+      u.id,
+      action,
+      entity,
+      JSON.stringify(detail),
+      now(),
+    );
 }
 function admin(u: User) {
   if (u.role !== "admin")
@@ -75,17 +69,17 @@ function student(u: User) {
   if (u.role !== "student")
     fail("Solo estudiantes pueden realizar esta operación.", 403);
 }
-function rows(u: User, kind: string) {
+async function rows(u: User, kind: string) {
   return (
-    db
+    (await db
       .prepare(
         "SELECT * FROM training_entities WHERE org=? AND kind=? ORDER BY version DESC",
       )
-      .all(u.institutionId || "", kind) as any[]
+      .all(u.institutionId || "", kind)) as any[]
   ).map((r) => JSON.parse(r.content));
 }
-function entity(u: User, kind: string, id: string, version?: number) {
-  const r = db
+async function entity(u: User, kind: string, id: string, version?: number) {
+  const r = (await db
     .prepare(
       "SELECT * FROM training_entities WHERE org=? AND kind=? AND id=? " +
         (version ? "AND version=? " : "") +
@@ -93,12 +87,12 @@ function entity(u: User, kind: string, id: string, version?: number) {
     )
     .get(
       ...[u.institutionId || "", kind, id, ...(version ? [version] : [])],
-    ) as any;
+    )) as any;
   if (!r) fail("Contenido no disponible.", 404);
   return JSON.parse(r.content);
 }
-function published(u: User, kind: string, id: string, version: number) {
-  const e = entity(u, kind, id, version);
+async function published(u: User, kind: string, id: string, version: number) {
+  const e = await entity(u, kind, id, version);
   if (e.status !== "published") fail("La dependencia debe estar publicada.");
   return e;
 }
@@ -129,7 +123,7 @@ function canRead(c: Course, u: User) {
     (!c.availableUntil || Date.now() <= Date.parse(c.availableUntil))
   );
 }
-function validate(u: User, kind: string, e: any) {
+async function validate(u: User, kind: string, e: any) {
   if (
     !e ||
     !["course", "simulator", "profile"].includes(kind) ||
@@ -167,15 +161,18 @@ function validate(u: User, kind: string, e: any) {
   if (!e.title.trim()) fail("Escribe un título.");
   const catalog = trainingCatalog();
   if (kind === "simulator") {
+    if (e.careerIds !== undefined && (!Array.isArray(e.careerIds) ||
+      e.careerIds.some((id: string) => !catalog.careers.some((c) => c.id === id))))
+      fail("Selecciona carreras reales del catálogo de grado.");
     const errors = simulatorProblems(e);
     if (errors.length) fail(errors.join(" "));
     if (e.purpose === "admission") {
-      const p = published(
+      const p = (await published(
         u,
         "profile",
         e.profileId,
         e.profileVersion,
-      ) as AdmissionProfile;
+      )) as AdmissionProfile;
       if (
         e.durationMinutes !== p.durationMinutes ||
         p.areas.some((a) => {
@@ -216,7 +213,9 @@ function validate(u: User, kind: string, e: any) {
       new Set(e.areas?.map((a: any) => a.name)).size !== e.areas?.length ||
       !catalog.institutions.includes(e.institution) ||
       !e.period?.trim() ||
-      !['grado','tercer nivel de grado'].includes(e.level?.trim().toLowerCase()) ||
+      !["grado", "tercer nivel de grado"].includes(
+        e.level?.trim().toLowerCase(),
+      ) ||
       !e.scope?.trim() ||
       !e.rules?.trim() ||
       !e.internalRules?.trim() ||
@@ -255,16 +254,21 @@ function validate(u: User, kind: string, e: any) {
     c.fields.some((f) => !catalog.careers.some((x) => x.area === f))
   )
     fail("Completa objetivos, destinatarios y relaciones del curso.");
-  const universityProblem = courseUniversityProblem(c.institutions, c.careerIds, catalog.careers);
+  const universityProblem = courseUniversityProblem(
+    c.institutions,
+    c.careerIds,
+    catalog.careers,
+  );
   if (universityProblem) fail(universityProblem);
   if (
-    c.studentIds.some(
-      (id) =>
-        !db
+    await asyncSome(
+      c.studentIds,
+      async (id) =>
+        !(await db
           .prepare(
             "SELECT id FROM users WHERE id=? AND institutionId=? AND role='student'",
           )
-          .get(id, u.institutionId || ""),
+          .get(id, u.institutionId || "")),
     )
   )
     fail("Un destinatario no pertenece a esta plataforma.");
@@ -276,12 +280,12 @@ function validate(u: User, kind: string, e: any) {
   )
     fail("Revisa las fechas.");
   if (c.type === "admission") {
-    const p = published(
+    const p = (await published(
       u,
       "profile",
       c.profileId!,
       c.profileVersion!,
-    ) as AdmissionProfile;
+    )) as AdmissionProfile;
     if (
       !c.careerIds.length ||
       c.careerIds.some((id) => !p.careerIds.includes(id))
@@ -289,8 +293,10 @@ function validate(u: User, kind: string, e: any) {
       fail(
         "Relaciona el curso con carreras incluidas en el perfil de admisión.",
       );
-    if (c.institutions?.some(i => i !== p.institution))
-      fail("La universidad del curso debe coincidir con la convocatoria de admisión.");
+    if (c.institutions?.some((i) => i !== p.institution))
+      fail(
+        "La universidad del curso debe coincidir con la convocatoria de admisión.",
+      );
   }
   if (
     !c.activities?.length ||
@@ -306,7 +312,12 @@ function validate(u: User, kind: string, e: any) {
     )
       fail("Revisa las actividades.");
     if (a.kind === "simulator") {
-      const s = published(u, "simulator", a.simulatorId!, a.simulatorVersion!);
+      const s = await published(
+        u,
+        "simulator",
+        a.simulatorId!,
+        a.simulatorVersion!,
+      );
       if (
         !["submit", "score"].includes(a.completion) ||
         (a.completion === "score" &&
@@ -328,19 +339,19 @@ function validate(u: User, kind: string, e: any) {
       fail("Completa la lectura o un enlace HTTPS y confirmación de lectura.");
   }
 }
-export function saveTraining(u: User, kind: string, input: any) {
+export async function saveTraining(u: User, kind: string, input: any) {
   admin(u);
-  return tx(() => {
+  return await tx(async () => {
     if (!input || typeof input !== "object") fail("Contenido inválido.");
     const mutationId = createHash("sha256")
       .update(JSON.stringify([u.id, kind, input]))
       .digest("hex");
-    const replay = db
+    const replay = (await db
       .prepare("SELECT result FROM training_mutations WHERE id=?")
-      .get(mutationId) as any;
+      .get(mutationId)) as any;
     if (replay) return JSON.parse(replay.result);
     const old = input.id
-      ? rows(u, kind).find(
+      ? (await rows(u, kind)).find(
           (x) => x.id === input.id && x.version === input.version,
         )
       : null;
@@ -350,9 +361,9 @@ export function saveTraining(u: User, kind: string, input: any) {
       fail("Crea una nueva versión para modificar contenido publicado.", 409);
     const max = input.id
       ? (
-          db
+          (await db
             .prepare("SELECT MAX(version) n FROM training_entities WHERE id=?")
-            .get(input.id) as any
+            .get(input.id)) as any
         ).n || 0
       : 0;
     const e = {
@@ -365,43 +376,47 @@ export function saveTraining(u: User, kind: string, input: any) {
       input.id &&
       !old &&
       max &&
-      !rows(u, kind).some((x) => x.id === input.id)
+      !(await rows(u, kind)).some((x) => x.id === input.id)
     )
       fail("Contenido no disponible.", 403);
-    validate(u, kind, e);
+    await validate(u, kind, e);
     if (kind === "simulator")
       e.questions = e.questions.map((q: any) => ({
         ...q,
         bankId: q.bankId || q.id,
         bankVersion: q.bankVersion || e.version,
       }));
-    validate(u, kind, e);
-    db.prepare(
-      "INSERT INTO training_entities VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id,version) DO UPDATE SET status=excluded.status,revision=excluded.revision,content=excluded.content",
-    ).run(
-      e.id,
-      e.version,
-      u.institutionId || "",
-      kind,
-      e.status,
-      e.revision,
-      JSON.stringify(e),
-      now(),
-    );
-    audit(u, "Guardar " + kind, e.id, { version: e.version, status: e.status });
-    db.prepare("INSERT INTO training_mutations VALUES(?,?)").run(
-      mutationId,
-      JSON.stringify(e),
-    );
+    await validate(u, kind, e);
+    await db
+      .prepare(
+        "INSERT INTO training_entities VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id,version) DO UPDATE SET status=excluded.status,revision=excluded.revision,content=excluded.content",
+      )
+      .run(
+        e.id,
+        e.version,
+        u.institutionId || "",
+        kind,
+        e.status,
+        e.revision,
+        JSON.stringify(e),
+        now(),
+      );
+    await audit(u, "Guardar " + kind, e.id, {
+      version: e.version,
+      status: e.status,
+    });
+    await db
+      .prepare("INSERT INTO training_mutations VALUES(?,?)")
+      .run(mutationId, JSON.stringify(e));
     return e;
   });
 }
-function enrollment(u: User, id: string) {
-  const r = db
+async function enrollment(u: User, id: string) {
+  const r = (await db
     .prepare(
       "SELECT e.*,u.institutionId FROM training_enrollments e JOIN users u ON u.id=e.user_id WHERE e.id=?",
     )
-    .get(id) as any;
+    .get(id)) as any;
   if (
     !r ||
     (u.role === "student" && r.user_id !== u.id) ||
@@ -411,24 +426,24 @@ function enrollment(u: User, id: string) {
     fail("Inscripción no disponible.", 404);
   return r;
 }
-function progress(e: any) {
+async function progress(e: any) {
   const course = JSON.parse(e.snapshot) as Course,
     done = (
-      db
+      (await db
         .prepare(
           "SELECT activity_id FROM training_completions WHERE enrollment_id=?",
         )
-        .all(e.id) as any[]
+        .all(e.id)) as any[]
     ).map((x) => x.activity_id);
-  const attempts = db
+  const attempts = (await db
     .prepare(
       "SELECT * FROM training_attempts WHERE enrollment_id=? AND state='graded' ORDER BY started_at,id",
     )
-    .all(e.id) as any[];
+    .all(e.id)) as any[];
   const groups = new Map<string, any>();
   let latestResult: any = null;
   for (const a of attempts) {
-    const r = resultFor(a.id),
+    const r = await resultFor(a.id),
       sim = JSON.parse(a.snapshot) as Simulator;
     if (!r || r.percent == null) continue;
     latestResult = { percent: r.percent, mode: a.mode, attemptId: a.id };
@@ -460,8 +475,10 @@ function progress(e: any) {
     latestResult,
   };
 }
-function recommendations(u: User) {
-  const report = listGuidance(u).find((r: any) => r.status === "available");
+async function recommendations(u: User) {
+  const report = (await listGuidance(u)).find(
+    (r: any) => r.status === "available",
+  );
   let recs: any[] = [];
   if (report)
     recs = (report.analysis?.recommendations || []).map((r: any) => ({
@@ -474,22 +491,22 @@ function recommendations(u: User) {
       mappingVersion: report.mappingVersion,
       reportVersion: report.version,
     }));
-  const submissions = db
+  const submissions = (await db
     .prepare(
       "SELECT * FROM submissions WHERE user_id=? ORDER BY created_at DESC",
     )
-    .all(u.id) as any[];
+    .all(u.id)) as any[];
   const seen = new Set<string>();
   for (const sub of submissions) {
     const t = JSON.parse(sub.snapshot);
     if (seen.has(t.stableId || t.id)) continue;
     seen.add(t.stableId || t.id);
-    if (!resultIsReleased(sub)) continue;
-    const r = db
+    if (!(await resultIsReleased(sub))) continue;
+    const r = (await db
       .prepare(
         "SELECT result,revision FROM assessment_results WHERE submission_id=? ORDER BY revision DESC LIMIT 1",
       )
-      .get(sub.id) as any;
+      .get(sub.id)) as any;
     if (r)
       recs.push(
         ...(JSON.parse(r.result).careers || []).map((c: any) => ({
@@ -505,69 +522,75 @@ function recommendations(u: User) {
     (r, i) => recs.findIndex((x) => x.careerId === r.careerId) === i,
   );
 }
-export function trainingState(u: User) {
-  expireTraining();
+export async function trainingState(u: User) {
+  await expireTraining();
   const catalog = trainingCatalog();
   if (u.role === "admin")
     return {
-      courses: rows(u, "course"),
-      simulators: rows(u, "simulator"),
-      profiles: rows(u, "profile"),
+      courses: await rows(u, "course"),
+      simulators: await rows(u, "simulator"),
+      profiles: await rows(u, "profile"),
       ...catalog,
-      enrollments: (
-        db
-          .prepare(
-            "SELECT e.*,u.name FROM training_enrollments e JOIN users u ON u.id=e.user_id WHERE u.institutionId=?",
-          )
-          .all(u.institutionId || "") as any[]
-      ).map(progress),
-      attempts: (
-        db
-          .prepare(
-            "SELECT a.*,u.name FROM training_attempts a JOIN users u ON u.id=a.user_id WHERE u.institutionId=? ORDER BY a.started_at DESC",
-          )
-          .all(u.institutionId || "") as any[]
-      ).map((a) => attemptView(u, a)),
-      users: db
+      enrollments: await Promise.all(
+        (
+          (await db
+            .prepare(
+              "SELECT e.*,u.name FROM training_enrollments e JOIN users u ON u.id=e.user_id WHERE u.institutionId=?",
+            )
+            .all(u.institutionId || "")) as any[]
+        ).map(progress),
+      ),
+      attempts: await Promise.all(
+        (
+          (await db
+            .prepare(
+              "SELECT a.*,u.name FROM training_attempts a JOIN users u ON u.id=a.user_id WHERE u.institutionId=? ORDER BY a.started_at DESC",
+            )
+            .all(u.institutionId || "")) as any[]
+        ).map(async (a) => await attemptView(u, a)),
+      ),
+      users: await db
         .prepare(
           "SELECT id,name FROM users WHERE institutionId=? AND role='student' AND status='Activo'",
         )
         .all(u.institutionId || ""),
-      audit: db
+      audit: await db
         .prepare(
           "SELECT * FROM training_audit WHERE org=? ORDER BY created_at DESC LIMIT 100",
         )
         .all(u.institutionId || ""),
     };
   student(u);
-  const recs = recommendations(u),
-    goal = document(u.id, "training:goal", {
+  const recs = await recommendations(u),
+    goal = (await document(u.id, "training:goal", {
       careerIds: [],
       fields: [],
-    }) as TrainingGoal,
-    courses = unique(rows(u, "course").filter((c) => canRead(c, u))),
-    enrollments = (
-      db
-        .prepare("SELECT * FROM training_enrollments WHERE user_id=?")
-        .all(u.id) as any[]
-    ).map(progress);
+    })) as TrainingGoal,
+    courses = unique((await rows(u, "course")).filter((c) => canRead(c, u))),
+    enrollments = await Promise.all(
+      (
+        (await db
+          .prepare("SELECT * FROM training_enrollments WHERE user_id=?")
+          .all(u.id)) as any[]
+      ).map(progress),
+    );
   return {
     ...catalog,
-    simulators: rows(u, "simulator")
+    simulators: unique((await rows(u, "simulator")).filter((s) => s.status !== "draft"))
       .filter(
         (s: Simulator) =>
-          s.status === "published" ||
-          enrollments.some((e) =>
-            e.snapshot.activities.some(
-              (a: any) =>
-                a.simulatorId === s.id && a.simulatorVersion === s.version,
-            ),
-          ),
+          s.status === "published" && simulatorCareerIds(s, courses)
+            .some((id) => recs.some((r) => r.careerId === id)),
       )
       .map((s: Simulator) => ({
         id: s.id,
         version: s.version,
         title: s.title,
+        careerIds: simulatorCareerIds(s, courses),
+        instrument: { id: s.id, version: String(s.version), title: s.title,
+          description: s.instrument.description, source: s.instrument.source,
+          presentation: s.instrument.presentation,
+          options: [], questions: [] },
         modes: s.modes,
         durationMinutes: s.durationMinutes,
         practiceDurationMinutes: s.practiceDurationMinutes ?? s.durationMinutes,
@@ -579,7 +602,9 @@ export function trainingState(u: User) {
             ? s.quotas.reduce((n, q) => n + q.count, 0)
             : s.questions.length,
       })),
-    profiles: rows(u, "profile").filter((p) => p.status === "published"),
+    profiles: (await rows(u, "profile")).filter(
+      (p) => p.status === "published",
+    ),
     recommendations: recs,
     goal,
     enrollments,
@@ -591,7 +616,16 @@ export function trainingState(u: User) {
           chosen = c.careerIds.filter((id: string) =>
             goal.careerIds.includes(id),
           ),
-          field = c.fields.some((f: string) => goal.fields.includes(f)||catalog.careers.some(career=>career.area===f&&(goal.careerIds.includes(career.id)||recs.some(r=>r.careerId===career.id))));
+          field = c.fields.some(
+            (f: string) =>
+              goal.fields.includes(f) ||
+              catalog.careers.some(
+                (career) =>
+                  career.area === f &&
+                  (goal.careerIds.includes(career.id) ||
+                    recs.some((r) => r.careerId === career.id)),
+              ),
+          );
         const exact = matchesCourseProfile(c, goal);
         const reasons = [
           ...chosen.map(
@@ -605,7 +639,11 @@ export function trainingState(u: User) {
               catalog.careers.find((x) => x.id === id)?.name +
               ", una carrera de tu informe",
           ),
-          ...(field ? ["Preparación del área relacionada con tus objetivos o tu informe"] : []),
+          ...(field
+            ? [
+                "Preparación del área relacionada con tus objetivos o tu informe",
+              ]
+            : []),
         ];
         return {
           ...c,
@@ -620,42 +658,46 @@ export function trainingState(u: User) {
         };
       })
       .sort((a, b) => b.rank - a.rank),
-    attempts: (
-      db
-        .prepare(
-          "SELECT * FROM training_attempts WHERE user_id=? ORDER BY started_at DESC",
-        )
-        .all(u.id) as any[]
-    ).map((a) => attemptView(u, a)),
+    attempts: await Promise.all(
+      (
+        (await db
+          .prepare(
+            "SELECT * FROM training_attempts WHERE user_id=? ORDER BY started_at DESC",
+          )
+          .all(u.id)) as any[]
+      ).map(async (a) => await attemptView(u, a)),
+    ),
   };
 }
-export function enroll(u: User, id: string, studentId?: string) {
-  return tx(() => {
+export async function enroll(u: User, id: string, studentId?: string) {
+  return await tx(async () => {
     let target = u;
     if (studentId) {
       admin(u);
-      const row = db
+      const row = (await db
         .prepare(
           "SELECT * FROM users WHERE id=? AND institutionId=? AND role='student'",
         )
-        .get(studentId, u.institutionId || "") as any;
+        .get(studentId, u.institutionId || "")) as any;
       if (!row) fail("Estudiante no disponible.", 404);
       target = row;
     } else student(u);
-    const prior = db
+    const prior = (await db
       .prepare(
         "SELECT * FROM training_enrollments WHERE user_id=? AND course_id=?",
       )
-      .get(target.id, id) as any;
-    if (prior) return progress(prior);
-    const c = rows(u, "course").find((x) => x.id === id && canRead(x, target));
+      .get(target.id, id)) as any;
+    if (prior) return await progress(prior);
+    const c = (await rows(u, "course")).find(
+      (x) => x.id === id && canRead(x, target),
+    );
     if (!c) fail("Curso no disponible para esta cuenta.", 403);
     const origin = {
       assignedBy: studentId ? u.id : null,
-      recommendations: recommendations(target).filter((r) =>
+      recommendations: (await recommendations(target)).filter((r) =>
         c.careerIds.includes(r.careerId),
       ),
-      goal: document(target.id, "training:goal", null),
+      goal: await document(target.id, "training:goal", null),
     };
     const e = {
       id: randomUUID(),
@@ -666,19 +708,19 @@ export function enroll(u: User, id: string, studentId?: string) {
       origin: JSON.stringify(origin),
       created_at: now(),
     };
-    db.prepare("INSERT INTO training_enrollments VALUES(?,?,?,?,?,?,?)").run(
-      ...Object.values(e),
-    );
-    audit(u, "Inscribir", e.id, { studentId: target.id });
-    return progress(e);
+    await db
+      .prepare("INSERT INTO training_enrollments VALUES(?,?,?,?,?,?,?)")
+      .run(...Object.values(e));
+    await audit(u, "Inscribir", e.id, { studentId: target.id });
+    return await progress(e);
   });
 }
-export function attempt(u: User, id: string) {
-  const r = db
+export async function attempt(u: User, id: string) {
+  const r = (await db
     .prepare(
       "SELECT a.*,u.institutionId FROM training_attempts a JOIN users u ON u.id=a.user_id WHERE a.id=?",
     )
-    .get(id) as any;
+    .get(id)) as any;
   if (
     !r ||
     (u.role === "student" && r.user_id !== u.id) ||
@@ -688,15 +730,15 @@ export function attempt(u: User, id: string) {
     fail("Intento no disponible.", 404);
   return r;
 }
-function resultFor(id: string) {
-  const r = db
+async function resultFor(id: string) {
+  const r = (await db
     .prepare(
       "SELECT * FROM training_results WHERE attempt_id=? ORDER BY revision DESC LIMIT 1",
     )
-    .get(id) as any;
+    .get(id)) as any;
   return r ? { ...JSON.parse(r.result), revision: r.revision } : null;
 }
-export function attemptView(u: User, a: any) {
+export async function attemptView(u: User, a: any) {
   const s = JSON.parse(a.snapshot) as Simulator;
   const safe = academicInstrument(s);
   safe.options = safe.options.map(({ points, contributions, ...o }) => o);
@@ -722,7 +764,8 @@ export function attemptView(u: User, a: any) {
     user_id: a.user_id,
     name:
       a.name ||
-      db.prepare("SELECT name FROM users WHERE id=?").get(a.user_id)?.name,
+      (await db.prepare("SELECT name FROM users WHERE id=?").get(a.user_id))
+        ?.name,
     enrollment_id: a.enrollment_id,
     activity_id: a.activity_id,
     mode: a.mode,
@@ -730,13 +773,15 @@ export function attemptView(u: User, a: any) {
     started_at: a.started_at,
     expires_at: a.expires_at,
     closed_at: a.closed_at,
+    finished_at: a.closed_at,
+    simulator: { id: s.id, version: s.version, title: s.title },
     serverTime: now(),
     revision: a.revision,
     instrument: safe,
     answers: JSON.parse(a.answers),
     flags: JSON.parse(a.flags),
-    result: resultFor(a.id),
-    resultHistory: db
+    result: await resultFor(a.id),
+    resultHistory: await db
       .prepare(
         "SELECT revision,reason,created_at FROM training_results WHERE attempt_id=? ORDER BY revision DESC",
       )
@@ -751,35 +796,44 @@ export function attemptView(u: User, a: any) {
         : [],
   };
 }
-export function startTraining(u: User, eid: string, aid: string, mode: string) {
+export async function startTraining(
+  u: User,
+  eid: string,
+  aid: string,
+  mode: string,
+) {
   student(u);
-  expireTraining();
-  return tx(() => {
-    const e = enrollment(u, eid),
+  await expireTraining();
+  return await tx(async () => {
+    const e = await enrollment(u, eid),
       c = JSON.parse(e.snapshot) as Course,
       a = c.activities.find((a) => a.id === aid);
     if (!a || a.kind !== "simulator") fail("Actividad no disponible.");
-    const existing = db
+    const existing = (await db
       .prepare(
         "SELECT * FROM training_attempts WHERE user_id=? AND enrollment_id=? AND activity_id=? AND mode=? AND state IN ('in_progress','recoverable')",
       )
-      .get(u.id, eid, aid, mode) as any;
-    if (existing) return attemptView(u, existing);
-    const s = entity(
+      .get(u.id, eid, aid, mode)) as any;
+    if (existing) return await attemptView(u, existing);
+    const s = (await entity(
       u,
       "simulator",
       a.simulatorId!,
       a.simulatorVersion!,
-    ) as Simulator;
+    )) as Simulator;
     if (!s.modes.includes(mode as any)) fail("Modo no habilitado.");
     const count = (
-      db
+      (await db
         .prepare(
           "SELECT COUNT(*) n FROM training_attempts WHERE user_id=? AND enrollment_id=? AND activity_id=? AND mode=?",
         )
-        .get(u.id, eid, aid, mode) as any
+        .get(u.id, eid, aid, mode)) as any
     ).n;
     if (count >= s.maxAttempts) fail("Alcanzaste el máximo de intentos.", 409);
+    return await createTrainingAttempt(u, eid, aid, mode, s);
+  });
+}
+async function createTrainingAttempt(u: User, eid: string, aid: string, mode: string, s: Simulator) {
     const chosen = {
       ...s,
       questions: selectQuestions(s, () => randomInt(0, 1000000) / 1000000),
@@ -806,17 +860,52 @@ export function startTraining(u: User, eid: string, aid: string, mode: string) {
       closed_at: null,
       error: null,
     };
-    db.prepare(
-      "INSERT INTO training_attempts VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    ).run(...Object.values(row));
-    return attemptView(u, row);
+    await db
+      .prepare(
+        "INSERT INTO training_attempts VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      )
+      .run(...Object.values(row));
+    return await attemptView(u, row);
+}
+/** Direct simulators use an internal enrollment to retain relational integrity.
+ * Attempt snapshots stay immutable when an administrator publishes a new version. */
+export async function startDirectSimulator(u: User, simulatorId: string, mode: string) {
+  student(u);
+  await expireTraining();
+  return await tx(async () => {
+    const s = (await rows(u, "simulator")).find((s) => s.id === simulatorId && s.status !== "draft") as Simulator | undefined;
+    if (!s || s.status !== "published" || !s.modes.includes(mode as any))
+      fail("Simulador no disponible.", 404);
+    const courses = (await rows(u, "course")).filter((c) => canRead(c, u));
+    const recs = await recommendations(u);
+    if (!simulatorCareerIds(s, courses).some((id) => recs.some((r) => r.careerId === id)))
+      fail("Este simulador no corresponde a tus carreras recomendadas.", 403);
+    const problems = simulatorProblems(s);
+    if (problems.length) fail("El simulador necesita revisión: " + problems[0], 409);
+    const courseId = "direct:" + s.id;
+    let e = await db.prepare("SELECT * FROM training_enrollments WHERE user_id=? AND course_id=?").get(u.id, courseId);
+    if (!e) {
+      const snapshot = {id: courseId, version: 1, revision: 0, status: "published", title: s.title,
+        description: s.instrument.description, objectives: "Autopreparación", level: "General", type: "general",
+        careerIds: simulatorCareerIds(s, courses), fields: [], studentIds: [u.id], access: "selected",
+        activities: [{id: s.id, module: "Preparación", title: s.title, kind: "simulator", content: "",
+          required: true, completion: "submit", simulatorId: s.id, simulatorVersion: s.version}]};
+      e = {id: randomUUID(), user_id: u.id, course_id: courseId, course_version: 1,
+        snapshot: JSON.stringify(snapshot), origin: JSON.stringify({kind: "direct-simulator"}), created_at: now()};
+      await db.prepare("INSERT INTO training_enrollments VALUES(?,?,?,?,?,?,?)").run(...Object.values(e));
+    }
+    const existing = await db.prepare("SELECT * FROM training_attempts WHERE user_id=? AND enrollment_id=? AND activity_id=? AND mode=? AND state IN ('in_progress','recoverable')").get(u.id, e.id, s.id, mode);
+    if (existing) return await attemptView(u, existing);
+    const count = await db.prepare("SELECT COUNT(*) n FROM training_attempts WHERE user_id=? AND enrollment_id=? AND activity_id=? AND mode=?").get(u.id, e.id, s.id, mode);
+    if (count.n >= s.maxAttempts) fail("Alcanzaste el máximo de intentos.", 409);
+    return await createTrainingAttempt(u, e.id, s.id, mode, s);
   });
 }
-export function saveTrainingAnswers(u: User, b: any) {
+export async function saveTrainingAnswers(u: User, b: any) {
   student(u);
-  expireTraining();
-  return tx(() => {
-    const a = attempt(u, String(b.id));
+  await expireTraining();
+  return await tx(async () => {
+    const a = await attempt(u, String(b.id));
     if (a.state !== "in_progress")
       fail("El intento ya no acepta cambios.", 409);
     if (a.revision !== b.revision)
@@ -838,30 +927,34 @@ export function saveTrainingAnswers(u: User, b: any) {
     }
     if (b.flags.some((id: string) => !t.questions.some((q) => q.id === id)))
       fail("Marcado no válido.");
-    db.prepare(
-      "UPDATE training_attempts SET answers=?,flags=?,revision=revision+1 WHERE id=?",
-    ).run(JSON.stringify(b.answers), JSON.stringify(b.flags), a.id);
-    return attemptView(u, attempt(u, a.id));
+    await db
+      .prepare(
+        "UPDATE training_attempts SET answers=?,flags=?,revision=revision+1 WHERE id=?",
+      )
+      .run(JSON.stringify(b.answers), JSON.stringify(b.flags), a.id);
+    return await attemptView(u, await attempt(u, a.id));
   });
 }
-function completeActivity(eid: string, aid: string, evidence: any) {
-  db.prepare(
-    "INSERT INTO training_completions VALUES(?,?,?,?) ON CONFLICT(enrollment_id,activity_id) DO NOTHING",
-  ).run(eid, aid, JSON.stringify(evidence), now());
+async function completeActivity(eid: string, aid: string, evidence: any) {
+  await db
+    .prepare(
+      "INSERT INTO training_completions VALUES(?,?,?,?) ON CONFLICT(enrollment_id,activity_id) DO NOTHING",
+    )
+    .run(eid, aid, JSON.stringify(evidence), now());
 }
-function applyProgress(a: any, r: any) {
-  const e = db
+async function applyProgress(a: any, r: any) {
+  const e = (await db
       .prepare("SELECT * FROM training_enrollments WHERE id=?")
-      .get(a.enrollment_id) as any,
+      .get(a.enrollment_id)) as any,
     c = JSON.parse(e.snapshot) as Course,
     activity = c.activities.find((x) => x.id === a.activity_id)!;
-  const candidates = db
+  const candidates = (await db
     .prepare(
       "SELECT id FROM training_attempts WHERE enrollment_id=? AND activity_id=? AND state IN ('graded','pending-review')",
     )
-    .all(e.id, activity.id) as any[];
-  const passed = candidates.some((x) => {
-    const v = resultFor(x.id);
+    .all(e.id, activity.id)) as any[];
+  const passed = await asyncSome(candidates, async (x) => {
+    const v = await resultFor(x.id);
     return (
       v &&
       (activity.completion === "submit" ||
@@ -869,26 +962,28 @@ function applyProgress(a: any, r: any) {
     );
   });
   if (passed)
-    completeActivity(e.id, activity.id, {
+    await completeActivity(e.id, activity.id, {
       attemptId: a.id,
       resultRevision: r.revision || 1,
     });
   else
-    db.prepare(
-      "DELETE FROM training_completions WHERE enrollment_id=? AND activity_id=?",
-    ).run(e.id, activity.id);
+    await db
+      .prepare(
+        "DELETE FROM training_completions WHERE enrollment_id=? AND activity_id=?",
+      )
+      .run(e.id, activity.id);
 }
-function closeInner(a: any) {
-  const prior = resultFor(a.id);
+async function closeInner(a: any) {
+  const prior = await resultFor(a.id);
   if (prior) return prior;
   const s = JSON.parse(a.snapshot) as Simulator,
     answers = JSON.parse(a.answers);
   if (a.mode === "practice" && s.feedback === "question") {
-    const first = db
+    const first = (await db
       .prepare(
         "SELECT * FROM training_feedback WHERE attempt_id=? AND sequence=1",
       )
-      .all(a.id) as any[];
+      .all(a.id)) as any[];
     for (const f of first) answers[f.question_id] = JSON.parse(f.answer);
   }
   const result = {
@@ -902,64 +997,62 @@ function closeInner(a: any) {
         ? "first-confirmed-answer"
         : "submitted-answers",
   };
-  db.prepare("INSERT INTO training_results VALUES(?,?,?,?,?,?,?)").run(
-    a.id,
-    1,
-    JSON.stringify(result),
-    "{}",
-    "Entrega",
-    now(),
-    null,
-  );
-  db.prepare(
-    "UPDATE training_attempts SET state=?,closed_at=?,error=NULL WHERE id=?",
-  ).run(
-    result.state === "pending-review" ? "pending-review" : "graded",
-    now(),
-    a.id,
-  );
-  applyProgress(a, result);
+  await db
+    .prepare("INSERT INTO training_results VALUES(?,?,?,?,?,?,?)")
+    .run(a.id, 1, JSON.stringify(result), "{}", "Entrega", now(), null);
+  await db
+    .prepare(
+      "UPDATE training_attempts SET state=?,closed_at=?,error=NULL WHERE id=?",
+    )
+    .run(
+      result.state === "pending-review" ? "pending-review" : "graded",
+      now(),
+      a.id,
+    );
+  await applyProgress(a, result);
   return result;
 }
-export function expireTraining() {
-  const expired = db
+export async function expireTraining() {
+  const expired = (await db
     .prepare(
       "SELECT * FROM training_attempts WHERE state='in_progress' AND expires_at IS NOT NULL AND expires_at<=?",
     )
-    .all(now()) as any[];
+    .all(now())) as any[];
   for (const a of expired) {
     try {
-      tx(() => closeInner(a));
+      await tx(async () => await closeInner(a));
     } catch {
-      db.prepare(
-        "UPDATE training_attempts SET state='recoverable',error=? WHERE id=?",
-      ).run(
-        "No se pudo calcular. Las respuestas están conservadas; reintenta la entrega.",
-        a.id,
-      );
+      await db
+        .prepare(
+          "UPDATE training_attempts SET state='recoverable',error=? WHERE id=?",
+        )
+        .run(
+          "No se pudo calcular. Las respuestas están conservadas; reintenta la entrega.",
+          a.id,
+        );
     }
   }
 }
-export function finishTraining(u: User, id: string) {
+export async function finishTraining(u: User, id: string) {
   student(u);
-  expireTraining();
-  return tx(() => {
-    const a = attempt(u, id);
+  await expireTraining();
+  return await tx(async () => {
+    const a = await attempt(u, id);
     if (
       !["in_progress", "recoverable", "graded", "pending-review"].includes(
         a.state,
       )
     )
       fail("Intento no válido.");
-    closeInner(a);
-    return attemptView(u, attempt(u, id));
+    await closeInner(a);
+    return await attemptView(u, await attempt(u, id));
   });
 }
-export function trainingFeedback(u: User, b: any) {
+export async function trainingFeedback(u: User, b: any) {
   student(u);
-  expireTraining();
-  return tx(() => {
-    const a = attempt(u, String(b.id)),
+  await expireTraining();
+  return await tx(async () => {
+    const a = await attempt(u, String(b.id)),
       s = JSON.parse(a.snapshot) as Simulator;
     if (
       a.state !== "in_progress" ||
@@ -974,19 +1067,15 @@ export function trainingFeedback(u: User, b: any) {
       fail("Guarda una respuesta antes de consultar la explicación.");
     const sequence =
       (
-        db
+        (await db
           .prepare(
             "SELECT MAX(sequence) n FROM training_feedback WHERE attempt_id=? AND question_id=?",
           )
-          .get(a.id, q.id) as any
+          .get(a.id, q.id)) as any
       ).n || 0;
-    db.prepare("INSERT INTO training_feedback VALUES(?,?,?,?,?)").run(
-      a.id,
-      q.id,
-      sequence + 1,
-      JSON.stringify(v),
-      now(),
-    );
+    await db
+      .prepare("INSERT INTO training_feedback VALUES(?,?,?,?,?)")
+      .run(a.id, q.id, sequence + 1, JSON.stringify(v), now());
     return {
       explanation: q.explanation,
       sequence: sequence + 1,
@@ -994,21 +1083,21 @@ export function trainingFeedback(u: User, b: any) {
     };
   });
 }
-export function trainingReview(u: User, b: any) {
+export async function trainingReview(u: User, b: any) {
   admin(u);
-  return tx(() => {
-    const a = attempt(u, String(b.id));
+  return await tx(async () => {
+    const a = await attempt(u, String(b.id));
     if (
       !["graded", "pending-review", "annulled"].includes(a.state) ||
       !b.reason?.trim()
     )
       fail("Selecciona un intento entregado y documenta el motivo.");
-    const previousRow = db
+    const previousRow = (await db
         .prepare(
           "SELECT * FROM training_results WHERE attempt_id=? ORDER BY revision DESC LIMIT 1",
         )
-        .get(a.id) as any,
-      previous = resultFor(a.id);
+        .get(a.id)) as any,
+      previous = await resultFor(a.id);
     if (b.revision !== previous.revision)
       fail(
         "Otro administrador revisó el resultado. Recarga antes de modificarlo.",
@@ -1071,44 +1160,48 @@ export function trainingReview(u: User, b: any) {
         "Excluir preguntas anuladas del máximo de su área; si un área queda vacía, anular el intento completo.",
       reviews,
     };
-    db.prepare("INSERT INTO training_results VALUES(?,?,?,?,?,?,?)").run(
-      a.id,
-      previous.revision + 1,
-      JSON.stringify(result),
-      JSON.stringify(reviews),
-      b.reason,
-      now(),
-      u.id,
-    );
-    db.prepare("UPDATE training_attempts SET state=? WHERE id=?").run(
-      result.state === "annulled"
-        ? "annulled"
-        : result.state === "pending-review"
-          ? "pending-review"
-          : "graded",
-      a.id,
-    );
-    applyProgress(a, { ...result, revision: previous.revision + 1 });
-    audit(u, "Revisar resultado", a.id, {
+    await db
+      .prepare("INSERT INTO training_results VALUES(?,?,?,?,?,?,?)")
+      .run(
+        a.id,
+        previous.revision + 1,
+        JSON.stringify(result),
+        JSON.stringify(reviews),
+        b.reason,
+        now(),
+        u.id,
+      );
+    await db
+      .prepare("UPDATE training_attempts SET state=? WHERE id=?")
+      .run(
+        result.state === "annulled"
+          ? "annulled"
+          : result.state === "pending-review"
+            ? "pending-review"
+            : "graded",
+        a.id,
+      );
+    await applyProgress(a, { ...result, revision: previous.revision + 1 });
+    await audit(u, "Revisar resultado", a.id, {
       reason: b.reason,
       revision: previous.revision + 1,
       annulled,
     });
-    return attemptView(u, attempt(u, a.id));
+    return await attemptView(u, await attempt(u, a.id));
   });
 }
-export function trainingAction(
+export async function trainingAction(
   u: User,
   path: string,
   method: string,
   b: any,
   query: URLSearchParams,
-): any {
+): Promise<any> {
   if (path === "training/catalog/preview" && method === "POST") {
     admin(u);
     const diff = previewCatalog(b.input),
       id = randomUUID();
-    put(u.id, "training:catalog:" + id, {
+    await put(u.id, "training:catalog:" + id, {
       input: b.input,
       baseVersion: diff.baseVersion,
     });
@@ -1116,44 +1209,81 @@ export function trainingAction(
   }
   if (path === "training/catalog/apply" && method === "POST") {
     admin(u);
-    const staged = document(
+    const staged = (await document(
       u.id,
       "training:catalog:" + String(b.id),
       null,
-    ) as any;
+    )) as any;
     if (!staged) fail("Genera primero una vista previa.", 404);
-    const result = applyCatalog(staged.input, staged.baseVersion, u.id);
-    audit(u, "Actualizar catálogo CES", result.version, {
+    const result = await applyCatalog(staged.input, staged.baseVersion, u.id);
+    await audit(u, "Actualizar catálogo CES", result.version, {
       added: result.added.length,
       changed: result.changed.length,
     });
-    put(u.id, "training:catalog:" + String(b.id), null);
+    await put(u.id, "training:catalog:" + String(b.id), null);
     return result;
   }
-  if (path === "training" && method === "GET") return trainingState(u);
+  if (path === "training" && method === "GET") return await trainingState(u);
   if (path === "training/entity" && method === "POST")
-    return saveTraining(u, b.kind, b.entity);
-  if(path==='training/delete-simulator'&&method==='POST'){
-    admin(u);return tx(()=>{const e=entity(u,'simulator',b.id,b.version);if(e.revision!==b.revision)fail('El simulador cambió. Actualiza el catálogo.',409);db.prepare("DELETE FROM training_entities WHERE id=? AND kind='simulator'").run(e.id);db.prepare("DELETE FROM training_mutations WHERE json_extract(result,'$.id')=?").run(e.id);audit(u,'Eliminar simulador',e.id,{version:e.version});return {ok:true};});
+    return await saveTraining(u, b.kind, b.entity);
+  if (path === "training/delete-simulator" && method === "POST") {
+    admin(u);
+    return await tx(async () => {
+      const e = await entity(u, "simulator", b.id, b.version);
+      if (e.revision !== b.revision)
+        fail("El simulador cambió. Actualiza el catálogo.", 409);
+      await db
+        .prepare(
+          "DELETE FROM training_entities WHERE id=? AND kind='simulator'",
+        )
+        .run(e.id);
+      await db
+        .prepare(
+          "DELETE FROM training_mutations WHERE json_extract(result,'$.id')=?",
+        )
+        .run(e.id);
+      await audit(u, "Eliminar simulador", e.id, { version: e.version });
+      return { ok: true };
+    });
   }
-  if(path==='training/delete-draft'&&method==='POST'){
-    admin(u);return tx(()=>{const e=entity(u,b.kind,b.id,b.version);if(e.status!=='draft'||e.revision!==b.revision)fail('Solo se puede descartar un borrador sin cambios de otra sesión.',409);db.prepare('DELETE FROM training_entities WHERE id=? AND version=?').run(e.id,e.version);db.prepare("DELETE FROM training_mutations WHERE json_extract(result,'$.id')=? AND json_extract(result,'$.version')=?").run(e.id,e.version);audit(u,'Descartar borrador',e.id,{version:e.version});return {ok:true};});
+  if (path === "training/delete-draft" && method === "POST") {
+    admin(u);
+    return await tx(async () => {
+      const e = await entity(u, b.kind, b.id, b.version);
+      if (e.status !== "draft" || e.revision !== b.revision)
+        fail(
+          "Solo se puede descartar un borrador sin cambios de otra sesión.",
+          409,
+        );
+      await db
+        .prepare("DELETE FROM training_entities WHERE id=? AND version=?")
+        .run(e.id, e.version);
+      await db
+        .prepare(
+          "DELETE FROM training_mutations WHERE json_extract(result,'$.id')=? AND json_extract(result,'$.version')=?",
+        )
+        .run(e.id, e.version);
+      await audit(u, "Descartar borrador", e.id, { version: e.version });
+      return { ok: true };
+    });
   }
   if (path === "training/archive" && method === "POST") {
     admin(u);
-    return tx(() => {
-      const e = entity(u, b.kind, b.id, b.version);
+    return await tx(async () => {
+      const e = await entity(u, b.kind, b.id, b.version);
       e.status = "archived";
       e.revision++;
-      db.prepare(
-        "UPDATE training_entities SET status=?,content=?,revision=? WHERE id=? AND version=?",
-      ).run("archived", JSON.stringify(e), e.revision, e.id, e.version);
-      audit(u, "Archivar", e.id, { version: e.version });
+      await db
+        .prepare(
+          "UPDATE training_entities SET status=?,content=?,revision=? WHERE id=? AND version=?",
+        )
+        .run("archived", JSON.stringify(e), e.revision, e.id, e.version);
+      await audit(u, "Archivar", e.id, { version: e.version });
       return e;
     });
   }
   if (path === "training/enroll" && method === "POST")
-    return enroll(u, String(b.courseId), b.studentId);
+    return await enroll(u, String(b.courseId), b.studentId);
   if (path === "training/goal" && method === "PUT") {
     student(u);
     const cat = trainingCatalog();
@@ -1164,37 +1294,40 @@ export function trainingAction(
       b.fields.some((f: string) => !cat.careers.some((c) => c.area === f))
     )
       fail("Objetivo inválido.");
-    if (b.profileId) published(u, "profile", b.profileId, b.profileVersion);
-    put(u.id, "training:goal", b);
+    if (b.profileId)
+      await published(u, "profile", b.profileId, b.profileVersion);
+    await put(u.id, "training:goal", b);
     return { ok: true };
   }
   if (path === "training/read" && method === "POST") {
     student(u);
-    const e = enrollment(u, b.enrollmentId),
+    const e = await enrollment(u, b.enrollmentId),
       a = (JSON.parse(e.snapshot) as Course).activities.find(
         (a) => a.id === b.activityId,
       );
     if (!a || a.kind === "simulator") fail("Actividad no válida.");
-    completeActivity(e.id, a.id, { kind: "confirmed-reading" });
-    return progress(e);
+    await completeActivity(e.id, a.id, { kind: "confirmed-reading" });
+    return await progress(e);
   }
+  if (path === "training/simulator/start" && method === "POST")
+    return await startDirectSimulator(u, String(b.simulatorId), b.mode);
   if (path === "training/start" && method === "POST")
-    return startTraining(u, b.enrollmentId, b.activityId, b.mode);
+    return await startTraining(u, b.enrollmentId, b.activityId, b.mode);
   if (path === "training/answers" && method === "PUT")
-    return saveTrainingAnswers(u, b);
+    return await saveTrainingAnswers(u, b);
   if (path === "training/finish" && method === "POST")
-    return finishTraining(u, b.id);
+    return await finishTraining(u, b.id);
   if (path === "training/feedback" && method === "POST")
-    return trainingFeedback(u, b);
+    return await trainingFeedback(u, b);
   if (path === "training/review" && method === "POST")
-    return trainingReview(u, b);
+    return await trainingReview(u, b);
   if (path === "training/attempt" && method === "GET") {
-    expireTraining();
-    return attemptView(u, attempt(u, query.get("id") || ""));
+    await expireTraining();
+    return await attemptView(u, await attempt(u, query.get("id") || ""));
   }
   if (path === "training/preview/select" && method === "POST") {
     admin(u);
-    validate(u, "simulator", { ...b.simulator, status: "published" });
+    await validate(u, "simulator", { ...b.simulator, status: "published" });
     return {
       ...b.simulator,
       selection: "fixed",
@@ -1224,9 +1357,9 @@ if (
   process.env.NEXT_PHASE !== "phase-production-build" &&
   !timerGlobal.trainingExpiryTimer
 ) {
-  timerGlobal.trainingExpiryTimer = setInterval(() => {
+  timerGlobal.trainingExpiryTimer = setInterval(async () => {
     try {
-      expireTraining();
+      await expireTraining();
     } catch {}
   }, 5000);
   timerGlobal.trainingExpiryTimer.unref();

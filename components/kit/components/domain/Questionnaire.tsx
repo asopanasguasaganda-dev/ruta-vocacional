@@ -155,7 +155,7 @@ export function Questionnaire({
           <span className="question-status">
             <CloudCheck size={16} />
             {saved
-              ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?"Avance guardado en esta pestaña":"Avance guardado en tu cuenta")
+              ? ("Avance guardado en tu cuenta")
               : "Guardando respuestas…"}
           </span>
           <Button

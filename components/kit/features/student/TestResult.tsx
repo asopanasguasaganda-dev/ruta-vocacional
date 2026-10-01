@@ -1,6 +1,6 @@
 import {PdfViewer} from '../../components/ui/PdfViewer';
 import {versionLabel} from '../../lib/version';
-import {LocalGuidanceResult} from './LocalGuidanceResult';
+
 import {dimensions} from '../../data/instruments';
 import {responseDistribution} from '../../lib/response-distribution';
 import {useState,useEffect} from 'react';
@@ -12,12 +12,12 @@ import {ReleaseResult} from '../admin/ReleaseResult';
 export function TestResult({submission:s,admin=false,showGuidance=true}:{submission:any;admin?:boolean;showGuidance?:boolean}){
  const t:Instrument=JSON.parse(s.snapshot),answers=JSON.parse(s.answers),r=s.evaluation;
  const[pdf,setPdf]=useState(false),[reviews,setReviews]=useState<Record<string,Record<string,string>>>({}),[reason,setReason]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
- const [pdfUrl,setPdfUrl]=useState('');
- useEffect(()=>{if(process.env.NEXT_PUBLIC_DESIGN_PREVIEW!=='true'||!r)return;let disposed=false,url='';import('../../lib/design-result-pdf').then(m=>m.designResultPdf(s)).then(value=>{url=value;if(disposed)URL.revokeObjectURL(value);else setPdfUrl(value);}).catch(()=>setError('No se pudo preparar el PDF.'));return()=>{disposed=true;if(url)URL.revokeObjectURL(url);};},[s.id]);
- const target=process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?pdfUrl:'/api/assessments/pdf?id='+encodeURIComponent(s.id);
+
+
+ const target='/api/assessments/pdf?id='+encodeURIComponent(s.id);
  const label=(id:string)=>t.dimensions?.find(d=>d.id===id)?.name||dimensions.find(d=>d.code===id)?.name||id;
  if(!r)return null;
- return <>{showGuidance&&!admin&&process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&<LocalGuidanceResult submissionId={s.id}/>}<Card className="stack test-result"><header><span className="eyebrow">RESULTADO DEL TEST</span>{process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'&&<p className="small muted">Guardado en tu cuenta de este navegador</p>}<h2>{t.title}</h2><p className="small muted">Versión {versionLabel(s.version)} · {new Date(s.created_at).toLocaleDateString('es-EC')} · Revisión {r.revision}</p></header><Notice tone={r.state==='complete'?'success':'warning'}>{r.state==='pending-review'?'Pendiente de revisión de la rúbrica':r.state==='insufficient'?'No hay cobertura suficiente para una interpretación final':'Resultado guardado'} · {r.coverage.responded} de {r.coverage.applicable} respuestas aplicables</Notice>
+ return <><Card className="stack test-result"><header><span className="eyebrow">RESULTADO DEL TEST</span><h2>{t.title}</h2><p className="small muted">Versión {versionLabel(s.version)} · {new Date(s.created_at).toLocaleDateString('es-EC')} · Revisión {r.revision}</p></header><Notice tone={r.state==='complete'?'success':'warning'}>{r.state==='pending-review'?'Pendiente de revisión de la rúbrica':r.state==='insufficient'?'No hay cobertura suficiente para una interpretación final':'Resultado guardado'} · {r.coverage.responded} de {r.coverage.applicable} respuestas aplicables</Notice>
  {r.scores.map((score:any)=><section className="test-score" key={score.dimension}><div><h3>{label(score.dimension)}</h3><strong>{score.value.toLocaleString('es-EC',{maximumFractionDigits:2})}</strong></div><p className="small muted">Recorrido aplicable: {score.min} a {score.max} · {r.aggregation==='mean'?'Media ponderada':'Suma ponderada'}</p>{score.max>score.min&&<meter min={score.min} max={score.max} value={score.value} aria-label={label(score.dimension)}/>} {score.normalized!==undefined&&<p>Posición en el recorrido: {score.normalized.toFixed(2)} / 100</p>}{score.band&&<p>{score.band}</p>}</section>)}
  {!r.scores.length&&<p>{r.state==='pending-review'?'Las respuestas pendientes no reciben una puntuación de cero.':'Este instrumento conserva respuestas descriptivas, sin puntuación numérica.'}</p>}
  {responseDistribution(t,answers,r.trace).length>0&&<details className="response-distribution"><summary>Distribución de tus respuestas por sección</summary><p className="small muted">Número de respuestas en cada opción. No es una medida de aptitud ni una puntuación de carrera.</p>{responseDistribution(t,answers,r.trace).map((g,i)=><section key={i}><h3>{g.title}</h3>{g.items.map(item=><div className="distribution-row" key={item.label}><span>{item.label}</span><meter min={0} max={g.answered} value={item.count} aria-label={item.label}/><b>{item.count} / {g.answered}</b></div>)}</section>)}</details>}

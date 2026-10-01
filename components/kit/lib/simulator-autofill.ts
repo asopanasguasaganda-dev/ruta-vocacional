@@ -1,5 +1,5 @@
 import type {Simulator} from './training-types';
-import {migrateAdminSession} from './admin-session';
+import {adminFetch} from './admin-session';
 const clean=(v:unknown,max:number)=>typeof v==='string'?v.replace(/<[^>]*>/g,'').trim().slice(0,max):'';
 export function applySimulatorSuggestions(s:Simulator,value:any,careers:{id:string;name:string}[],allowTime=false):Simulator{
  const allowed=new Set(careers.map(c=>c.id));
@@ -33,13 +33,13 @@ export async function autofillSimulator(s:Simulator,careers:{id:string;name:stri
  const pending=s.questions.filter(q=>!q.explanation||q.aiIssue||(['single','multiple','yesno'].includes(q.type||'single')?!q.correctValues?.length:q.type==='short'?!q.acceptedTexts?.length:q.type==='number'?!q.numericKey:false));
  const questions=pending.length?pending:(!s.careerIds?.length?s.questions.slice(0,5):[]);
  try{
-  await migrateAdminSession();
+
   for(let i=0;i<questions.length;i+=5){
    const batch=questions.slice(i,i+5);onProgress?.('Preparando preguntas '+(i+1)+'–'+(i+batch.length)+' de '+questions.length+'…');
    let data:any;
    for(let attempt=0;attempt<3;attempt++){
     try{
-     const response=await fetch('/api/import-presentation/',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(55000),body:JSON.stringify({operation:'simulator',title:s.title.slice(0,500),description:s.instrument.description.slice(0,12000),careers:careers.map(({id,name})=>({id,name})),questions:batch.map(q=>({...q,options:q.options||s.instrument.options}))})});
+     const response=await adminFetch('/api/import-presentation/',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(55000),body:JSON.stringify({operation:'simulator',title:s.title.slice(0,500),description:s.instrument.description.slice(0,12000),careers:careers.map(({id,name})=>({id,name})),questions:batch.map(q=>({...q,options:q.options||s.instrument.options}))})},55000);
      data=await response.json().catch(()=>({}));
      if(!response.ok)throw Object.assign(Error(response.status===401?'Tu sesión administrativa ha vencido. Guarda el borrador e inicia sesión de nuevo.':data.error||'El servicio de IA no respondió. Reintenta sin perder el documento.'),{retryable:[429,502,503,504].includes(response.status)&&data.code!=='AI_CONFIG'});
      if(!Array.isArray(data.suggestions?.questions)||batch.some(q=>!data.suggestions.questions.some((a:any)=>a?.id===q.id)))throw Object.assign(Error('La IA devolvió un bloque incompleto. Reintenta para completar las preguntas pendientes.'),{retryable:true});

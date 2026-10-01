@@ -5,10 +5,7 @@ import {suggestSimulatorCareers} from './simulator-careers';
 /** One import flow for the catalog button and the simulator editor. */
 export async function importSimulatorDocument(file:File,s:Simulator,careers:{id:string;name:string}[]){
  let data;
- if (process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true") {
-   const { importDesignDocument } = await import("./design-import");
-   data = await importDesignDocument(file);
- } else {
+ {
    const form = new FormData();
    form.append("file", file);
    const job = await readApiResponse(await fetch("/api/admin/import", { method: "POST", body: form }));

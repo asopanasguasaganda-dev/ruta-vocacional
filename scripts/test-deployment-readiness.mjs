@@ -1,0 +1,12 @@
+﻿import assert from 'node:assert/strict';
+import {verifyDeployment} from './verify-deployment.mjs';
+const health={ok:true,mode:'server',database:'mysql',registrationReady:true};
+const simulate=(value,status=401)=>async url=>url.endsWith('/api/health')?Response.json(value):new Response(null,{status});
+assert((await verifyDeployment('https://ruta.example',simulate(health))).adminProtected);
+assert((await verifyDeployment('http://127.0.0.1:3022',simulate(health))).ok);
+for(const value of [{...health,database:'sqlite'},{...health,registrationReady:false},{...health,mode:'browser'},{...health,ok:false}])await assert.rejects(verifyDeployment('https://ruta.example',simulate(value)));
+await assert.rejects(verifyDeployment('https://ruta.example',async()=>new Response('static',{status:404})));
+await assert.rejects(verifyDeployment('https://ruta.example',async()=>new Response('<html/>',{headers:{'Content-Type':'text/html'}})));
+await assert.rejects(verifyDeployment('https://ruta.example',simulate(health,200)));
+for(const url of ['http://ruta.example','https://u:secret@ruta.example','https://ruta.example/admin','https://ruta.example?token=x'])await assert.rejects(verifyDeployment(url,simulate(health)));
+console.log('PASS deployment verification: MySQL ready, protected admin, rejects static/SQLite/unconfigured deployments and unsafe URLs; read-only.');
