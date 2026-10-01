@@ -107,8 +107,8 @@ export function Questionnaire({
           quieras.
         </p>
         <p className="muted">
-          En Mis resultados → Bachillerato y universidad encontrarás tu afinidad
-          con Ciencias o Técnico y su conexión con carreras universitarias.
+          En Mis resultados → Bachillerato encontrarás tu afinidad con Ciencias
+          o Técnico. En Universidad puedes explorar las carreras y dónde estudiarlas.
           Consulta también la pestaña Recomendaciones.
         </p>
         <div className="row">
@@ -160,7 +160,7 @@ export function Questionnaire({
           <span className="question-status">
             <CloudCheck size={16} />
             {saved
-              ? (process.env.NEXT_PUBLIC_DESIGN_PREVIEW==='true'?"Avance guardado en esta pestaña":"Avance guardado en tu cuenta")
+              ? ("Avance guardado en tu cuenta")
               : "Guardando respuestas…"}
           </span>
           <Button
@@ -191,7 +191,7 @@ export function Questionnaire({
       </Card>
       <Card className="stack">
         <h2>¿Ciencias o Técnico? Descubre tu ruta</h2>
-        <p className="muted">Al entregar tus tests, consulta Mis resultados → Bachillerato y universidad para conocer tu afinidad, explorar carreras y universidades relacionadas y ver tus recomendaciones. Si falta información, el informe te indicará qué completar.</p>
+        <p className="muted">Al entregar tus tests, consulta Bachillerato para comparar Ciencias y Técnico, Universidad para explorar carreras e instituciones, y Recomendaciones para organizar tus siguientes pasos. Si falta información, el informe te indicará qué completar.</p>
         <Button variant="secondary" loading={submitting} onClick={async()=>{
           setSubmitting(true);setSubmitError('');
           try{await flush();navigate('resultados');}
