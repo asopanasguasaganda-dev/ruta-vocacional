@@ -6,6 +6,18 @@ Importa este repositorio en Vercel con preset **Other**, Node 24 y raíz `.`. La
 
 Las secciones siguientes describen el backend local existente, que no se ejecuta en la vista de diseño.
 
+La orientación distingue Bachillerato (8.º, 9.º y 10.º de EGB hacia BGU) y
+Universidad (BGU hacia educación superior). El registro no obliga a elegir
+modalidad. Administración permite crear e importar tests para una ruta o ambas,
+y publicar simuladores de Ciencias y Técnico con sus plantillas editables.
+El catálogo técnico recoge las 34 figuras del Acuerdo 2024-00065-A; su disponibilidad
+debe confirmarse con cada colegio. `npm run test:school` verifica las plantillas,
+la separación de resultados y la publicación compartida.
+
+La aplicación MySQL para Hostinger se mantiene en la rama
+[`pruebas/hostinger-mysql-20261001`](https://github.com/asopanasguasaganda-dev/ruta-vocacional/tree/pruebas/hostinger-mysql-20261001).
+Esta rama `main` publica el entorno de pruebas de diseño en Vercel.
+
 Aplicación Next.js con web pública, estudiante y administración independiente. El backend se conserva para una etapa futura; la versión publicada utiliza cuentas y contenido guardados en el navegador.
 
 ## Ejecutar

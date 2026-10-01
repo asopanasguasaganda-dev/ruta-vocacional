@@ -1,0 +1,18 @@
+const fs=require('fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:1,target:9,esModuleInterop:true}}).outputText,f);
+const storage=()=>{const d=new Map();return {getItem:k=>d.get(k)||null,setItem:(k,v)=>d.set(k,v),removeItem:k=>d.delete(k)}};
+global.localStorage=storage();
+const {schoolOrientationTemplate,schoolPracticeTemplate}=require('../components/kit/data/school-templates.ts');
+const {exportTestPublication,importTestPublication,validateTestPublication}=require('../components/kit/lib/test-publication.ts');
+const blank={id:'school-practice',version:1,revision:1,status:'published',title:'',instrument:{id:'qa',version:'1',title:'',description:'',options:[],questions:[]},purpose:'general',modes:['practice'],durationMinutes:30,maxAttempts:2,gradePolicy:'last',feedback:'finish',selection:'fixed',quotas:[],areaWeights:[],questions:[],shuffleOptions:false,questionOrderFixedIds:[]};
+const t={...schoolOrientationTemplate(),id:'school-orientation',status:'Publicado'};
+localStorage.setItem('rv360:local-workspace-v1',JSON.stringify({'rv360:custom-tests':[t]}));
+localStorage.setItem('rv360:local-training-v1',JSON.stringify({simulators:[schoolPracticeTemplate(blank,'tecnico')]}));
+const packet=exportTestPublication();assert.equal(packet.tests[0].educationLevel,'bachillerato');assert.equal(packet.simulators[0].educationLevel,'bachillerato');
+assert.throws(()=>validateTestPublication({...packet,simulators:[{...packet.simulators[0],careerIds:['bachillerato:missing']}]}));
+assert.throws(()=>validateTestPublication({...packet,tests:[{...packet.tests[0],educationLevel:'invalid'}]}));
+localStorage.removeItem('rv360:test-publication-source-v1');localStorage.removeItem('rv360:local-workspace-v1');localStorage.removeItem('rv360:local-training-v1');
+assert.equal(importTestPublication(packet),1);
+const imported=JSON.parse(localStorage.getItem('rv360:local-workspace-v1'))['rv360:custom-tests'][0];assert.equal(imported.educationLevel,'bachillerato');
+const sim=JSON.parse(localStorage.getItem('rv360:local-training-v1')).simulators[0];assert.equal(sim.educationLevel,'bachillerato');assert.deepEqual(sim.careerIds,['bachillerato:tecnico']);
+console.log('PASS shared school publication: scope and technical target survive export/import; unknown targets and invalid scope rejected.');

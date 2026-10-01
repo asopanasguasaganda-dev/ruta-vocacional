@@ -37,6 +37,6 @@ export function simulatorFromDocument(data:any,filename:string,s:Simulator,caree
   instrument:{...s.instrument,source:filename,...(s.questions.length?{}:{description:tests[0].description,presentation:tests[0].presentation})},
   questions:[...s.questions,...tests.flatMap((t:any)=>t.questions.filter((q:any)=>q.type!=='info').map((q:any)=>({...q,id:crypto.randomUUID(),options:q.options||t.options,source:filename,type:q.type==='likert'&&q.correctValues?.length?'single':q.type,weight:q.weight??1,policy:'objective',reviewed:false})))],
  };
- const message=[detected.length?detected.length+' carreras preseleccionadas por el contenido. Confirma o ajusta su selección.':'Selecciona las carreras que recibirán este simulador.',...(data.warnings||[])].join(' ');
+ const message=[detected.length?detected.length+(detected.some(id=>id.startsWith('bachillerato:'))?' opciones de bachillerato preseleccionadas':' carreras preseleccionadas')+' por el contenido. Confirma o ajusta su selección.':'Selecciona las opciones de estudio que recibirán este simulador.',...(data.warnings||[])].join(' ');
  return {simulator,message};
 }

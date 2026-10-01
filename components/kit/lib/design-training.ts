@@ -1,3 +1,4 @@
+import {schoolTrainingTargets,schoolPreparationRecommendations} from '../data/school-training';
 import {simulatorCareerIds} from './simulator-careers';
 import {localAssignedTestIds} from './design-preview';
 import {localGuidance} from './local-guidance';
@@ -27,7 +28,7 @@ function finish(a:any, reviews:any={},annulled:string[]=[]) {
   a.finished_at=now();
   a.resultHistory=[...(a.resultHistory||[]),{revision:a.result.revision,created_at:now(),reason:'Revisión en el diseño interactivo'}];
 }
-function attemptView(a:any){return {...a,serverTime:now(),privateQuestions:a.simulator.questions,explanations:a.simulator.questions.map((q:any)=>({id:q.id,text:q.explanation||''}))};}
+function attemptView(a:any){if(a.state==='in_progress'){const visible=copy(a);for(const questions of [visible.simulator.questions,visible.instrument.questions])for(const q of questions){delete q.correctValues;delete q.acceptedTexts;delete q.numericKey;delete q.explanation;}return {...visible,serverTime:now()};}return {...copy(a),serverTime:now(),privateQuestions:copy(a.simulator.questions),explanations:a.simulator.questions.map((q:any)=>({id:q.id,text:q.explanation||''}))};}
 function progress(data:any,e:any){
   const attempts=data.attempts.filter((a:any)=>a.enrollment_id===e.id);
   const completed=e.snapshot.activities.filter((activity:any)=>activity.kind!=='simulator'?e.read.includes(activity.id):attempts.some((a:any)=>a.activity_id===activity.id&&a.result&&(activity.completion==='score'?(a.result.percent??-1)>=(activity.target||0):true))).map((a:any)=>a.id);
@@ -44,16 +45,17 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
   data.users=localAccounts().filter(a=>a.user.role==='student').map(a=>a.user);
   if(!data.users.some((u:any)=>u.id===user.id)&&user.role==='student')data.users.push(user);
   for(const a of data.attempts)if(a.state==='in_progress'&&a.expires_at&&Date.parse(a.expires_at)<=Date.now())finish(a);
+  const studyTargets=[...data.catalog.careers,...schoolTrainingTargets];
   const goal=data.goals[user.id]||{careerIds:[],fields:[]};
   const getAttempt=()=>{const a=data.attempts.find((x:any)=>x.id===(b.id||new URLSearchParams(path.split('?')[1]).get('id')));if(!a||(user.role!=='admin'&&a.user_id!==user.id))throw Error('Intento no disponible en esta vista.');return a;};
   if(!route&&method==='GET'){
     const all=user.role==='admin';
     const courses=data.courses.filter((c:any)=>all||c.status==='published'&&(c.access!=='selected'||c.studentIds.includes(user.id))&&!data.courses.some((next:any)=>next.id===c.id&&next.status==='published'&&next.version>c.version));
-    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[],localAssignedTestIds(user));
-    const recommendations=report?.analysis.recommendations.map(r=>({...r,reportVersion:report.version,mappingVersion:report.mappingVersion}))||[];
+    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[],localAssignedTestIds(user),{profile:account?.values['rv360:profile']||{}});
+    const recommendations:any[]=[...(report?.analysis.recommendations.map(r=>({...r,reportVersion:report.version,mappingVersion:report.mappingVersion}))||[]),...schoolPreparationRecommendations(report)];
     const selected=recommendations.map(r=>r.careerId);
     save(data);
-    return {...data.catalog,careers:all?data.catalog.careers:data.catalog.careers.filter((c:any)=>selected.includes(c.id)),users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,careerIds:simulatorCareerIds(s,data.courses),questionCount:s.questions.length})).filter((s:any)=>all||s.status==='published'&&s.careerIds.some((id:string)=>selected.includes(id))&&!data.simulators.some((n:any)=>n.id===s.id&&n.status==='published'&&n.version>s.version)),goal,recommendations,courses:courses.map((c:any)=>({...c,recommended:c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
+    return {...data.catalog,careers:all?studyTargets:studyTargets.filter((c:any)=>selected.includes(c.id)),users:data.users,profiles:data.profiles,simulators:data.simulators.map((s:any)=>({...s,careerIds:simulatorCareerIds(s,data.courses),questionCount:s.questions.length})).filter((s:any)=>all||s.status==='published'&&s.careerIds.some((id:string)=>selected.includes(id))&&!data.simulators.some((n:any)=>n.id===s.id&&n.status==='published'&&n.version>s.version)),goal,recommendations,courses:courses.map((c:any)=>({...c,recommended:c.careerIds.some((id:string)=>selected.includes(id)),reasons:['Contenido de actividad para tu preparación.']})),enrollments:data.enrollments.filter((e:any)=>all||e.user_id===user.id).map((e:any)=>progress(data,e)),attempts:data.attempts.filter((a:any)=>all||a.user_id===user.id).map(attemptView)};
   }
   let result:any={ok:true};
   if(route==='/entity'){
@@ -62,7 +64,7 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
     const e=copy<any>(b.entity);
     if(!e.title?.trim())throw Error('Escribe un nombre para continuar.');
     if(e.status==='published'){
-      if(b.kind==='simulator'){if(!e.careerIds?.length||e.careerIds.some((id:string)=>!data.catalog.careers.some((c:any)=>c.id===id)))throw Error('Selecciona al menos una carrera válida para publicar el simulador.');const errors=simulatorProblems(e);if(errors.length)throw Error(errors.join(' '));}
+      if(b.kind==='simulator'){if(!Array.isArray(e.careerIds)||!e.careerIds.length||e.careerIds.some((id:string)=>!studyTargets.some((c:any)=>c.id===id)))throw Error('Selecciona al menos una carrera válida para publicar el simulador.');const errors=simulatorProblems(e);if(errors.length)throw Error(errors.join(' '));}
       if(b.kind==='course'){
         if(!e.description?.trim()||!e.careerIds.length||!e.activities.length)throw Error('Añade una descripción, una carrera y al menos una actividad.');
         for(const a of e.activities){if(!a.title.trim())throw Error('Completa los títulos de las actividades.');if(a.kind==='simulator'&&!data.simulators.some((s:any)=>s.id===a.simulatorId&&s.version===a.simulatorVersion&&s.status==='published'))throw Error('Selecciona un simulador publicado.');}
@@ -115,8 +117,8 @@ export async function designTraining(path='',body?:any,method='GET'):Promise<any
   }else if(route==='/simulator/start'){
     const s=data.simulators.filter((s:any)=>s.id===b.simulatorId&&s.status==='published').sort((a:any,b:any)=>b.version-a.version)[0];
     if(!s||!s.modes.includes(b.mode))throw Error('Simulador no disponible.');
-    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[],localAssignedTestIds(user));
-    if(!report?.analysis.recommendations.some(r=>simulatorCareerIds(s,data.courses).includes(r.careerId)))throw Error('Este simulador no corresponde a tus carreras recomendadas.');
+    const account=localAccounts().find(a=>a.user.id===user.id),report=localGuidance(user,account?.values['rv360:submissions']||[],localAssignedTestIds(user),{profile:account?.values['rv360:profile']||{}});
+    if(![...(report?.analysis.recommendations||[]),...schoolPreparationRecommendations(report)].some(r=>simulatorCareerIds(s,data.courses).includes(r.careerId)))throw Error('Este simulador no corresponde a tus carreras recomendadas.');
     const problems=simulatorProblems(s);if(problems.length)throw Error('El simulador necesita revisión antes de iniciar: '+problems[0]);
     const prior=data.attempts.filter((a:any)=>a.user_id===user.id&&a.simulator.id===s.id&&a.mode===b.mode);
     const open=prior.find((a:any)=>a.state==='in_progress');

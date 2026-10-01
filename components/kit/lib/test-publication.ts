@@ -1,3 +1,4 @@
+import {schoolTrainingTargets} from '../data/school-training';
 import {simulatorProblems} from './training-engine';
 import {simulatorCareerIds} from './simulator-careers';
 import {instrumentProblems} from './test-engine';
@@ -6,9 +7,9 @@ const workspaceKey='rv360:local-workspace-v1',sourceKey='rv360:test-publication-
 const workspace=()=>JSON.parse(localStorage.getItem(workspaceKey)||'{}');
 function source(){let id=localStorage.getItem(sourceKey);if(!id){id=crypto.randomUUID();localStorage.setItem(sourceKey,id);}return id;}
 const trainingKey='rv360:local-training-v1';
-const simulatorKeys=['id','version','revision','title','careerIds','instrument','purpose','modes','durationMinutes','practiceDurationMinutes','maxAttempts','gradePolicy','feedback','selection','quotas','areaWeights','questions','shuffleOptions','questionOrderFixedIds'];
+const simulatorKeys=['educationLevel','id','version','revision','title','careerIds','instrument','purpose','modes','durationMinutes','practiceDurationMinutes','maxAttempts','gradePolicy','feedback','selection','quotas','areaWeights','questions','shuffleOptions','questionOrderFixedIds'];
 const pickSimulator=(s:any)=>Object.fromEntries(simulatorKeys.filter(k=>s[k]!==undefined).map(k=>[k,s[k]]));
-const keys=['id','stableId','schemaVersion','presentation','title','description','version','questions','options','dimensions','scoring','aggregation','source','purpose','careerLinks','ranges','minimumCoverage','availableFrom','due','durationMinutes','maxAttempts','resultPublication','releaseAt'];
+const keys=['educationLevel','id','stableId','schemaVersion','presentation','title','description','version','questions','options','dimensions','scoring','aggregation','source','purpose','careerLinks','ranges','minimumCoverage','availableFrom','due','durationMinutes','maxAttempts','resultPublication','releaseAt'];
 export function exportTestPublication(){
  const tests=(workspace()['rv360:custom-tests']||[]).filter((t:any)=>t.status==='Publicado'&&t.audience!=='selected'&&!t.studentId&&!t.publicationSource).map((t:any)=>Object.fromEntries(keys.filter(k=>t[k]!==undefined).map(k=>[k,t[k]])));
  const training=JSON.parse(localStorage.getItem(trainingKey)||'{}');
@@ -21,7 +22,7 @@ export function validateTestPublication(value:any){
  if(value.version===2){
  if(!Array.isArray(value.simulators)||value.simulators.length>200)throw Error('La publicación contiene una lista de simuladores no válida.');
  const simulatorIds=new Set();
- for(const s of value.simulators){if(!s||typeof s.id!=='string'||simulatorIds.has(s.id)||!Number.isInteger(s.version)||s.version<1||!Array.isArray(s.questions)||!s.instrument||!Array.isArray(s.careerIds)||!s.careerIds.length||s.careerIds.some((id:string)=>!catalog.careers.some(c=>c.id===id)))throw Error('El simulador o sus carreras no son válidos.');simulatorIds.add(s.id);const problems=simulatorProblems(s);if(problems.length)throw Error(s.title+': '+problems[0]);}
+ for(const s of value.simulators){if(!s||typeof s.id!=='string'||simulatorIds.has(s.id)||!Number.isInteger(s.version)||s.version<1||!Array.isArray(s.questions)||!s.instrument||!Array.isArray(s.careerIds)||!s.careerIds.length||s.careerIds.some((id:string)=>![...catalog.careers,...schoolTrainingTargets].some(c=>c.id===id)))throw Error('El simulador o sus carreras no son válidos.');simulatorIds.add(s.id);const problems=simulatorProblems(s);if(problems.length)throw Error(s.title+': '+problems[0]);}
  }
  return value;
 }

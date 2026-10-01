@@ -1,0 +1,25 @@
+const fs=require('node:fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+const {technicalOptions,educationStages}=require('../components/kit/data/baccalaureate.ts');
+const {schoolTrainingTargets,defaultPreparationLevel,preparationLevel,schoolTarget}=require('../components/kit/data/school-training.ts');
+const {schoolOrientationTemplate,schoolPracticeTemplate}=require('../components/kit/data/school-templates.ts');
+const {calculateTest,instrumentProblems}=require('../components/kit/lib/test-engine.ts');
+const {academicResult,simulatorProblems}=require('../components/kit/lib/training-engine.ts');
+const {localGuidance}=require('../components/kit/lib/local-guidance.ts');
+assert.equal(technicalOptions.length,34);assert.equal(new Set(technicalOptions.map(o=>o.id)).size,34);assert.equal(new Set(technicalOptions.map(o=>o.family)).size,11);
+assert.equal(schoolTrainingTargets.length,40);assert(schoolTrainingTargets.every(t=>t.offers.length===0));
+for(const stage of educationStages.filter(s=>/EGB/.test(s)))assert.equal(defaultPreparationLevel({stage}),'bachillerato');
+assert.equal(defaultPreparationLevel({stage:'Me gradué del colegio'}),'universidad');assert.equal(schoolTarget(null),false);assert.equal(schoolTarget(1),false);
+assert.equal(preparationLevel([],'bachillerato'),'bachillerato');
+const t={...schoolOrientationTemplate(),id:'school',version:'1'};
+assert.deepEqual(instrumentProblems(t),[]);
+function submission(test,dimension){const answers=Object.fromEntries(test.questions.map(q=>[q.id,q.dimension===dimension?5:2]));const evaluation=calculateTest(test,answers);return {id:test.id,instrument_id:test.id,version:test.version,created_at:'2026-10-01T12:00:00Z',snapshot:JSON.stringify(test),answers:JSON.stringify(answers),scores:JSON.stringify(evaluation.scores),evaluation};}
+const school=submission(t,'R'),uni=submission({...t,id:'uni',educationLevel:'universidad'},'I');
+const single=localGuidance({id:'qa',name:'QA'},[school]);assert.equal(single.analysis.pathway.suggested,'tecnico');assert.equal(single.analysis.recommendations.length,0);
+assert(single.analysis.pathway.technical.some(o=>o.careers.length),'School interests retain future university exploration links');
+const both=localGuidance({id:'qa',name:'QA'},[school,uni]);assert.equal(both.analysis.pathway.suggested,'tecnico');assert(both.analysis.recommendations.length);
+assert.deepEqual(both.analysis.recommendations,localGuidance({id:'qa',name:'QA'},[uni]).analysis.recommendations);
+assert.equal(localGuidance({id:'qa',name:'QA'},[uni]).analysis.pathway.suggested,'pendiente');
+const blank={id:'qa',version:1,revision:0,status:'published',title:'',instrument:{id:'qa',version:'1',title:'',description:'',options:[],questions:[]},purpose:'general',modes:['practice','exam'],durationMinutes:30,maxAttempts:3,gradePolicy:'last',feedback:'finish',selection:'fixed',quotas:[],areaWeights:[],questions:[],shuffleOptions:false,questionOrderFixedIds:[]};
+for(const kind of ['ciencias','tecnico']){const s=schoolPracticeTemplate(blank,kind);assert.deepEqual(simulatorProblems(s),[]);assert.equal(academicResult(s,Object.fromEntries(s.questions.map(q=>[q.id,q.correctValues[0]]))).percent,100);assert.equal(academicResult(s,{}).percent,0);assert(simulatorProblems({...s,careerIds:[...s.careerIds,'university-career']}).length);assert(simulatorProblems({...s,purpose:'admission'}).length);assert(simulatorProblems({...s,educationLevel:'universidad'}).length);assert(simulatorProblems({...s,careerIds:{}}).length);}
+console.log('PASS school training: 34 official figures, 11 families, EGB stages, scoped tests without cross-influence, future study links, both practice templates, grading and invalid publication.');

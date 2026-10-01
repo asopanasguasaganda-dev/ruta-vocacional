@@ -4,7 +4,7 @@ import { dimensions } from '../data/instruments';
 import { schoolGuidance } from './school-guidance';
 import { pathwayVersion, type SchoolProfile } from '../data/baccalaureate';
 
-export const GUIDANCE_RULES_VERSION = 'school-university-guidance-4';
+export const GUIDANCE_RULES_VERSION = 'school-university-guidance-5';
 type GuidanceInput = { catalog?: typeof defaultCatalog; content?: {id:string;source:string;model:string|null;areas:typeof defaultContent.areas;categories:typeof defaultContent.categories}; profile?:SchoolProfile };
 
 /** The same saved answers drive the screen, PDF and course recommendations. */
@@ -19,7 +19,9 @@ export function localGuidance(user:any,submissions:any[],assignedIds:string[]=['
  })}));
  // Give each completed instrument equal weight, independent of its scale and item count.
  const codes=['R','I','A','S','E','C'];
- const interests=instruments.filter(s=>s.instrument.scoring!=='manual'&&rows.find(r=>r.id===s.id)?.evaluation?.state==='complete'&&s.scores.length===6&&new Set(s.scores.map((v:any)=>v.dimension)).size===6&&s.scores.every((v:any)=>codes.includes(v.dimension)&&Number.isFinite(v.value)&&Number.isFinite(v.min)&&Number.isFinite(v.max)&&v.max>v.min&&v.value>=v.min&&v.value<=v.max));
+ const allInterests=instruments.filter(s=>s.instrument.scoring!=='manual'&&rows.find(r=>r.id===s.id)?.evaluation?.state==='complete'&&s.scores.length===6&&new Set(s.scores.map((v:any)=>v.dimension)).size===6&&s.scores.every((v:any)=>codes.includes(v.dimension)&&Number.isFinite(v.value)&&Number.isFinite(v.min)&&Number.isFinite(v.max)&&v.max>v.min&&v.value>=v.min&&v.value<=v.max));
+ const interests=allInterests.filter(s=>s.instrument.educationLevel!=='bachillerato');
+ const schoolInterests=allInterests.filter(s=>s.instrument.educationLevel!=='universidad');
  const interest=interests[0];
  const scores=interest?codes.map(dimension=>({dimension,raw:5+20*interests.reduce((sum,s)=>{const v=s.scores.find((v:any)=>v.dimension===dimension);return sum+(v.value-v.min)/(v.max-v.min);},0)/interests.length})):[];
  const ordered=[...scores].sort((a,b)=>b.raw-a.raw),max=ordered[0]?.raw||0,min=ordered.at(-1)?.raw||0;
@@ -33,7 +35,7 @@ export function localGuidance(user:any,submissions:any[],assignedIds:string[]=['
  const recommendations=selected.map(c=>{const area=content.areas.find(a=>a.id===c.areaId)!,academic=content.categories.find(a=>a.id===c.areaId)!;const support=c.interests.filter(d=>top.includes(d));return {careerId:c.id,areaId:c.areaId,reason:`Tus áreas de mayor interés incluyen ${labels(support)}. Esta carrera se relaciona con ${area.name.toLowerCase()} según la regla de orientación por áreas. No es una predicción de rendimiento.`,evidence:interests.flatMap(t=>support.map(d=>t.instrumentId+':dimension:'+d)),comparison:area.contrast,explore:academic.explanation+' '+academic.questions.join(' ')};});
  // Explicit relations from administrator-authored tests remain available too.
  const explicitIds=new Set<string>();
- for(const row of rows.filter(r=>r.evaluation?.state==='complete'))for(const rec of row.evaluation?.careers||[]){
+ for(const row of rows.filter(r=>r.evaluation?.state==='complete'&&JSON.parse(r.snapshot).educationLevel!=='bachillerato'))for(const rec of row.evaluation?.careers||[]){
   const c=catalog.careers.find(c=>c.id===(rec.careerId||rec.id));if(!c)continue;
   explicitIds.add(c.id);
   const reason=rec.reason+' Puntuación guardada: '+rec.evidence+'. Criterio del test: '+rec.min+' a '+rec.max+'.';
@@ -43,7 +45,8 @@ export function localGuidance(user:any,submissions:any[],assignedIds:string[]=['
   else recommendations.push({careerId:c.id,areaId:c.areaId,reason,evidence:[evidence],comparison:c.investigate,explore:content.categories.find(a=>a.id===c.areaId)?.explanation||c.activities});
  }
  recommendations.sort((a,b)=>Number(explicitIds.has(b.careerId))-Number(explicitIds.has(a.careerId)));
- const pathway=schoolGuidance(scores,interests.flatMap(t=>codes.map(d=>t.instrumentId+':dimension:'+d)),input.profile,candidates.map(c=>({id:c.id,name:c.name,areaId:c.areaId})));
+ const schoolScores=schoolInterests.length?codes.map(dimension=>({dimension,raw:5+20*schoolInterests.reduce((sum,s)=>{const v=s.scores.find((v:any)=>v.dimension===dimension);return sum+(v.value-v.min)/(v.max-v.min);},0)/schoolInterests.length})):[];
+ const pathway=schoolGuidance(schoolScores,schoolInterests.flatMap(t=>codes.map(d=>t.instrumentId+':dimension:'+d)),input.profile,catalog.careers.map(c=>({id:c.id,name:c.name,areaId:c.areaId})));
  const completedIds=new Set(instruments.map(i=>i.instrumentId));
  const progress={submitted:completedIds.size,total:new Set([...assignedIds,...completedIds]).size};
  return {id:'local-'+rows.map(s=>s.id).join('-'),createdAt:rows[0].created_at,student:{id:user.id,name:user.name},version:submissions.length,status:'available',attempts:0,rulesVersion:GUIDANCE_RULES_VERSION,mappingVersion:pathwayVersion,contentId:content.id,contentSource:content.source,provider:content.source,model:content.model,partial:progress.submitted<progress.total,progress,instruments,catalog:catalog.careers,catalogSource:catalog.source,offers:Object.fromEntries(catalog.careers.map(c=>[c.id,c.offers])),analysis:{pathway,

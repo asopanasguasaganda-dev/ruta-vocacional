@@ -618,9 +618,9 @@ export function SimulatorEditor({
             value={s.title}
             onChange={(e) => patch({ title: e.target.value })}
           />
-          <ChoiceList label="Carreras del simulador" items={d.careers} value={s.careerIds||[]} onChange={careerIds=>patch({careerIds})}/>
+          <ChoiceList label={d.educationLevel==='bachillerato'?'Áreas y figuras de bachillerato':'Carreras del simulador'} items={d.careers} value={s.careerIds||[]} onChange={careerIds=>patch({careerIds})}/>
 
-          <p className="small muted">Al importar se preseleccionan nombres de carreras detectados. Puedes añadir o quitar carreras; cada una recibirá este simulador al publicarlo.</p>
+          <p className="small muted">Asigna el simulador a las opciones de esta ruta. La nota mide esta práctica de contenidos; no decide qué bachillerato o carrera debe elegir el estudiante.</p>
           <PresentationEditor instrument={{...s.instrument,title:s.title}} onChange={presentation=>patch({instrument:{...s.instrument,presentation}})}/>
           <TextareaField
             label="Instrucciones"
@@ -644,7 +644,7 @@ export function SimulatorEditor({
             onChange={(e) => patch({ purpose: e.target.value as any })}
           >
             <option value="general">Práctica general</option>
-            <option value="admission">Preparación para admisión</option>
+            {d.educationLevel!=='bachillerato'&&<option value="admission">Preparación para admisión universitaria</option>}
           </SelectField>
           {s.purpose === "admission" && (
             <ProfileSelect data={d} value={s} onChange={patch} />
@@ -1097,7 +1097,7 @@ export function SimulatorEditor({
           <label style={{display:"flex",alignItems:"flex-start",gap:12}}><input style={{flexShrink:0,marginTop:4}} type="checkbox" checked={s.questions.length>0&&s.questions.every(q=>q.reviewed)} disabled={!s.questions.length||busy} onChange={e=>patch({questions:s.questions.map(q=>({...q,reviewed:e.target.checked}))})}/><span>He revisado las claves, explicaciones y procedencia de todas las preguntas.</span></label>
           <p>{s.title||'Simulador sin nombre'} · {s.questions.length} preguntas · {s.durationMinutes} minutos de examen</p>
           <p>Práctica y examen según las modalidades elegidas. Nota sobre 100 puntos y publicación en las carreras asignadas.</p>
-          {!s.careerIds?.length&&<Notice tone="warning">Selecciona al menos una carrera en Información.</Notice>}
+          {!s.careerIds?.length&&<Notice tone="warning">Selecciona al menos una opción de estudio en Información.</Notice>}
           <p><strong>{s.questions.length-pendingQuestions.length} de {s.questions.length}</strong> preguntas con clave, explicación y procedencia completas.</p>
           {pendingQuestions.length>0&&<Notice tone="warning"><b>Preguntas pendientes</b><ul>{pendingQuestions.map(({question,index,messages})=><li key={question.id}><button type="button" onClick={()=>{setQi(index);setStep(2);}}>Pregunta {index+1}: {messages.join(' ')} → Revisar</button></li>)}</ul></Notice>}
           {simulatorProblems(s).length>0&&<details><summary>Ver requisitos de publicación</summary><ul>{[...new Set(simulatorProblems(s))].map(message=><li key={message}>{message}</li>)}</ul></details>}
@@ -1151,7 +1151,7 @@ export function SimulatorEditor({
                   }
                 }}
               >
-                {process.env.NEXT_PUBLIC_DESIGN_PREVIEW === "true" ? "Calcular resultado" : "Calcular con el servidor"}
+                {"Calcular con el servidor"}
               </Button>
               {result && (
                 <Notice>

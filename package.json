@@ -10,7 +10,8 @@
     "postinstall": "node scripts/prepare-browser-assets.mjs",
     "design:serve": "node scripts/serve-design.cjs",
     "design:start": "npm run build:design && npm run design:serve",
-    "build:cloud-api": "node scripts/build-cloud-api.mjs"
+    "build:cloud-api": "node scripts/build-cloud-api.mjs",
+    "test:school": "node scripts/test-school-training.cjs && node scripts/test-school-publication.cjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
