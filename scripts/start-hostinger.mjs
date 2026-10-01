@@ -1,6 +1,7 @@
 import nextEnv from "@next/env";
 import { spawn } from "node:child_process";
 import { assertProductionConfig } from "./production-config.mjs";
+import { verifyDatabaseSchema } from './database-schema.mjs';
 nextEnv.loadEnvConfig(process.cwd());
 assertProductionConfig();
 if (process.env.DB_DRIVER !== "mysql")
@@ -10,6 +11,7 @@ if (process.env.DB_DRIVER !== "mysql")
 const { db } = await import("../lib/server/database.ts");
 try {
   await db.migrate();
+  await verifyDatabaseSchema(db);
   const admin = await db
     .prepare("SELECT id FROM users WHERE role='admin' LIMIT 1")
     .get();

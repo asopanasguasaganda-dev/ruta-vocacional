@@ -57,6 +57,10 @@ Los catálogos de evaluación y orientación son contenido del sistema, no regis
 
 ## Comprobar el despliegue
 
+Consulta [la instalación y traslado de la base de datos](database/INSTALACION.md).
+`db:check` verifica también tablas, columnas obligatorias, claves e índices de MySQL
+sin modificar registros; no basta con que el servidor acepte una conexión.
+
 ```sh
 npm run db:check
 npm run verify:deployment -- https://tu-dominio

@@ -17,6 +17,7 @@
     "test:guidance": "node scripts/test-local-guidance.cjs && node scripts/test-school-guidance.cjs && node scripts/test-guidance-ui.mjs && node scripts/test-guidance-server.mjs",
     "test:guidance:visual": "node scripts/test-guidance-server.mjs --visual",
     "test:mysql": "node scripts/check-mysql.mjs",
+    "test:database-schema": "node scripts/test-database-schema.mjs",
     "db:import-sqlite": "node scripts/migrate-sqlite-to-mysql.mjs",
     "admin:prepare": "node scripts/prepare-admin.mjs",
     "db:check-initial": "node scripts/check-initial-state.mjs",
