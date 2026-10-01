@@ -1,5 +1,5 @@
 import { randomUUID, randomInt, createHash } from "node:crypto";
-import { db, fail, document, put, resultIsReleased } from "./store";
+import { db, fail, document, put, resultIsReleased, publicUser } from "./store";
 import {
   ecuadorCareers,
   careerOffers,
@@ -8,7 +8,7 @@ import {
   applyCatalog,
 } from "./ecuador-catalog";
 import { degreeOffer } from "./academic-content.mjs";
-import { listGuidance } from "./guidance";
+import { listGuidance, ensureGuidance } from "./guidance";
 import {
   academicResult,
   academicInstrument,
@@ -476,9 +476,10 @@ async function progress(e: any) {
   };
 }
 async function recommendations(u: User) {
-  const report = (await listGuidance(u)).find(
-    (r: any) => r.status === "available",
-  );
+  let report:any;
+    if(u.role==='student'){
+      try{report=await ensureGuidance(u);}catch(error:any){if(error.status!==409)throw error;}
+    }else report=(await listGuidance(u)).find((r:any)=>r.status==='available');
   let recs: any[] = [];
   if (report)
     recs = (report.analysis?.recommendations || []).map((r: any) => ({
@@ -680,7 +681,7 @@ export async function enroll(u: User, id: string, studentId?: string) {
         )
         .get(studentId, u.institutionId || "")) as any;
       if (!row) fail("Estudiante no disponible.", 404);
-      target = row;
+      target = publicUser(row);
     } else student(u);
     const prior = (await db
       .prepare(

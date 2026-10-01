@@ -1,3 +1,5 @@
+import { mailConfigured, mailConfig } from "./mail-config.mjs";
+import { sendAccountMail } from "./mail";
 import { educationProfile } from "./education";
 import { randomBytes } from "node:crypto";
 import {
@@ -36,7 +38,7 @@ export async function updateProfile(user: any, body: any) {
     name: firstName + " " + lastName,
     email: user.email,
     stage: String(body.stage || "").slice(0, 100),
-    ...(user.role === "student" ? educationProfile(body) : {}),
+    ...(user.role === "student" ? educationProfile({...previous,...body}) : {}),
   };
   await db.exec("BEGIN IMMEDIATE");
   try {
@@ -60,7 +62,7 @@ export async function changePassword(user: any, body: any) {
     body.password !== body.confirm
   )
     fail(
-      "La nueva contraseña debe coincidir y tener entre 8 y 1215 caracteres.",
+      "La nueva contraseña debe coincidir y tener entre 15 y 128 caracteres.",
     );
   await db.transaction(async () => {
     await db
@@ -74,7 +76,7 @@ export async function changePassword(user: any, body: any) {
 }
 export async function requestEmail(user: any, body: any) {
   await reauthenticate(user, body.currentPassword);
-  if (!process.env.SMTP_HOST || !process.env.APP_URL)
+  if (!mailConfigured())
     fail(
       "El cambio de correo no está disponible en este momento. Tu correo actual se mantiene.",
       503,
@@ -92,27 +94,13 @@ export async function requestEmail(user: any, body: any) {
     token: hash(token),
     expires: Date.now() + 1800000,
   });
-  const nodemailer = await import("nodemailer");
-  const transport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: process.env.SMTP_USER
-      ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD }
-      : undefined,
-  });
-  await transport.sendMail({
-    from: process.env.SMTP_FROM,
-    to: email,
-    subject: "Confirma tu nuevo correo · Ruta Vocacional 360°",
-    text:
-      "Con tu sesión abierta, confirma el cambio en " +
-      process.env.APP_URL +
+  await sendAccountMail(
+    email,
+    "Confirma tu nuevo correo · Ruta Vocacional 360°",
+    "Con tu sesión abierta, confirma el cambio en " + mailConfig().origin +
       (user.role === "student" ? "/mi-ruta/perfil" : "/admin/cuenta") +
-      "?confirmEmail=" +
-      token +
-      "\nEl enlace vence en 30 minutos.",
-  });
+      "?confirmEmail=" + token + "\nEl enlace vence en 30 minutos.",
+  );
   return { ok: true };
 }
 export async function confirmEmail(user: any, body: any) {

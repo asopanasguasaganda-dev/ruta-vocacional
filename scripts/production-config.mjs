@@ -1,3 +1,4 @@
+import { mailConfig } from "../lib/server/mail-config.mjs";
 import { isAbsolute, resolve, relative, dirname, basename, sep } from 'node:path';
 import { existsSync, realpathSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
@@ -56,7 +57,7 @@ export function validateProductionConfig(env, root = process.cwd()) {
       errors.push(key+' debe apuntar a almacenamiento privado y persistente.');
   }
   const mail = ['SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASSWORD','SMTP_FROM'];
-  if (mail.some(key=>env[key])) for (const key of mail) required(key);
+  if (mail.some(key=>env[key]) || env.SMTP_SECURE) errors.push(...mailConfig(env).errors);
   else warnings.push('SMTP pendiente: la recuperación de contraseñas por correo no está disponible.');
   return {errors, warnings};
 }

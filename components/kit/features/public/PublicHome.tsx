@@ -43,9 +43,10 @@ export function PublicHome({ navigate }: { navigate: Navigate }) {
       
       <section id="preguntas-frecuentes" className="site-faq site-container"><BlurFade inView><p className="site-eyebrow">RESOLVEMOS TUS DUDAS</p><h2>Antes de dar<br />el siguiente paso.</h2><p>Elegir también es aprender a hacer preguntas.</p></BlurFade><div className="site-faq-items" data-reveal>{[
         ['¿El test me dirá qué carrera debo estudiar?', 'Los resultados ayudan a reconocer intereses y abrir posibilidades. Tu elección se construye con información sobre las carreras, experiencias y acompañamiento.'],
+        ['¿Cómo me ayuda a elegir bachillerato?', 'Tu perfil y tus respuestas sugieren qué explorar en Ciencias o Técnico, con actividades, asignaturas y conexiones universitarias. La afinidad no es un certificado de aptitud; contrástala con tu orientador.'],
         ['¿Necesito tener una carrera elegida?', 'No. Puedes explorar distintas posibilidades y comparar lo que vas descubriendo, aunque todavía no tengas una opción en mente.'],
         ['¿Puedo continuar otro día?', 'Puedes avanzar por etapas. El guardado y la consulta desde otros dispositivos requieren una cuenta y el servicio de almacenamiento habilitado.'],
-        ['¿A quién está dirigida esta ruta?', 'Exclusivamente a personas de 18 años o más que desean ingresar a la universidad y todavía están explorando qué carrera elegir.'],
+        ['¿A quién está dirigida esta ruta?', 'A estudiantes que eligen su bachillerato, lo están cursando o preparan su paso a la universidad. La orientación conecta Ciencias y Técnico con áreas de estudio y carreras.'],
       ].map(([question, answer]) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></section>
     </main><PublicFooter />
   </div>;

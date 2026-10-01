@@ -1,3 +1,5 @@
+import { mailConfigured, mailConfig } from "@/lib/server/mail-config.mjs";
+import { sendAccountMail } from "@/lib/server/mail";
 import { readJsonObject } from "@/lib/server/request-body";
 import { generateAnalyticsInsights } from "@/lib/server/analytics-insights";
 import {
@@ -131,7 +133,6 @@ async function handle(
       await put(id, "rv360:profile", {
         name: name.trim(),
         email: email.trim().toLowerCase(),
-        stage: typeof body.stage === "string" ? body.stage : "",
         ...education,
         reminders: "no",
       });
@@ -166,12 +167,12 @@ async function handle(
       await closeSession();
       result = { ok: true };
     } else if (action === "auth/password-reset" && req.method === "POST") {
-      if (!process.env.SMTP_HOST || !process.env.APP_URL)
+      if (!mailConfigured())
         fail(
           "El envío de correos aún no está configurado. Contacta con soporte para recuperar el acceso.",
           503,
         );
-      if (typeof body.email !== "string" || body.email.length > 254) fail("Correo no válido.");
+      if (typeof body.email !== "string" || body.email.length > 254 || !/^\S+@\S+\.\S+$/.test(body.email.trim())) fail("Correo no válido.");
       await rateLimit("reset:" + hash(body.email.trim().toLowerCase()));
       const row = (await db
         .prepare("SELECT id,email FROM users WHERE email=? AND status='Activo'")
@@ -181,26 +182,18 @@ async function handle(
         await db
           .prepare("INSERT INTO resets VALUES(?,?,?)")
           .run(hash(token), row.id, Date.now() + 1800000);
-        const nodemailer = await import("nodemailer");
-        const mail = nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: Number(process.env.SMTP_PORT || 587),
-          secure: process.env.SMTP_SECURE === "true",
-          auth: process.env.SMTP_USER
-            ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD }
-            : undefined,
-        });
-        await mail.sendMail({
-          from: process.env.SMTP_FROM,
-          to: row.email,
-          subject: "Recupera tu acceso a Ruta Vocacional 360°",
-          text:
-            "Restablece tu contraseña en " +
-            process.env.APP_URL +
-            "/restablecer?token=" +
-            token +
-            "\nEl enlace vence en 30 minutos.",
-        });
+        try {
+          await sendAccountMail(
+            row.email,
+            "Recupera tu acceso a Ruta Vocacional 360°",
+            "Restablece tu contraseña en " + mailConfig().origin +
+              "/restablecer?token=" + token +
+              "\nEl enlace vence en 30 minutos y solo puede usarse una vez. Si no lo solicitaste, ignora este correo.",
+          );
+        } catch (error) {
+          await db.prepare("DELETE FROM resets WHERE token=?").run(hash(token));
+          throw error;
+        }
       }
       result = { ok: true };
     } else if (action === "auth/reset-confirm" && req.method === "POST") {
@@ -209,7 +202,7 @@ async function handle(
         body.password.length < 15 ||
         body.password.length > 128
       )
-        fail("Usa una contraseña de 8 a 1215 caracteres.");
+        fail("Usa una contraseña de 15 a 128 caracteres.");
       await rateLimit("reset-confirm:" + hash(String(body.token).slice(0, 128)));
       if (typeof body.token !== "string" || !/^[a-f0-9]{64}$/.test(body.token)) fail("Enlace no válido.");
       result = await db.transaction(async () => {
@@ -365,14 +358,16 @@ async function handle(
         await battery(user, true);
         result = await batteryForClient(user);
       } else if (action === "reports/guidance" && req.method === "GET") {
+        let currentId: string | null = null;
         if (user.role === "student") {
           try {
-            await ensureGuidance(user);
+            currentId = (await ensureGuidance(user)).id;
           } catch (e: any) {
             if (e.status !== 409) throw e;
           }
         }
-        result = { items: await listGuidance(user), configured: configured() };
+        const items = await listGuidance(user);
+        result = { items: user.role === "student" ? items.map((r:any)=>({...r,historical:r.id!==currentId})).sort((a:any,b:any)=>Number(a.historical)-Number(b.historical)) : items, configured: configured() };
       } else if (action === "reports/guidance/detail" && req.method === "GET")
         result = await readGuidance(
           user,

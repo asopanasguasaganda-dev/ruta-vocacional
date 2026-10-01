@@ -38,7 +38,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
         {!register && !admin && <aside className="auth-story">
           <div className="auth-story-copy"><span className="auth-kicker">TU FUTURO, TU CAMINO</span>
             <h2>Todo empieza por <em>conocerte.</em></h2>
-            <p>Descubre tus intereses y encuentra nuevas posibilidades.</p>
+            <p>Descubre tus intereses, elige tu bachillerato y explora tu camino a la universidad.</p>
             <ul className="auth-story-benefits"><li>Conócete</li><li>Explora</li><li>Elige tu camino</li></ul>
           </div>
           <div className="auth-photo"><img src="/media/students-campus.webp" alt="Estudiantes universitarios compartiendo ideas y estudiando con una computadora" width={1200} height={800} fetchPriority="high" />
@@ -50,7 +50,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
             {admin && <span className="icon-tile"><ShieldCheck size={24} /></span>}
             <span className="auth-kicker">{admin ? 'ACCESO RESTRINGIDO' : register ? 'EMPIEZA TU RUTA' : reset ? 'RECUPERA TU CUENTA' : 'CONTINÚA TU RUTA'}</span>
             <h1 id="auth-title">{admin ? 'Acceso a administración' : register ? 'Crea tu cuenta' : reset ? 'Recupera tu acceso' : 'Te damos la bienvenida'}</h1>
-            <p>{admin ? 'Ingresa con tus credenciales de administración.' : register ? 'Para personas de 18 años o más que buscan su primera carrera universitaria.' : reset ? ('Te enviaremos instrucciones a tu correo.') : 'Ingresa y retoma donde lo dejaste.'}</p>
+            <p>{admin ? 'Ingresa con tus credenciales de administración.' : register ? 'Conoce tu perfil, explora Ciencias o Técnico y conecta tu bachillerato con la universidad.' : reset ? ('Recibe un enlace para restablecer tu contraseña. Disponible para estudiantes y administradores.') : 'Ingresa y retoma donde lo dejaste.'}</p>
           </div>
           {session.serviceAvailable === false ? <div className="stack-sm" role="status">
             <Notice tone="warning">El acceso está temporalmente fuera de servicio. Vuelve a intentarlo más tarde.</Notice>
@@ -59,7 +59,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
           {!admin && !reset && <p className="auth-alternative">{register ? '¿Ya tienes una cuenta?' : '¿Aún no tienes una cuenta?'}{' '}
             <a href={register ? '/ingresar' : '/registro'}>{register ? 'Ingresar' : 'Crear cuenta'}</a>
           </p>}
-          {reset && <a className="auth-return" href="/ingresar">Volver al ingreso</a>}
+          {reset && <div className="stack-sm"><a className="auth-return" href="/ingresar">Ingreso de estudiantes</a><a className="auth-return" href="/admin/login">Ingreso de administradores</a></div>}
           {admin && <p className="auth-security"><ShieldCheck size={16} />Solo para personal autorizado.</p>}
         </section>
         {register && <aside className="auth-benefits">
@@ -68,7 +68,7 @@ export function AuthPage({ mode, navigate }: { mode: AuthMode; navigate: Navigat
           <p>No necesitas tener todas las respuestas para empezar.</p>
           <ul>{[
             ['Conoce tus intereses', 'Descubre lo que te gusta y lo que te mueve.'],
-            ['Explora tus opciones', 'Conoce carreras y nuevas posibilidades.'],
+            ['Explora tu bachillerato', 'Compara Ciencias y Técnico antes de conectar con la universidad.'],
             ['Construye tu plan', 'Organiza tus próximos pasos, a tu ritmo.'],
           ].map(([title, text]) => <li key={title}><CheckCircle2 size={20} /><div><h3>{title}</h3><p>{text}</p></div></li>)}</ul>
           <span className="auth-benefits-note">Tu ruta es personal. Tú eliges cómo avanzar.</span>

@@ -1,3 +1,4 @@
+import { mailConfigured } from "./mail-config.mjs";
 import { instrumentProblems } from "@/components/kit/lib/test-engine";
 import { batteryForClient } from "./battery";
 import { testProblem } from "./test-validation";
@@ -156,7 +157,7 @@ export async function workspace(user: any) {
       user: user || null,
       values: {},
       revisions: {},
-      mailConfigured: !!process.env.SMTP_HOST,
+      mailConfigured: mailConfigured(),
     };
   const values: Record<string, any> = {},
     revisions: Record<string, number> = {};
@@ -298,7 +299,7 @@ export async function workspace(user: any) {
     )
     .all(user.id);
   values["rv360:battery"] = await batteryForClient(user);
-  return { user, values, revisions, mailConfigured: !!process.env.SMTP_HOST };
+  return { user, values, revisions, mailConfigured: mailConfigured() };
 }
 export function validateTest(t: any) {
   if (

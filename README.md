@@ -69,3 +69,81 @@ No subas `.git` ni respaldos locales por el administrador de archivos.
 La verificación local no sustituye la comprobación del dominio, HTTPS, permisos de almacenamiento,
 correo y conexión MySQL en el alojamiento contratado. Ejecuta `npm run verify:deployment -- https://tu-dominio`
 una vez publicado. Configura y prueba SMTP para habilitar la recuperación por correo.
+
+## Recuperación de contraseñas en Hostinger
+
+El mismo formulario `/recuperar` sirve para estudiantes y administradores. La aplicación
+guarda hashes de las contraseñas en MySQL; el proveedor SMTP solo entrega el enlace.
+El enlace vence en 30 minutos, se invalida al usarlo y cierra las sesiones anteriores.
+Al terminar, el botón de ingreso dirige al acceso correspondiente al rol de la cuenta.
+
+1. Crea un buzón de tu dominio en hPanel, por ejemplo `cuentas@tudominio.com`.
+2. Configura `SMTP_HOST=smtp.hostinger.com`, `SMTP_PORT=465`, `SMTP_SECURE=true`,
+   `SMTP_USER` y `SMTP_FROM` con la dirección completa del buzón y `SMTP_PASSWORD`
+   con su contraseña. Esta contraseña es distinta de las cuentas de la plataforma.
+3. Configura `APP_URL=https://tudominio.com`, con el dominio definitivo y sin rutas.
+   Para otro proveedor usa sus datos SMTP; con puerto 587 utiliza `SMTP_SECURE=false`
+   para STARTTLS. La conexión siempre exige TLS y certificados válidos.
+4. Completa MySQL y las demás variables de `.env.example`. Usa una aplicación Node.js
+   con backend en Hostinger, Node.js 24, compilación `npm run build` e inicio `npm start`.
+   Vuelve a desplegar después de cambiar variables.
+5. Ejecuta `npm run check:production`, `npm run db:check` y `npm run check:smtp`
+   en el entorno que tenga las variables de Hostinger. La última comprobación valida
+   conexión y autenticación sin enviar mensajes; no garantiza entrega en bandeja de entrada.
+6. Prueba `/recuperar` con una cuenta de estudiante y una de administrador que controles:
+   recibe el correo, abre el enlace y cambia la contraseña; comprueba el acceso con la nueva,
+   el rechazo de la anterior y que el enlace usado ya no funcione. Revisa spam y el estado
+   de SPF/DKIM del dominio en hPanel si el mensaje no llega.
+
+Las claves se configuran solo como variables privadas del servidor, sin `NEXT_PUBLIC_`.
+La página antigua de Vercel no se actualiza con estos cambios locales. Publica este proyecto
+y utiliza el nuevo dominio. Las cuentas del antiguo modo navegador no aparecen por sí solas
+en MySQL: deben registrarse en la instalación central o migrarse desde una fuente disponible.
+Un panel con cero estudiantes es correcto hasta que existan cuentas en su institución/grupo.
+
+Referencias: [SMTP de Hostinger](https://www.hostinger.com/support/4305847-set-up-hostinger-email-on-your-applications-and-devices/)
+y [despliegue Node.js en Hostinger](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/).
+
+## Ruta de bachillerato a universidad
+
+El registro y Mi perfil guardan la etapa educativa, el bachillerato declarado, la figura
+profesional (si es Técnico) y la preferencia de aprendizaje. No se confunde el bachillerato
+que la persona ya cursó con la recomendación que obtiene. Las cuentas anteriores pueden
+completar estos campos sin perder datos; no se modifica el esquema de MySQL.
+
+Mis resultados muestra primero el perfil y la comparación Ciencias/Técnico; después,
+áreas de Ciencias o figuras técnicas, actividades y conexiones universitarias. Administración
+consulta la misma orientación y puede actualizarla desde la ficha del estudiante. Pantalla y
+PDF utilizan el mismo informe guardado. Las versiones antiguas se conservan como historial.
+
+Las sugerencias se calculan con instrumentos publicados y completos de seis dimensiones
+RIASEC, normalizados con igual peso por instrumento. Una revisión de puntuaciones o un cambio
+de perfil genera una nueva versión. Un intento pendiente no se sustituye por otro antiguo.
+La preferencia declarada de profundizar o aplicar orienta la modalidad; sin esa preferencia,
+una diferencia de al menos 4 puntos en la escala interna de 5–25 entre Investigación y
+Realista, con interés de al menos 15, propone explorar Ciencias o Técnico respectivamente.
+En otros casos se conservan ambas opciones. Es una regla interna de exploración, no un baremo
+psicométrico ni un certificado de aptitud. Los intereses equilibrados o bajos no priorizan
+especialidades; siempre se explican los siguientes pasos.
+
+Las áreas de Ciencias no son títulos de especialidad. Las figuras técnicas son ejemplos
+documentados, no el catálogo nacional completo ni una afirmación sobre la oferta de un colegio.
+Las fuentes están enlazadas en el informe. Confirmar disponibilidad corresponde a cada institución.
+El bachillerato elegido no elimina opciones universitarias; las conexiones son orientativas.
+
+Verificación: `npm run test:guidance`. Tras compilar, se puede ejecutar
+`node scripts/test-guidance-server.mjs --http` para comprobar acceso de estudiante y administrador,
+perfil y reportes en una base SQLite temporal aislada, sin conectarse a MySQL de producción.
+Esto no sustituye la prueba de despliegue contra el MySQL y dominio de Hostinger.
+
+Prueba visual de integración: después de `npm run build`, ejecuta
+`npm run test:guidance:visual`. Requiere Playwright (instalado localmente o en
+`.qa-tools`) y Chrome en Windows; en otros sistemas usa Chromium de Playwright.
+Abre un navegador aislado con cuentas sintéticas y una base temporal. Comprueba
+formularios, persistencia, cambio Técnico/Ciencias, recomendaciones, detalle de
+carrera, catálogo completo, renderizado y descarga del PDF y consulta administrativa.
+Guarda capturas de escritorio, tableta y móvil y `visual-results.json` en la carpeta
+`.qa-tools/guidance-*` indicada al terminar. La vista inicial resume cuatro carreras;
+la pestaña de carreras conserva el listado completo y sus universidades desplegables.
+El visor PDF tiene una pestaña propia y la política CSP permite leer los archivos
+`blob:` generados localmente, sin habilitar conexiones a servidores externos.

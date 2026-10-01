@@ -10,11 +10,11 @@ export function HeroSection() {
   const reduced = useReducedMotion();
   return <AuroraBackground><section className="rv-hero site-container" aria-labelledby="home-title">
     <motion.div className="rv-hero-copy" initial={false} animate={reduced ? { opacity: 1, y: 0 } : { opacity: [0.65, 1], y: [12, 0] }} transition={{ duration: 0.55 }}>
-      <p className="rv-hero-eyebrow"><span aria-hidden="true" />ORIENTACIÓN UNIVERSITARIA · ECUADOR</p>
+      <p className="rv-hero-eyebrow"><span aria-hidden="true" />BACHILLERATO Y UNIVERSIDAD · ECUADOR</p>
       <h1 id="home-title">Conócete. Explora.<br /><em>Elige tu camino.</em></h1>
-      <p className="rv-hero-description">Descubre tus intereses, comprende tus preferencias y explora opciones de estudio para dar tu próximo paso hacia la universidad.</p>
+      <p className="rv-hero-description">Descubre tus intereses, compara Bachillerato en Ciencias y Técnico y conecta tu perfil con opciones universitarias.</p>
       <div className="rv-hero-actions"><Button role="link" nativeButton={false} render={<Link href="/registro" />} className="button button--primary">Crear mi cuenta<ArrowRight size={18} aria-hidden="true" /></Button><a href="#estudiantes">Conocer las herramientas<ArrowRight size={17} aria-hidden="true" /></a></div>
-      <p className="rv-hero-note"><Check size={16} aria-hidden="true" />Para personas de 18 años o más. A tu ritmo.</p>
+      <p className="rv-hero-note"><Check size={16} aria-hidden="true" />Desde la elección de bachillerato hasta la universidad. A tu ritmo.</p>
     </motion.div>
     <div className="rv-hero-scene" aria-hidden="true">
       <span className="rv-scene-chip"><Sparkles size={17} />Una nueva perspectiva</span>

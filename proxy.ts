@@ -11,7 +11,8 @@ export function proxy(request: NextRequest) {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self' data:",
-    `connect-src 'self'${dev ? ' ws: wss:' : ''}`,
+    // PDF.js reads the report generated in this browser through its blob URL.
+    `connect-src 'self' blob:${dev ? ' ws: wss:' : ''}`,
     "media-src 'self' blob:",
     "worker-src 'self' blob:",
     "frame-src 'self' blob:",

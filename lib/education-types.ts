@@ -1,2 +1,2 @@
-export type EducationData={province:string;canton:string;parish:string;schoolId:string;institution:string};
+export type EducationData={province:string;canton:string;parish:string;schoolId:string;institution:string;baccalaureate?:string;specialty?:string;learningPreference?:string};
 export type EducationCatalog={metadata:{source:string;period:string;schoolCount:number;baccalaureateCount:number};provinces:{id:string;name:string;cantons:{id:string;name:string;parishes:{id:string;name:string}[]}[]}[];schools:{id:string;name:string;province:string;canton:string;parish:string;baccalaureate:boolean}[]};
