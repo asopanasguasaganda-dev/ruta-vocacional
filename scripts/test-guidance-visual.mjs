@@ -29,12 +29,13 @@ export async function runGuidanceVisual({base,password,folder}){
   await page.goto(base+'/mi-ruta/perfil');
   await choose(page,'Etapa educativa','Estoy eligiendo mi bachillerato');
   await choose(page,'Bachillerato que cursas, cursaste o has elegido','Bachillerato Técnico');
-  await page.getByLabel('Especialidad o figura profesional',{exact:true}).fill('Informática');
+  await page.getByRole('combobox',{name:'Especialidad o figura profesional',exact:true}).fill('Informática');
+  await page.getByRole('combobox',{name:'Especialidad o figura profesional',exact:true}).press('Tab');
   await choose(page,'¿Qué te gustaría priorizar al aprender?','Aprender un oficio o especialidad mediante proyectos y práctica');
   await page.getByRole('button',{name:'Guardar cambios',exact:true}).click();
   await page.getByText('Tus datos se guardaron.',{exact:true}).waitFor();
   await shot(page,'perfil-escritorio');await overflow(page,'perfil-escritorio');
-  await page.reload();assert.equal(await page.getByLabel('Especialidad o figura profesional',{exact:true}).inputValue(),'Informática');
+  await page.reload();assert.equal(await page.getByRole('combobox',{name:'Especialidad o figura profesional',exact:true}).inputValue(),'Informática');
   await page.goto(base+'/mi-ruta/resultados');
   await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato Técnico',exact:true}).waitFor();
   await shot(page,'resultados-escritorio');await overflow(page,'resultados-escritorio');
@@ -61,10 +62,10 @@ export async function runGuidanceVisual({base,password,folder}){
     await page.locator('.pdf-viewer canvas').waitFor({state:'visible',timeout:60000});
     await overflow(page,'pdf-movil');await shot(page,'pdf-movil');
    }
-   await page.goto(base+'/mi-ruta/perfil');await page.getByLabel('Especialidad o figura profesional',{exact:true}).waitFor();await shot(page,'perfil-'+width);await overflow(page,'perfil-'+width);
+   await page.goto(base+'/mi-ruta/perfil');await page.getByRole('combobox',{name:'Especialidad o figura profesional',exact:true}).waitFor();await shot(page,'perfil-'+width);await overflow(page,'perfil-'+width);
   }
   await choose(page,'Bachillerato que cursas, cursaste o has elegido','Bachillerato en Ciencias');
-  assert.equal(await page.getByLabel('Especialidad o figura profesional',{exact:true}).count(),0);
+  assert.equal(await page.getByRole('combobox',{name:'Especialidad o figura profesional',exact:true}).count(),0);
   await choose(page,'¿Qué te gustaría priorizar al aprender?','Profundizar en asignaturas, investigar y argumentar');
   await page.getByRole('button',{name:'Guardar cambios',exact:true}).click();await page.getByText('Tus datos se guardaron.',{exact:true}).waitFor();
   await page.goto(base+'/mi-ruta/resultados');await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();await shot(page,'ciencias-1280');

@@ -1,3 +1,4 @@
+import {SchoolRouteStart} from './SchoolRouteStart';
 import { instrumentPresentation } from "../../lib/instrument-presentation";
 import { PagedList } from "../../components/ui/PagedList";
 import { TrainingSummary } from "../training/TrainingSummary";
@@ -273,6 +274,7 @@ export function CompactDashboard() {
         title={"Hola, " + (s.user?.name.split(" ")[0] || "")}
         description="Un paso a la vez para comprender tus intereses."
       />
+      {!last&&<SchoolRouteStart/>}
       <Card className="compact-next">
         <div>
           <span className="eyebrow">TU SIGUIENTE PASO</span>

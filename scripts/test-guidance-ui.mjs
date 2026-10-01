@@ -22,6 +22,8 @@ try{
  const value={province:'',canton:'',parish:'',schoolId:'',institution:'',baccalaureate:'tecnico',specialty:'Informática',learningPreference:'aplicar'};
  const form=renderToStaticMarkup(React.createElement(BaccalaureateFields,{value,onChange:()=>{}}));
  assert(form.includes('Especialidad o figura profesional'));assert(form.includes('value="Informática"'));
+ assert(!form.includes('<datalist'),'Specialties must use the styled search control');
+ assert(form.includes('role="combobox"'),'Specialties must remain keyboard accessible');
  const science=renderToStaticMarkup(React.createElement(BaccalaureateFields,{value:{...value,baccalaureate:'ciencias'},onChange:()=>{}}));
  assert(!science.includes('Especialidad o figura profesional'));
  console.log('PASS rendered UI: ordered pathway, school-to-university links, visible recommendations, role-specific controls and persisted profile values.');

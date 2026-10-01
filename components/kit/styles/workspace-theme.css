@@ -596,3 +596,9 @@ body:has(.workspace-unified)
   color: #63718a;
   border-color: #e0e5ef;
 }
+
+/* Search popups follow the same workspace theme as their fields. */
+.workspace-unified .search-select-popup{background:var(--surface);border-color:var(--border);color:var(--ink)}
+.workspace-unified .search-select-popup button{color:var(--ink)}
+.workspace-unified .search-select-popup button:is(:hover,[data-active=true]){background:var(--primary-soft);color:var(--primary)}
+.workspace-unified .search-select-popup :is(small,p){color:var(--muted)}
