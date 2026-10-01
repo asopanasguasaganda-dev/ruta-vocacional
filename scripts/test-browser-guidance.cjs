@@ -1,0 +1,27 @@
+const fs=require('node:fs'),ts=require('typescript'),assert=require('node:assert/strict');
+require.extensions['.ts']=(m,f)=>m._compile(ts.transpileModule(fs.readFileSync(f,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText,f);
+const storage=()=>{const values=new Map();return {getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,String(value)),removeItem:key=>values.delete(key)};};
+global.localStorage=storage();global.sessionStorage=storage();
+const {designRequest}=require('../components/kit/lib/design-preview.ts');
+const {instruments}=require('../components/kit/data/instruments.ts');
+const {calculateTest}=require('../components/kit/lib/test-engine.ts');
+(async()=>{
+ const user={id:'qa-school',name:'School Test',email:'school@example.test',role:'student'};
+ const instrument=instruments.find(t=>t.id==='intereses');
+ const answers=Object.fromEntries(instrument.questions.map(q=>[q.id,q.dimension==='I'?5:q.dimension==='R'?4:2]));
+ const evaluation=calculateTest({...instrument,scoring:'dimensions',aggregation:'sum'},answers);
+ const submission={id:'qa-interest',instrument_id:instrument.id,version:instrument.version,created_at:'2026-10-01T12:00:00Z',snapshot:JSON.stringify(instrument),answers:JSON.stringify(answers),scores:JSON.stringify(evaluation.scores),evaluation};
+ localStorage.setItem('rv360:local-accounts-v1',JSON.stringify([{user,values:{'rv360:submissions':[submission],'rv360:profile':{learningPreference:'investigar'}}}]));
+ sessionStorage.setItem('rv360:local-session-v1',user.id);
+ const first=(await designRequest('reports/guidance')).items[0];
+ assert.equal(first.analysis.pathway.suggested,'ciencias');
+ await designRequest('account/profile',{method:'PUT',body:JSON.stringify({firstName:'School',lastName:'Test',stage:'Estoy eligiendo mi bachillerato',baccalaureate:'tecnico',specialty:'Informática',learningPreference:'aplicar'})});
+ const second=(await designRequest('reports/guidance')).items[0];
+ assert.equal(second.analysis.pathway.suggested,'tecnico');
+ assert.equal(second.analysis.pathway.profile.specialty,'Informática');
+ assert(second.analysis.pathway.technical.some(o=>o.careers.length));
+ assert(second.analysis.nextSteps.length>0);
+ assert.deepEqual(second.analysis.recommendations,first.analysis.recommendations);
+ assert.equal(JSON.parse(localStorage.getItem('rv360:local-accounts-v1'))[0].values['rv360:submissions'][0].id,submission.id);
+ console.log('PASS browser guidance: saved profile updates Ciencias/Técnico, linked careers and recommendations without replacing existing answers.');
+})().catch(error=>{console.error(error);process.exitCode=1;});

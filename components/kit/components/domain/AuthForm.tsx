@@ -1,3 +1,4 @@
+import { educationStages, baccalaureateTypes } from '../../data/baccalaureate';
 import { useEffect, useId, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Eye, EyeOff, ArrowRight, CheckCircle2, Mail, LockKeyhole, UserRound, LogIn } from 'lucide-react';
@@ -63,11 +64,11 @@ export function AuthForm({mode,onSubmit,onNavigate}:{mode:AuthMode;onSubmit:(pay
       {mode!=='reset'&&<div><PasswordField label="Contraseña" value={password} onChange={setPassword} error={errors.password} autoComplete={register?'new-password':'current-password'}/>{register&&<p className="auth-field-hint">Usa al menos 8 caracteres.</p>}</div>}
     </>}
     {register&&step===1&&<>
-      <SelectField label="¿En qué etapa estás?" value={stage} onChange={e=>setStage(e.target.value)} error={errors.stage} required><option value="">Selecciona una opción</option><option>Bachillerato (18 años o más)</option><option>Me gradué del colegio</option><option>Busco mi primera carrera universitaria</option></SelectField>
+      <SelectField label="¿En qué etapa estás?" value={stage} onChange={e=>setStage(e.target.value)} error={errors.stage} required><option value="">Selecciona una opción</option>{educationStages.map(stage=><option key={stage}>{stage}</option>)}</SelectField>
       <EducationFields value={education} onChange={setEducation}/>
     </>}
     {register&&step===2&&<>
-      <div className="auth-summary" data-summary tabIndex={-1}><h2>Revisa tus datos</h2><dl><div><dt>Nombre</dt><dd>{name} {surname}</dd></div><div><dt>Correo</dt><dd>{email}</dd></div><div><dt>Tu perfil</dt><dd>{stage}</dd></div>{education.institution&&<div><dt>Colegio</dt><dd>{education.institution}</dd></div>}</dl></div>
+      <div className="auth-summary" data-summary tabIndex={-1}><h2>Revisa tus datos</h2><dl><div><dt>Nombre</dt><dd>{name} {surname}</dd></div><div><dt>Correo</dt><dd>{email}</dd></div><div><dt>Tu etapa</dt><dd>{stage}</dd></div><div><dt>Bachillerato</dt><dd>{baccalaureateTypes.find(t=>t.id===education.baccalaureate)?.name}</dd></div>{education.specialty&&<div><dt>Especialidad</dt><dd>{education.specialty}</dd></div>}{education.institution&&<div><dt>Colegio</dt><dd>{education.institution}</dd></div>}</dl></div>
       <div><Checkbox checked={consent} onChange={e=>setConsent(e.target.checked)} aria-invalid={!!errors.consent} aria-describedby={errors.consent?'consent-error':undefined} label="Acepto guardar mi perfil y mis respuestas para construir mi ruta vocacional."/>{errors.consent&&<p id="consent-error" className="error-text auth-field-hint">{errors.consent}</p>}</div>
     </>}
     {(mode==='login'||mode==='admin')&&<div className="auth-recovery"><button type="button" className="text-link" onClick={()=>onNavigate('reset')}>Olvidé mi contraseña</button></div>}

@@ -106,6 +106,11 @@ export function Questionnaire({
           {instrument.title.toLowerCase()}. Puedes revisar tus respuestas cuando
           quieras.
         </p>
+        <p className="muted">
+          En Mis resultados → Bachillerato y universidad encontrarás tu afinidad
+          con Ciencias o Técnico y su conexión con carreras universitarias.
+          Consulta también la pestaña Recomendaciones.
+        </p>
         <div className="row">
           <Button onClick={() => navigate("resultados")}>
             Ver mis resultados
@@ -183,6 +188,16 @@ export function Questionnaire({
               : "Siguiente"}
           </Button>
         </div>
+      </Card>
+      <Card className="stack">
+        <h2>¿Ciencias o Técnico? Descubre tu ruta</h2>
+        <p className="muted">Al entregar tus tests, consulta Mis resultados → Bachillerato y universidad para conocer tu afinidad, explorar carreras y universidades relacionadas y ver tus recomendaciones. Si falta información, el informe te indicará qué completar.</p>
+        <Button variant="secondary" loading={submitting} onClick={async()=>{
+          setSubmitting(true);setSubmitError('');
+          try{await flush();navigate('resultados');}
+          catch(e){setSubmitError((e as Error).message);}
+          finally{setSubmitting(false);}
+        }}>Guardar avance y ver mis resultados <ArrowRight size={16}/></Button>
       </Card>
       {submitError && <Notice tone="danger">{submitError}</Notice>}
       <Dialog open={review} onClose={()=>setReview(false)} title="Revisa tus respuestas" wide><div className="stack">{activeQuestions.map((item,i)=><div className="row between" key={item.id}><div><b>{i+1}. {item.text}</b><p className="muted">{answerText(instrument,item,answers[item.id])}</p></div><Button size="sm" variant="ghost" onClick={()=>{setIndex(i);setReview(false);}}>Editar</Button></div>)}{submitError&&<Notice tone="danger">{submitError}</Notice>}<Button loading={submitting} onClick={async()=>{setSubmitting(true);setSubmitError('');try{await flush();await previewAction('assessments/submit',{method:'POST',body:JSON.stringify({instrumentId:instrument.id})});setReview(false);setFinished(true);}catch(e){setSubmitError((e as Error).message);}finally{setSubmitting(false);}}}>Confirmar entrega</Button></div></Dialog>
