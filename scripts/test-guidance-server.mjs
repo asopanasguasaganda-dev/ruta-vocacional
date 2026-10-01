@@ -126,7 +126,7 @@ try{
    await runSchoolTrainingHttp({base,password,adminCookie,schoolOrientationTemplate,schoolPracticeTemplate});
    if(process.argv.includes('--visual')){
     const {runGuidanceVisual}=await import('./test-guidance-visual.mjs');
-    await runGuidanceVisual({base,password,folder});
+    await runGuidanceVisual({base,password,folder,schoolPracticeTemplate});
    }
   }finally{child.kill();await new Promise(r=>child.once('exit',r));}
  }

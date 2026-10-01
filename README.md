@@ -14,7 +14,7 @@ integran únicamente en la ruta configurada. Las respuestas anteriores se conser
 
 En Administración → Evaluaciones, «Test de Bachillerato» prepara un cuestionario
 interno de intereses editable. En Cursos → Bachillerato se pueden crear o importar
-simuladores y partir de las plantillas de Ciencias y Técnico. Revisa las preguntas,
+simuladores de Ciencias y Técnico. Revisa las preguntas,
 claves y asignaciones antes de publicar. Las notas de práctica no determinan la
 modalidad recomendada: la orientación usa los intereses entregados.
 

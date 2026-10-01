@@ -3,7 +3,7 @@ import {createRequire} from 'node:module';
 import {resolve} from 'node:path';
 import {writeFileSync} from 'node:fs';
 
-export async function runGuidanceVisual({base,password,folder}){
+export async function runGuidanceVisual({base,password,folder,schoolPracticeTemplate}){
  const require=createRequire(import.meta.url);
  let playwright;try{playwright=require('playwright');}catch{playwright=require('../.qa-tools/node_modules/playwright');}
  const browser=await playwright.chromium.launch({headless:true,...(process.platform==='win32'?{executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'}:{})});
@@ -113,7 +113,14 @@ export async function runGuidanceVisual({base,password,folder}){
   await ap.getByRole('button',{name:'Universidad',exact:true}).click();await shot(ap,'admin-universidad-movil');await overflow(ap,'admin-universidad-movil');
   await ap.setViewportSize({width:1440,height:1000});await ap.goto(base+'/admin/cursos');
   await ap.getByRole('button',{name:'Bachillerato',exact:true}).click();
-  await ap.getByRole('button',{name:'Plantilla de Ciencias',exact:true}).click();
+  assert.equal(await ap.getByRole('button',{name:/Plantilla de/}).count(),0);
+  assert(await ap.getByRole('button',{name:'Crear simulador',exact:true}).isVisible());
+  assert(await ap.getByRole('button',{name:'Importar documento',exact:true}).isVisible());
+  const blank={id:'',version:0,revision:0,status:'draft',title:'',instrument:{id:'qa',version:'1',title:'',description:'',options:[],questions:[]},purpose:'general',modes:['practice','exam'],durationMinutes:30,maxAttempts:2,gradePolicy:'last',feedback:'finish',selection:'fixed',quotas:[],areaWeights:[],questions:[],shuffleOptions:false,questionOrderFixedIds:[]};
+  const prepared=await ap.request.post(base+'/api/training/entity',{headers:{Origin:base},data:{kind:'simulator',entity:{...schoolPracticeTemplate(blank,'ciencias'),title:'Preparación Ciencias QA '+Date.now()}}});assert.equal(prepared.status(),200);
+  const draft=await prepared.json();await ap.reload();await ap.getByRole('button',{name:'Bachillerato',exact:true}).click();
+  const card=ap.locator('.test-manager-card').filter({has:ap.getByRole('heading',{name:draft.title,exact:true})});
+  await card.locator('summary').click();await card.getByRole('button',{name:'Editar borrador',exact:true}).click();
   const visualTitle='Exploración Ciencias visual '+Date.now();
   await ap.getByLabel('Nombre del simulador',{exact:true}).fill(visualTitle);
   assert.equal(await ap.getByRole('checkbox',{name:'Bachillerato en Ciencias',exact:true}).isChecked(),true);
