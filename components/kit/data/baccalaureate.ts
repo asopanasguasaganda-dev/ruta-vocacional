@@ -1,4 +1,4 @@
-export const pathwayVersion = 'bachillerato-universidad-1';
+export const pathwayVersion = 'bachillerato-universidad-2';
 export const educationStages = ['Estoy eligiendo mi bachillerato', 'Estudiante de bachillerato', 'Me gradué del colegio', 'Busco mi primera carrera universitaria'];
 export const baccalaureateTypes = [
   { id: 'por-definir', name: 'Todavía no lo he elegido' },

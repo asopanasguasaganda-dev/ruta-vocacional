@@ -23,14 +23,9 @@ export function schoolGuidance(scores: {dimension:string;raw:number}[], evidence
   const differentiated = valid && max >= 15 && max - Math.min(...scores.map(s=>s.raw)) > 0;
   const preference = profile.learningPreference || 'por-definir';
   let suggested: 'ciencias'|'tecnico'|'ambas'|'pendiente' = 'pendiente';
-  let reason = 'Completa y entrega Intereses vocacionales y registra tu preferencia de aprendizaje para comparar las dos opciones.';
+  let reason = 'Completa y entrega Intereses vocacionales para comparar Ciencias y Técnico. No necesitas haber elegido una modalidad.';
   if (valid) {
-    if (preference === 'investigar' || preference === 'aplicar') {
-      suggested = preference === 'investigar' ? 'ciencias' : 'tecnico';
-      reason = preference === 'investigar' ? 'Declaraste que prefieres profundizar en asignaturas, investigar y argumentar. Ciencias es una primera opción para comparar.' : 'Declaraste que prefieres aprender una especialidad mediante proyectos y práctica. Técnico es una primera opción para comparar.';
-    } else if (preference === 'ambas') {
-      suggested = 'ambas'; reason = 'Te interesan ambas formas de aprendizaje. Compara Ciencias y Técnico con experiencias concretas antes de elegir.';
-    } else if (differentiated && value('R') >= 15 && value('R') - value('I') >= 4) {
+    if (differentiated && value('R') >= 15 && value('R') - value('I') >= 4) {
       suggested = 'tecnico'; reason = 'Tu interés en actividades prácticas supera al de investigación en este cuestionario. Esto invita a explorar primero una especialidad técnica; completa tu perfil para contrastarlo.';
     } else if (differentiated && value('I') >= 15 && value('I') - value('R') >= 4) {
       suggested = 'ciencias'; reason = 'Tu interés en investigar y explicar supera al de actividades prácticas en este cuestionario. Esto invita a explorar primero Ciencias; completa tu perfil para contrastarlo.';
@@ -62,7 +57,7 @@ export function schoolGuidance(scores: {dimension:string;raw:number}[], evidence
       'Afinidad describe intereses y preferencias declaradas; no certifica aptitud, rendimiento ni admisión.',
     ],
     nextSteps:[
-      'Completa tu perfil escolar: etapa, bachillerato actual o por elegir y preferencia de aprendizaje.',
+      'Si todavía no has elegido bachillerato, mantén tu perfil por definir y usa estas recomendaciones para comparar opciones. Si ya lo cursas, puedes registrar tu modalidad actual en el perfil.',
       suggested==='tecnico'?'Compara dos figuras técnicas, visita sus talleres y pregunta por proyectos y prácticas.':suggested==='ciencias'?'Compara las áreas de Ciencias y prueba una actividad de las que más te interesan.':'Compara una experiencia de Ciencias y otra de Técnico; registra qué disfrutas y qué necesitas reforzar.',
       'Revisa tus trabajos y asignaturas con tu orientador o docente para contrastar intereses con habilidades observadas.',
       'Después compara las carreras universitarias relacionadas: malla, modalidad, ubicación y requisitos de admisión.',

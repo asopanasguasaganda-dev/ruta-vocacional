@@ -6,7 +6,7 @@ import './education-fields.css';
 
 export function BaccalaureateFields({value,onChange}:{value:EducationData;onChange:(value:EducationData)=>void}) {
   return <fieldset className="education-fields"><legend>Tu perfil de bachillerato</legend>
-    <p>Primero conoce tus opciones de bachillerato; después conecta tus intereses con la universidad.</p>
+    <p>Estos datos son opcionales y describen tu situación actual. Si todavía no sabes qué elegir, deja «Todavía no lo he elegido»: los tests te ayudarán a comparar Ciencias y Técnico en Mis resultados.</p>
     <SelectField label="Bachillerato que cursas, cursaste o has elegido" value={value.baccalaureate||'por-definir'} onChange={e=>onChange({...value,baccalaureate:e.target.value,specialty:''})}>
       {baccalaureateTypes.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}
     </SelectField>
