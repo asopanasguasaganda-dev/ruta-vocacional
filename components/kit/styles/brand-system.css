@@ -1,5 +1,9 @@
+/* Keep the cinematic theme on public and sign-in pages only.
+   Workspace screens use their shared light theme, including body-level popups.
+   The zero-specificity gate preserves the existing public style cascade. */
+:where(:root:not(:has(.workspace-unified))) {
 ﻿/* Shared midnight/violet identity, derived from the cinematic public home. */
-:root{color-scheme:dark;--ink:#edf3ff;--muted:#b7c5dc;--primary:#c2b4ff;--primary-hover:#d6cdff;--primary-soft:#a68aff1c;--teal:#84e3d1;--teal-soft:#164139;--warning:#f2d49b;--warning-soft:#3e3220;--danger:#ffb3c0;--danger-soft:#462638;--canvas:#080f23;--surface:#111e37;--border:#aebeff30;--shadow:0 12px 36px #0003;--focus:0 0 0 3px #a1dfea;}
+&:root{color-scheme:dark;--ink:#edf3ff;--muted:#b7c5dc;--primary:#c2b4ff;--primary-hover:#d6cdff;--primary-soft:#a68aff1c;--teal:#84e3d1;--teal-soft:#164139;--warning:#f2d49b;--warning-soft:#3e3220;--danger:#ffb3c0;--danger-soft:#462638;--canvas:#080f23;--surface:#111e37;--border:#aebeff30;--shadow:0 12px 36px #0003;--focus:0 0 0 3px #a1dfea;}
 body{background:var(--canvas);color:var(--ink)}
 :is(.auth-shell,.compact-app,.ad-app,.reset-page){background:radial-gradient(ellipse at 90% 0%,#21456655,transparent 42%),radial-gradient(ellipse at 0% 25%,#48327633,transparent 48%),#080f23;color:var(--ink);}
 :is(.auth-header,.compact-header,.ad-topbar){background:#0d1730e8;backdrop-filter:blur(20px);border-color:var(--border);color:var(--ink)}
@@ -100,4 +104,6 @@ input::file-selector-button{background:#403368;color:#eee8ff;border:1px solid #9
   .auth-shell .auth-stage { padding-block: 20px; }
   .auth-shell .auth-story, .auth-shell .auth-card--login .auth-main { padding: 24px; }
   .auth-shell .auth-story h2 { font-size: 30px; }
+}
+
 }

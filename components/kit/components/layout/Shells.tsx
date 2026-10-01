@@ -1,3 +1,4 @@
+import {StudentShell} from './StudentShell';
 import {AdminShell} from './AdminShell';
 import {AccountHeader} from './AccountHeader';
 import { useEffect,useRef,useState,type ReactNode } from 'react';
@@ -30,6 +31,6 @@ export function PublicHeader({navigate,cinematic=false}:{navigate:Navigate;cinem
 }
 export function AppShell({children,view,navigate,admin=false}:{children:ReactNode;view:View;navigate:Navigate;admin?:boolean}){
  if(admin)return <AdminShell view={view}>{children}</AdminShell>;
- return <div className={'compact-app '+(admin?'compact-admin':'')}><AccountHeader view={view}/><main id="contenido" className="compact-content" key={view}>{children}</main></div>;
+ return <StudentShell view={view}>{children}</StudentShell>;
 }
-export function FocusShell({children,title,navigate}:{children:ReactNode;title:string;navigate:Navigate}){const toast=useToast();return <div className="compact-app compact-assessment"><AccountHeader view="evaluaciones" action={<Button variant="ghost" size="sm" onClick={async()=>{try{await flush();navigate('evaluaciones');}catch(error){toast((error as Error).message);}}} icon={<ArrowLeft size={17}/>}>Guardar y salir</Button>}/><main id="contenido" className="focus-main">{children}</main></div>;}
+export function FocusShell({children,title,navigate}:{children:ReactNode;title:string;navigate:Navigate}){const toast=useToast();return <StudentShell view="evaluaciones" focus action={<Button variant="ghost" size="sm" onClick={async()=>{try{await flush();navigate('evaluaciones');}catch(error){toast((error as Error).message);}}} icon={<ArrowLeft size={17}/>}>Guardar y salir</Button>}>{children}</StudentShell>;}
