@@ -7,7 +7,10 @@ let cached:EducationCatalog;
 function catalog(){return cached ||= JSON.parse(readFileSync(join(process.cwd(),'public/data/education-catalog.json'),'utf8'));}
 export function educationProfile(body:Partial<EducationData>){
  let pathway;try{pathway=schoolProfile(body);}catch(error){fail((error as Error).message);}
- const data=catalog(),province=String(body.province||''),canton=String(body.canton||''),parish=String(body.parish||''),schoolId=String(body.schoolId||''),institution=String(body.institution||'').trim();
+ for(const field of ['province','canton','parish','schoolId','institution'] as const){
+  if(body[field]!==undefined&&(typeof body[field]!=='string'||body[field]!.length>(field==='institution'?180:100)))fail('Revisa los datos de ubicación y colegio.');
+ }
+ const data=catalog(),province=body.province||'',canton=body.canton||'',parish=body.parish||'',schoolId=body.schoolId||'',institution=(body.institution||'').trim();
  if(schoolId){const school=data.schools.find(s=>s.id===schoolId);if(!school)fail('Selecciona un colegio válido del catálogo.');if(province!==school!.province||canton!==school!.canton||parish!==school!.parish)fail('La ubicación no coincide con el colegio seleccionado. Vuelve a seleccionarlo.');return {...pathway,province,canton,parish,schoolId,institution:school!.name,educationSource:data.metadata.source};}
  const p=data.provinces.find(p=>p.id===province),c=p?.cantons.find(c=>c.id===canton);
  if(province&&!p||canton&&!c||parish&&!c?.parishes.some(p=>p.id===parish))fail('Revisa provincia, cantón y parroquia.');

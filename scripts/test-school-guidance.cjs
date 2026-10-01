@@ -17,9 +17,10 @@ const specific=schoolGuidance(scores({R:25,I:20}),evidence,{learningPreference:'
 assert.deepEqual(specific.technical.find(o=>o.id==='informatica').careers.map(c=>c.id),['software']);
 assert.deepEqual(specific.technical.find(o=>o.id==='automotriz').careers.map(c=>c.id),['auto']);
 assert.equal(schoolGuidance(scores({R:25,I:25}),evidence).suggested,'ambas');
-assert.equal(schoolGuidance(scores({R:25,I:15}),evidence,{learningPreference:'investigar'}).suggested,'ciencias');
-assert.equal(schoolGuidance(scores({I:25,R:15}),evidence,{learningPreference:'aplicar'}).suggested,'tecnico');
-assert.equal(schoolGuidance(scores({I:25,R:15}),evidence,{learningPreference:'ambas'}).suggested,'ambas');
+assert.equal(schoolGuidance(scores({R:25,I:15}),evidence,{learningPreference:'investigar'}).suggested,'tecnico');
+assert.equal(schoolGuidance(scores({I:25,R:15}),evidence,{learningPreference:'aplicar'}).suggested,'ciencias');
+assert.equal(schoolGuidance(scores({I:25,R:15}),evidence,{learningPreference:'ambas'}).suggested,'ciencias');
+for(const baccalaureate of ['por-definir','ciencias','tecnico'])assert.equal(schoolGuidance(scores({I:25,R:15}),evidence,{baccalaureate}).suggested,'ciencias','Declared modality must not decide the recommendation');
 for(const raw of [5,15,25]){
   const r=schoolGuidance(codes.map(d=>({dimension:d,raw})),evidence);
   assert.equal(r.suggested,'ambas');assert.equal(r.science.length+r.technical.length,0);

@@ -12,8 +12,8 @@ let cached:EducationCatalog|null=null;
 export function EducationFields({value,onChange}:{value:EducationData;onChange:(v:EducationData)=>void}){
  return <div className="stack"><BaccalaureateFields value={value} onChange={onChange}/><SchoolFields value={value} onChange={onChange}/></div>;
 }
-function SchoolFields({value,onChange}:{value:EducationData;onChange:(v:EducationData)=>void}){
- const [catalog,setCatalog]=useState(cached),[loadError,setLoadError]=useState(false),[retry,setRetry]=useState(0),[onlyBach,setOnlyBach]=useState(true),[manual,setManual]=useState(!!value.institution&&!value.schoolId);
+export function SchoolFields({value,onChange}:{value:EducationData;onChange:(v:EducationData)=>void}){
+ const [catalog,setCatalog]=useState(cached),[loadError,setLoadError]=useState(false),[retry,setRetry]=useState(0),[onlyBach,setOnlyBach]=useState(false),[manual,setManual]=useState(!!value.institution&&!value.schoolId);
  useEffect(()=>{if(cached){setCatalog(cached);return;}let cancelled=false;setLoadError(false);fetch('/data/education-catalog.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{cached=data;if(!cancelled)setCatalog(data);}).catch(()=>{if(!cancelled)setLoadError(true);});return()=>{cancelled=true;};},[retry]);
  const province=catalog?.provinces.find(p=>p.id===value.province),canton=province?.cantons.find(c=>c.id===value.canton);
  const locations=useMemo(()=>new Map(catalog?.provinces.flatMap(p=>p.cantons.flatMap(c=>c.parishes.map(r=>[r.id,p.name+' · '+c.name+' · '+r.name] as const)))||[]),[catalog]);

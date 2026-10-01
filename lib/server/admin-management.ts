@@ -3,6 +3,9 @@ import { db, document, put, fail, passwordHash } from "./store";
 import { instruments } from "@/components/kit/data/instruments";
 import { listGuidance } from "./guidance";
 export async function manageUser(admin: any, body: any) {
+  for(const key of ['id','name','email','group','stage','institution']){
+    if(body[key]!==undefined&&(typeof body[key]!=='string'||body[key].length>(key==='email'?254:key==='institution'?180:key==='name'?140:100)))fail('Revisa los datos del usuario.');
+  }
   if (admin.role !== "admin")
     fail("Solo administración puede gestionar usuarios.", 403);
   const existing = body.id
@@ -24,7 +27,7 @@ export async function manageUser(admin: any, body: any) {
       body.password.length < 15 ||
       body.password.length > 128
     )
-      fail("Usa una contraseña de 8 a 1215 caracteres.");
+      fail("Usa una contraseña de 15 a 128 caracteres.");
     if (body.password !== body.confirmPassword)
       fail("Las contraseñas no coinciden.");
     const hashed = passwordHash(body.password);

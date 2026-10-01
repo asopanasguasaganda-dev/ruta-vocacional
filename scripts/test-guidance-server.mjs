@@ -7,7 +7,8 @@ import { spawn } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 mkdirSync('.qa-tools',{recursive:true});
 const folder=mkdtempSync(resolve('.qa-tools','guidance-'));
-process.env.DB_DRIVER='sqlite';
+process.env.DB_DRIVER=process.env.GUIDANCE_DB_DRIVER||'sqlite';
+if(process.env.DB_DRIVER==='mysql'&&(!process.env.DB_NAME?.endsWith('_test')||!['localhost','127.0.0.1'].includes(process.env.DB_HOST)))throw Error('Guidance integration requires an isolated local MySQL database ending in _test.');
 process.env.DATABASE_PATH=resolve(folder,'guidance_test.sqlite');
 process.env.ACADEMIC_CONTENT_PATH=resolve(folder,'academic_test.json');
 const outfile=resolve(folder,'server.cjs');
@@ -39,7 +40,7 @@ try{
  const second=simultaneous[0];
  assert(simultaneous.every(r=>r.id===second.id));
  assert.equal((await listGuidance(user)).length,2,'Concurrent requests must not duplicate reports');
- assert.notEqual(first.id,second.id);assert.equal(second.analysis.pathway.suggested,'tecnico');
+ assert.notEqual(first.id,second.id);assert.equal(second.analysis.pathway.suggested,'ciencias');
  assert.equal(second.analysis.pathway.profile.specialty,'Informática');
  assert.deepEqual(second.analysis.recommendations,first.analysis.recommendations,'School selection must not exclude university careers');
  const admin={id:'admin_test',role:'admin',institutionId:user.institutionId};
@@ -88,8 +89,12 @@ try{
    const cookie=login.headers.get('set-cookie').split(';')[0];
    const profileUpdate=await request('account/profile',{firstName:'Estudiante',lastName:'Prueba',...profile,baccalaureate:'tecnico',specialty:'Informática',learningPreference:'aplicar'},cookie,'PUT');assert.equal(profileUpdate.status,200);
    const session=await (await request('session',null,cookie)).json();assert.equal(session.values['rv360:profile'].specialty,'Informática');
-   const latest=await (await request('reports/guidance',null,cookie)).json();assert.equal(latest.items[0].historical,false);assert.equal(latest.items[0].analysis.pathway.suggested,'tecnico');
+   const latest=await (await request('reports/guidance',null,cookie)).json();assert.equal(latest.items[0].historical,false);assert.equal(latest.items[0].analysis.pathway.suggested,'ciencias');
    const invalid=await request('account/profile',{firstName:'Estudiante',lastName:'Prueba',baccalaureate:'invalid'},cookie,'PUT');assert.equal(invalid.status,400);
+   for(const patch of [{firstName:{}},{lastName:[]},{stage:{}},{stage:'x'.repeat(101)},{province:{}},{canton:123},{parish:[]},{schoolId:'missing-school'},{institution:'x'.repeat(181)},{specialty:'x'.repeat(141)},{learningPreference:'invalid'}]){
+    const rejected=await request('account/profile',{firstName:'Estudiante',lastName:'Prueba',...profile,...patch},cookie,'PUT');assert.equal(rejected.status,400,JSON.stringify(patch));
+   }
+   const unchanged=await (await request('session',null,cookie)).json();assert.equal(unchanged.values['rv360:profile'].specialty,'Informática','Invalid updates cannot alter persisted profile');
    const adminLogin=await request('auth/login',{email:'admin@example.test',password,admin:true});assert.equal(adminLogin.status,200);
    const adminCookie=adminLogin.headers.get('set-cookie').split(';')[0];
    const refreshed=await request('reports/guidance',{studentId:user.id},adminCookie);assert.equal(refreshed.status,200);assert.equal((await refreshed.json()).analysis.pathway.profile.specialty,'Informática');
@@ -100,6 +105,22 @@ try{
    const registered=await registration.json();
    assert.equal(registered.values['rv360:profile'].specialty,'Contabilidad');
    assert.equal(registered.values['rv360:profile'].stage,'Estoy eligiendo mi bachillerato');
+   const undecided=await request('auth/register',{name:'Sin elección previa',email:'undecided@example.test',password,stage:'Estoy eligiendo mi bachillerato'});
+   assert.equal(undecided.status,200);const undecidedData=await undecided.json();assert.equal(undecidedData.values['rv360:profile'].baccalaureate,'por-definir');assert.equal(undecidedData.values['rv360:profile'].learningPreference,'por-definir');
+   const duplicate=await Promise.all([1,2].map(()=>request('auth/register',{name:'Registro simultáneo',email:'simultaneous@example.test',password,stage:'Estoy eligiendo mi bachillerato'})));
+   assert.equal(duplicate.filter(r=>r.status===200).length,1);assert(duplicate.every(r=>[200,400,409].includes(r.status)));
+   assert.equal((await db.prepare('SELECT COUNT(*) AS n FROM users WHERE email=?').get('simultaneous@example.test')).n,1);
+   if(process.env.DB_DRIVER==='mysql'){
+    if(process.env.GUIDANCE_DB_FAULT_TEST==='true'){
+    await db.exec("CREATE TRIGGER qa_profile_failure BEFORE INSERT ON documents FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='qa-registration-rollback'");
+    try{
+     const failed=await request('auth/register',{name:'Registro con fallo',email:'rollback@example.test',password,stage:'Estoy eligiendo mi bachillerato'});assert.equal(failed.status,500);
+     assert.equal(await db.prepare('SELECT id FROM users WHERE email=?').get('rollback@example.test'),undefined,'Profile write failure must roll back the user account');
+    }finally{await db.exec('DROP TRIGGER qa_profile_failure');}
+    console.log('PASS MySQL registration: failed profile write rolls back the account.');
+    }
+    const {spawnSync}=await import('node:child_process');const security=spawnSync(process.execPath,['scripts/test-security-http.mjs'],{env:{...process.env,APP_URL:base},stdio:'inherit',windowsHide:true});assert.equal(security.status,0,'Real MySQL HTTP security validation');
+   }
    console.log('PASS HTTP: student/admin login, persisted profile, invalid values rejected, current report ordering and authorized admin regeneration.');
    if(process.argv.includes('--visual')){
     const {runGuidanceVisual}=await import('./test-guidance-visual.mjs');

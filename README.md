@@ -106,8 +106,9 @@ y [despliegue Node.js en Hostinger](https://www.hostinger.com/support/how-to-dep
 
 ## Ruta de bachillerato a universidad
 
-El registro y Mi perfil guardan la etapa educativa, el bachillerato declarado, la figura
-profesional (si es Técnico) y la preferencia de aprendizaje. No se confunde el bachillerato
+El registro solicita cuenta, etapa educativa y colegio opcional. No pide elegir bachillerato,
+especialidad, preferencia de aprendizaje ni carrera antes de recibir orientación. Mi perfil
+permite guardar opcionalmente una modalidad ya cursada y su especialidad. No se confunde el bachillerato
 que la persona ya cursó con la recomendación que obtiene. Las cuentas anteriores pueden
 completar estos campos sin perder datos; no se modifica el esquema de MySQL.
 
@@ -119,8 +120,8 @@ PDF utilizan el mismo informe guardado. Las versiones antiguas se conservan como
 Las sugerencias se calculan con instrumentos publicados y completos de seis dimensiones
 RIASEC, normalizados con igual peso por instrumento. Una revisión de puntuaciones o un cambio
 de perfil genera una nueva versión. Un intento pendiente no se sustituye por otro antiguo.
-La preferencia declarada de profundizar o aplicar orienta la modalidad; sin esa preferencia,
-una diferencia de al menos 4 puntos en la escala interna de 5–25 entre Investigación y
+La modalidad declarada y la preferencia de aprendizaje no sustituyen las respuestas del test.
+Una diferencia de al menos 4 puntos en la escala interna de 5–25 entre Investigación y
 Realista, con interés de al menos 15, propone explorar Ciencias o Técnico respectivamente.
 En otros casos se conservan ambas opciones. Es una regla interna de exploración, no un baremo
 psicométrico ni un certificado de aptitud. Los intereses equilibrados o bajos no priorizan

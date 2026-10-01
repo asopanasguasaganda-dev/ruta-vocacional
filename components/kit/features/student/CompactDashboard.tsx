@@ -319,7 +319,7 @@ export function CompactDashboard() {
           />
         </div>
       </Card>
-      <Card className="stack"><span className="eyebrow">TU RUTA: BACHILLERATO → UNIVERSIDAD</span><h2>{last?.analysis?.pathway?.title||'Primero tu perfil de bachillerato'}</h2><p>{last?.analysis?.pathway?.reason||'Registra tu etapa y tu bachillerato. Tus tests te ayudarán a comparar Ciencias, especialidades técnicas y carreras universitarias.'}</p><Link className="button button--secondary" href="/mi-ruta/perfil">Mi perfil escolar</Link>{last&&<Link className="button button--primary" href="/mi-ruta/resultados">Ver sugerencias y recomendaciones</Link>}</Card>
+      {last&&<Card className="stack"><span className="eyebrow">TU RUTA: BACHILLERATO → UNIVERSIDAD</span><h2>{last.analysis?.pathway?.title||'Tu orientación de bachillerato'}</h2><p>{last.analysis?.pathway?.reason||'Explora las recomendaciones de Ciencias, especialidades técnicas y carreras universitarias relacionadas con tus respuestas.'}</p><Link className="button button--primary" href="/mi-ruta/resultados">Ver sugerencias y recomendaciones</Link></Card>}
       <TrainingSummary />
       <section className="compact-section">
         <div className="section-title">

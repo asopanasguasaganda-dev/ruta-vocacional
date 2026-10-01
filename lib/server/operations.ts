@@ -37,8 +37,10 @@ async function saveDocumentInner(
   revision?: number,
 ) {
   if (
+    typeof key !== "string" ||
     !key.startsWith("rv360:") ||
     key.length > 160 ||
+    value === undefined ||
     JSON.stringify(value).length > 1500000
   )
     fail("Datos no válidos.");

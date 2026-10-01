@@ -98,7 +98,7 @@ async function handle(
         name.trim().length > 140 ||
         typeof email !== "string" ||
         email.length > 254 ||
-        !/^\S+@\S+\.\S+$/.test(email) ||
+        !/^\S+@\S+\.\S+$/.test(email.trim()) ||
         typeof password !== "string" ||
         password.length < 15 ||
         password.length > 128
@@ -118,24 +118,22 @@ async function handle(
         fail("El registro está cerrado temporalmente. Contacta con soporte.");
       const education = educationProfile(body);
       const id = randomUUID();
-      await db
-        .prepare("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)")
-        .run(
-          id,
-          name.trim(),
-          email.trim().toLowerCase(),
-          passwordHash(password),
-          "student",
-          org?.id || null,
-          "",
-          "Activo",
-        );
-      await put(id, "rv360:profile", {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        ...education,
-        reminders: "no",
-      });
+      try {
+        await db.transaction(async () => {
+          await db.prepare("INSERT INTO users VALUES(?,?,?,?,?,?,?,?)").run(
+            id, name.trim(), email.trim().toLowerCase(), passwordHash(password),
+            "student", org.id, "", "Activo",
+          );
+          await put(id, "rv360:profile", {
+            name: name.trim(), email: email.trim().toLowerCase(),
+            ...education, reminders: "no",
+          });
+        });
+      } catch (error: any) {
+        if (error.code === "ER_DUP_ENTRY" || error.code === "SQLITE_CONSTRAINT_UNIQUE")
+          fail("No se pudo crear la cuenta con este correo.", 409);
+        throw error;
+      }
       await createSession(id);
       result = await workspace(await currentUser());
     } else if (action === "auth/login" && req.method === "POST") {

@@ -26,8 +26,10 @@ async function reauthenticate(user: any, password: unknown) {
     fail("La contraseña actual no es correcta.", 403);
 }
 export async function updateProfile(user: any, body: any) {
-  const firstName = String(body.firstName || "").trim(),
-    lastName = String(body.lastName || "").trim();
+  if(typeof body.firstName!=="string"||typeof body.lastName!=="string"||
+    (body.stage!==undefined&&(typeof body.stage!=="string"||body.stage.length>100)))fail("Revisa nombres, apellidos y etapa educativa.");
+  const firstName = body.firstName.trim(),
+    lastName = body.lastName.trim();
   if (!firstName || !lastName || firstName.length > 60 || lastName.length > 80)
     fail("Revisa nombres y apellidos.");
   const previous = await document(user.id, "rv360:profile", {});

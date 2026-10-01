@@ -22,6 +22,25 @@ export async function runGuidanceVisual({base,password,folder}){
   await page.waitForURL(admin?'**/admin':'**/mi-ruta');
  }
  try{
+  const registrationContext=await browser.newContext({viewport:{width:1366,height:900}}),registration=await registrationContext.newPage();
+  registration.on('pageerror',error=>failures.push({name:'Registration JavaScript',message:error.message}));
+  await registration.goto(base+'/registro');
+  await registration.getByRole('button',{name:'Continuar',exact:true}).click();
+  await registration.getByText('Revisa los campos indicados para continuar.',{exact:true}).waitFor();
+  await registration.getByLabel('Nombres',{exact:true}).fill('Estudiante');await registration.getByLabel('Apellidos',{exact:true}).fill('Explorando');
+  await registration.getByLabel('Correo electrónico',{exact:true}).fill('visual-'+Date.now()+'@example.test');await registration.getByLabel('Contraseña',{exact:true}).fill(password);
+  await registration.getByRole('button',{name:'Continuar',exact:true}).click();
+  await choose(registration,'¿En qué etapa estás?','Estoy eligiendo mi bachillerato');
+  assert.equal(await registration.getByRole('combobox',{name:'Bachillerato que cursas, cursaste o has elegido',exact:true}).count(),0);
+  assert.equal(await registration.getByRole('combobox',{name:'¿Qué te gustaría priorizar al aprender?',exact:true}).count(),0);
+  await shot(registration,'registro-sin-eleccion');await overflow(registration,'registro-sin-eleccion');
+  await registration.getByRole('button',{name:'Continuar',exact:true}).click();
+  await registration.getByRole('checkbox').check();await registration.getByRole('button',{name:'Crear mi cuenta',exact:true}).click();await registration.waitForURL('**/mi-ruta');
+  await registration.getByRole('heading',{name:'¿Qué bachillerato puedo elegir?',exact:true}).waitFor();
+  const registered=await registration.request.get(base+'/api/session');const data=await registered.json();assert.equal(data.values['rv360:profile'].baccalaureate,'por-definir');
+  await registration.reload();await registration.getByRole('heading',{name:'¿Qué bachillerato puedo elegir?',exact:true}).waitFor();await shot(registration,'inicio-sin-eleccion');
+  await registration.setViewportSize({width:390,height:844});await overflow(registration,'inicio-sin-eleccion-movil');await shot(registration,'inicio-sin-eleccion-movil');
+  await registrationContext.close();
   const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage();
   page.on('pageerror',error=>failures.push({name:'JavaScript',message:error.message}));
   page.on('console',message=>{if(message.type()==='error')failures.push({name:'Browser console',message:message.text()});});
@@ -37,7 +56,7 @@ export async function runGuidanceVisual({base,password,folder}){
   await shot(page,'perfil-escritorio');await overflow(page,'perfil-escritorio');
   await page.reload();assert.equal(await page.getByRole('combobox',{name:'Especialidad o figura profesional',exact:true}).inputValue(),'Informática');
   await page.goto(base+'/mi-ruta/resultados');
-  await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato Técnico',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();
   await shot(page,'resultados-escritorio');await overflow(page,'resultados-escritorio');
   await page.getByRole('region',{name:'Orientación de bachillerato'}).screenshot({path:resolve(folder,'bachillerato-detalle.png')});
   await page.getByRole('button',{name:'Informe PDF',exact:true}).click();
@@ -55,7 +74,7 @@ export async function runGuidanceVisual({base,password,folder}){
   const link=school.locator('button').first();await link.click();await page.getByRole('dialog').waitFor();await shot(page,'carrera-dialogo');await page.keyboard.press('Escape');
   for(const width of [390,768,1280]){
    await page.setViewportSize({width,height:900});
-   await page.goto(base+'/mi-ruta/resultados');await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato Técnico',exact:true}).waitFor();
+   await page.goto(base+'/mi-ruta/resultados');await page.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();
    await shot(page,'resultados-'+width);await overflow(page,'resultados-'+width);
    if(width===390){
     await page.getByRole('button',{name:'Informe PDF',exact:true}).click();
@@ -82,7 +101,7 @@ export async function runGuidanceVisual({base,password,folder}){
   await ap.getByRole('heading',{name:'Tu perfil muestra afinidad con Bachillerato en Ciencias',exact:true}).waitFor();
   await shot(ap,'admin-escritorio');await overflow(ap,'admin-escritorio');
   await ap.setViewportSize({width:390,height:844});await shot(ap,'admin-movil');await overflow(ap,'admin-movil');
-  checks.push({name:'Flujo',passed:'Acceso por formularios, perfil persistido, Técnico → Ciencias, conexión de carrera, descarga PDF y actualización administrativa.'});
+  checks.push({name:'Flujo',passed:'Acceso por formularios, perfil persistido, orientación independiente de la modalidad declarada, conexión de carrera, descarga PDF y actualización administrativa.'});
  }catch(error){
   failures.push({name:'Workflow',message:error.message});
   for(const [i,context] of browser.contexts().entries())for(const [j,page] of context.pages().entries())await shot(page,'failure-'+i+'-'+j).catch(()=>{});
